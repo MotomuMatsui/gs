@@ -1,12 +1,14 @@
-/*=========================================*\
+/******************************************\
 | Graph Splitting Method v1.0 (2018/06/11) |
 |                                          |
-| Copyright (c) 2018 Motomu Matsui         |
-| Systematic Biology, xx:xx-xx, 2018       |
+| Copyright (c) 2015-2018 Motomu Matsui    |
+|     Distributed under the GNU GPL        |
 |                                          |
-| Web:  http://gs.bs.s.u-tokyo.ac.jp/      |
-| Mail: qm at bs.s.u-tokyo.ac.jp           |
-\*=========================================*/
+|     Matsui M and Iwasaki W (2018)        |
+|     Systematic Biology, xx:xx-xx.        |
+|                                          |
+|     http://gs.bs.s.u-tokyo.ac.jp/        |
+\******************************************/
 
 #include <stdio.h>
 #include <fstream>
