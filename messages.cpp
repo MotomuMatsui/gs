@@ -1,12 +1,14 @@
-/*=========================================*\
+/******************************************\
 | Graph Splitting Method v1.0 (2018/06/11) |
 |                                          |
-| Copyright (c) 2018 Motomu Matsui         |
-| Systematic Biology, xx:xx-xx, 2018       |
+| Copyright (c) 2015-2018 Motomu Matsui    |
+|     Distributed under the GNU GPL        |
 |                                          |
-| Web:  http://gs.bs.s.u-tokyo.ac.jp/      |
-| Mail: qm at bs.s.u-tokyo.ac.jp           |
-\*=========================================*/
+|     Matsui M and Iwasaki W (2018)        |
+|     Systematic Biology, xx:xx-xx.        |
+|                                          |
+|     http://gs.bs.s.u-tokyo.ac.jp/        |
+\******************************************/
 
 #include <iostream>
 #include <string>
@@ -16,11 +18,14 @@ using namespace std;
 void print_banner(){
 
   string banner = 
-    "--------------------------------------------------\n"
-    " Graph Splitting Method v1.0 (2018/06/01)         \n"
-    " http://gs.bs.s.u-tokyo.ac.jp/                    \n"
-    " Matsui M and Iwasaki W, Systematic Biology, 2018 \n"
-    "--------------------------------------------------\n";
+    "------------------------------------------\n"
+    " Graph Splitting Method v1.0 (2018/06/01) \n"
+    "                                          \n"
+    "   Copyright (c) 2018 Motomu Matsui       \n"
+    "   Systematic Biology, xx:xx-xxx, 2018    \n"
+    "                                          \n"
+    "   http://gs.bs.s.u-tokyo.ac.jp/          \n"
+    "------------------------------------------\n";
 
   cerr << banner << endl;
 }
