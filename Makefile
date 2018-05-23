@@ -1,6 +1,6 @@
 CXX := g++
 INC := -I./lib
-LIB := -L./lib -llapacke -llapack -lrefblas -lgfortran -lm
+LIB := -L./lib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm
 CXXFLAGS += -O3
 CXXFLAGS += -std=c++1z
 CXXFLAGS += -march=native

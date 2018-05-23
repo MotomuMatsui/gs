@@ -16,6 +16,7 @@
 #include <string>
 #include <regex>
 #include <unordered_map>
+#include <sys/stat.h>
 
 using namespace std;
 
@@ -36,6 +37,7 @@ void mmseqs(string const& fst, string const& output){
   auto cmd3 = mmseqs+" search "      +queryDB+" "+targetDB+" "+resultDB+" "+tmp+" --threads 1 -e 10 -s 7.5 > /dev/null";
   auto cmd4 = mmseqs+" convertalis " +queryDB+" "+targetDB+" "+resultDB+" "+output+" --format-mode 0 > /dev/null";
 
+  mkdir(tmp.c_str(), S_IRWXU | S_IRGRP | S_IROTH);
   system(cmd1.c_str()); //MMseqs: createdb
   system(cmd2.c_str()); //MMseqs: createdb
   system(cmd3.c_str()); //MMseqs: search
