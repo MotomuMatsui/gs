@@ -5,7 +5,7 @@ Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)
 
 [![Build Status](https://travis-ci.org/MotomuMatsui/gs.svg?branch=master)](https://travis-ci.org/MotomuMatsui/gs)
 [![Language](https://img.shields.io/badge/C%2B%2B-%E2%89%A55.0-green.svg)](https://gcc.gnu.org/)
-[![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-3.8.0-green.svg)](http://www.netlib.org/lapack/)
+[![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-%E2%89%A53.8-green.svg)](http://www.netlib.org/lapack/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 
