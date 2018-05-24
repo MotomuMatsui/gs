@@ -1,0 +1,11 @@
+language: cpp
+compiler: g++
+
+install:
+  - mkdir lib; sh lapack_install.sh
+
+script:
+  - make
+
+notifications:
+  email: false
