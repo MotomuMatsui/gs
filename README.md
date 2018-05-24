@@ -11,25 +11,25 @@ The gs package includes LAPACK and CBLAS 3.8.0 provided by Univ. of Tennessee; U
 
 ## Installation
 
-   git clone https://github.com/MotomuMatsui/gs
-   cd gs
-   mkdir lib
-   sh ./lapack_install.sh
-   make
-   cp gs /your/favorite/path/
+    git clone https://github.com/MotomuMatsui/gs
+    cd gs
+    mkdir lib
+    sh ./lapack_install.sh
+    make
+    cp gs /your/favorite/path/
 
 ## Usage
-   ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
+    ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
 
 ## Example
-   Phylogenetic tree with branch reliability scores (EP values):
-   ./gs -e 100 test.fst > test.nwk  
-
-   Only topology of phylogenetic tree + silent mode:
-   ./gs -e 0 -s test.fst > test.nwk
-
-   Show help messages:
-   ./gs -h
+    Phylogenetic tree with branch reliability scores (EP values):
+    ./gs -e 100 test.fst > test.nwk  
+    
+    Only topology of phylogenetic tree + silent mode:
+    ./gs -e 0 -s test.fst > test.nwk
+    
+    Show help messages:
+    ./gs -h
 
 ## License
 This software is distributed under the GNU GPL, see LICENSE.
