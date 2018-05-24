@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/GSbanner.jpg" height="256" /></p>
+
 # gs
 Graph Splitting (GS) is a brand-new phylogenetic analysis method, which can effectively resolve early evolution of protein families. Its accuracy and speed was proved by extensive evolutionary simulation, and its application to TIM-barrel superfamily highlighted instant evolution of protein-mediated pyrimidine biosynthesis at a transitional phase between the RNA world and the modern DNA-RNA-protein world.
 
@@ -30,10 +32,15 @@ The gs package uses LAPACKE/CBLAS 3.8.0 provided by Univ. of Tennessee; Univ. of
 
 ## Example
 Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
+
     gs -e 100 test.fst > test.nwk
+
 Phylogenetic tree WITHOUT EP scores + silent mode:
+
     gs -e 0 -s test.fst > test.nwk
+
 Show help messages:
+
     gs -h
 
 ## License
