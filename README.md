@@ -23,19 +23,18 @@ The gs package uses LAPACKE/CBLAS 3.8.0 provided by Univ. of Tennessee; Univ. of
     sh ./lapack_install.sh
     make
     cp gs /your/favorite/path/
+    export PATH=/your/favorite/path/:$PATH
 
 ## Usage
-    ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
+    gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
 
 ## Example
-    Phylogenetic tree with branch reliability scores (EP values):
-    ./gs -e 100 test.fst > test.nwk  
-    
-    Only topology of phylogenetic tree + silent mode:
-    ./gs -e 0 -s test.fst > test.nwk
-    
-    Show help messages:
-    ./gs -h
+Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
+    gs -e 100 test.fst > test.nwk
+Phylogenetic tree WITHOUT EP scores + silent mode:
+    gs -e 0 -s test.fst > test.nwk
+Show help messages:
+    gs -h
 
 ## License
 This software is distributed under the GNU GPL, see LICENSE.
