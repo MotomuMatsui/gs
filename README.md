@@ -1,3 +1,7 @@
+
+<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/GSbanner.png"></p>
+***
+
 # gs
 Graph Splitting (GS) is a brand-new phylogenetic analysis method, which can effectively resolve early evolution of protein families. Its accuracy and speed was proved by extensive evolutionary simulation, and its application to TIM-barrel superfamily highlighted instant evolution of protein-mediated pyrimidine biosynthesis at a transitional phase between the RNA world and the modern DNA-RNA-protein world.
 
@@ -7,8 +11,6 @@ Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)
 [![Language](https://img.shields.io/badge/C%2B%2B-%E2%89%A55.0-green.svg)](https://gcc.gnu.org/)
 [![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-%E2%89%A53.8-green.svg)](http://www.netlib.org/lapack/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
-
-<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/GSbanner.png"></p>
 
 ## Version
 version 1.0 (2018/05/24)
