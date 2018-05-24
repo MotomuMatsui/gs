@@ -9,7 +9,12 @@ before_install:
   - sudo apt-get update -qq
 
 install:
+  - sudo apt-cache search g++
+  - sudo apt-cache search gcc
+  - sudo apt-cache search gfortran
   - sudo apt-get install -qq g++-5
+  - sudo apt-get install -qq gcc-5
+  - sudo apt-get install -qq gfortran-5
   - sudo apt-get install -qq libgfortran-5-dev
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - gcc --version
