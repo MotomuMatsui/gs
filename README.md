@@ -4,7 +4,7 @@ Graph Splitting (GS) is a brand-new phylogenetic analysis method, which can effe
 Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)
 
 [![Build Status](https://travis-ci.org/MotomuMatsui/gs.svg?branch=master)](https://travis-ci.org/MotomuMatsui/gs)
-[![License](https://img.shields.io/badge/license-GPL-blue.svg)](https://travis-ci.org/MotomuMatsui/gs/LICENSE)
+[![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 
 ## Version
