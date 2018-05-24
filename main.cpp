@@ -61,7 +61,7 @@ int main(int argc, char* argv[]){
     else if(opt == 'h'){ // HELP message (./gs -h)
       /*PRINT*/ print_banner();
       /*PRINT*/ print_usage(argv[0]);
-      return -1;
+      return 0;
     }
     else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst > OUT.nwk)
       silence = 1;
