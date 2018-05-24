@@ -7,7 +7,7 @@ Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)
 version 1.0 (2018/05/24)
 
 ## Acknowledgements
-The gs package includes LAPACK and CBLAS 3.8.0 provided by Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.. You can get the detailed information from http://www.netlib.org/lapack/ and http://www.netlib.org/blas/. The authors thank LAPACK/BLAS team.
+The gs package uses LAPACKE/CBLAS 3.8.0 provided by Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.. The authors thank LAPACK/BLAS team. You can get the detailed information from http://www.netlib.org/lapack/ and http://www.netlib.org/blas/.
 
 ## Installation
 
