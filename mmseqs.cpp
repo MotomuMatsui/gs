@@ -38,10 +38,10 @@ void mmseqs(string const& fst, string const& output){
   auto cmd4 = mmseqs+" convertalis " +queryDB+" "+targetDB+" "+resultDB+" "+output+" --format-mode 0 > /dev/null";
 
   mkdir(tmp.c_str(), S_IRWXU | S_IRGRP | S_IROTH);
-  system(cmd1.c_str()); //MMseqs: createdb
-  system(cmd2.c_str()); //MMseqs: createdb
-  system(cmd3.c_str()); //MMseqs: search
-  system(cmd4.c_str()); //MMseqs: convertalis
+  auto info1 = system(cmd1.c_str()); if(info1>0){} //MMseqs: createdb
+  auto info2 = system(cmd2.c_str()); if(info2>0){} //MMseqs: createdb
+  auto info3 = system(cmd3.c_str()); if(info3>0){} //MMseqs: search
+  auto info4 = system(cmd4.c_str()); if(info4>0){} //MMseqs: convertalis
 
   //Delete intermediate files
   string extension[6] = {
