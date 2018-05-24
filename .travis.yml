@@ -16,6 +16,7 @@ addons:
     packages:
       - g++-5
       - gcc-5
+      - gfortran
       
 script:
   - make CXX="${CXX}"
