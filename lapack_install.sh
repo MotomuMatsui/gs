@@ -30,3 +30,5 @@ cp *.a ${LIB_PATH}
 # copy Header File
 cp CBLAS/include/*.h ${LIB_PATH}
 cp LAPACKE/include/*.h ${LIB_PATH}
+
+cd ..
