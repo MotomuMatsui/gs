@@ -6,7 +6,6 @@ compiler: g++
 install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - mkdir lib; sh lapack_install.sh
-  - make CXX="${CXX}"
 
 addons:
   apt:
@@ -18,7 +17,8 @@ addons:
       - g++-5
       - gcc-5
       
-script: true
+script:
+  - make CXX="${CXX}"
 
 notifications:
   email: false
