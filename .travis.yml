@@ -10,7 +10,9 @@ before_install:
 
 install:
   - sudo apt-get install -qq g++-5
+  - sudo apt-get install -qq libgfortran-dev
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
+  - which gfortran
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 #  - mkdir lib; sh lapack_install.sh
 

@@ -1,8 +1,6 @@
 CXX := g++
 INC := -I./lib
 LIB := -L./lib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm
-#LIB := -L./lib -llapacke -llapack -lcblas -lrefblas -L/usr/lib64 -lgfortran -lm
-#LIB := -L./lib -llapacke -llapack -lcblas -lrefblas -lm
 CXXFLAGS += -O3
 #CXXFLAGS += -std=c++1z
 CXXFLAGS += -std=c++11
