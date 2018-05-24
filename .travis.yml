@@ -1,11 +1,24 @@
+sudo: false
+
 language: cpp
 compiler: g++
 
 install:
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - mkdir lib; sh lapack_install.sh
+  - make CXX="${CXX}"
 
-script:
-  - make
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.7
+      - llvm-toolchain-precise
+    packages:
+      - g++-5
+      - gcc-5
+      
+script: true
 
 notifications:
   email: false
