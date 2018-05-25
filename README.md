@@ -23,7 +23,7 @@ version 1.0 (2018/05/24)
 
 ## Installation
 
-### Supported OS
+### Supported operative systems
 `gs` is available for Linux and Mac (macOS).
 
 ### Requirements
@@ -57,8 +57,8 @@ Show help messages:
     $ ./gs -h
 
 ## License
-This software is distributed under the GNU GPL, see [LICENSE](LICENSE).
-Copyright (c) 2018, Motomu Matsui
+This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
+Copyright &copy; 2018, Motomu Matsui
 
 ## Author
 [Motomu Matsui](https://sites.google.com/site/motomumatsui/)
