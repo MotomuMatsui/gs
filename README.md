@@ -1,7 +1,5 @@
 *****
-
 <p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/GSbanner.png"></p>
-
 *****
 
 # gs

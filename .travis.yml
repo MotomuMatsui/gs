@@ -11,7 +11,7 @@ before_install:
 install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-#  - mkdir lib; sh lapack_install.sh
+  - mkdir lib; sh lapack_install.sh
 
 addons:
   apt:
