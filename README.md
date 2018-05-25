@@ -22,14 +22,14 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 version 1.0 (2018/05/24)
 
 ## Requirements
-`gs` is available for Linux and Mac (macOS).
+- `gs` is available for Linux and Mac (macOS).
 
-You will need the following tools to complie `gs`:
-1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
-1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
-1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
+- You will need the following tools to complie `gs`:
+    1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
+    1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
+    1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
 
-:exclamation: If you want to compile `gs` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).
+:exclamation: If you want to compile `gs` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
 :exclamation: LAPACK/BLAS package will be installed in the next section.
 
 ## Installation
