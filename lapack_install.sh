@@ -4,13 +4,11 @@ LIB_PATH=../lib
 # Download and decompression LAPACK package.
 wget http://www.netlib.org/lapack/lapack-${LAPACK_VER}.tar.gz
 tar xvzf lapack-${LAPACK_VER}.tar.gz
+mkdir lib
 cd lapack-${LAPACK_VER}
 
-# Copy Makefile.
+# Copy Makefile
 cp make.inc.example make.inc
-
-# gcc version setting
-module add gcc/8.1.0
 
 # Compile BLAS
 make blaslib
@@ -24,10 +22,10 @@ make lapacklib
 # Compile LAPACKE
 make lapackelib
 
-# copy Library File
+# copy Library Files
 cp *.a ${LIB_PATH}
 
-# copy Header File
+# copy Header Files
 cp CBLAS/include/*.h ${LIB_PATH}
 cp LAPACKE/include/*.h ${LIB_PATH}
 

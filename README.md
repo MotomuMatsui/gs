@@ -37,7 +37,6 @@ version 1.0 (2018/05/24)
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
-    $ mkdir lib
     $ sh ./lapack_install.sh
     $ make
 
