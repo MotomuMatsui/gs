@@ -23,41 +23,39 @@ version 1.0 (2018/05/24)
 
 ## Installation
 
-#### Supported OS
+### Supported OS
 `gs` is available for Linux and Mac (macOS).
 
-#### Requirements
+### Requirements
 1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
 1. [MMseqs2 package](https://github.com/soedinglab/mmseqs2) (2.0+)
 1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
   
 :exclamation: LAPACK/BLAS package will be installed at the next section.
 
-#### Installation
+### Installation
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
     $ mkdir lib
     $ sh ./lapack_install.sh
     $ make
-    $ cp gs /your/favorite/path/
-    $ export PATH=/your/favorite/path/:$PATH
 
 ## Usage
-    $ gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
+    $ ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
 
 ## Example
 Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
 
-    $ gs -e 100 test.fst > test.nwk
+    $ ./gs -e 100 test/test.fst > test/test.nwk
 
 Phylogenetic tree WITHOUT EP scores + silent mode:
 
-    $ gs -e 0 -s test.fst > test.nwk
+    $ ./gs -e 0 -s test/test.fst > test/test.nwk
 
 Show help messages:
 
-    $ gs -h
+    $ ./gs -h
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE).
