@@ -43,6 +43,10 @@ version 1.0 (2018/05/24)
     $ ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
 
 ## Example
+Phylogenetic tree by Graph Splitting method:
+
+    $ ./gs test/test.fst > test/test.nwk
+
 Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
 
     $ ./gs -e 100 test/test.fst > test/test.nwk
