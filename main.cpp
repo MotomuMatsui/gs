@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
   regex renum(R"(^\d+$)"); // -e option requires an integer number
   opterr = 0;              // default error messages -> OFF
 
-  while ((opt = getopt(argc, argv, "she:")) != -1){
+  while ((opt = getopt(argc, argv, "vshe:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst > OUT.nwk)
       if(regex_match(optarg, renum)){
 	ep_num = atoi(optarg);	
@@ -61,6 +61,10 @@ int main(int argc, char* argv[]){
     else if(opt == 'h'){ // HELP message (./gs -h)
       /*PRINT*/ print_banner();
       /*PRINT*/ print_usage(argv[0]);
+      return 0;
+    }
+    else if(opt == 'v'){ // Version message (./gs -v)
+      /*PRINT*/ print_banner();
       return 0;
     }
     else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst > OUT.nwk)
@@ -113,10 +117,23 @@ int main(int argc, char* argv[]){
   auto simple_fasta   = regex_replace(original_fasta, re, "_simple.fst");
   auto mmseqs_result  = regex_replace(original_fasta, re, "_mmseqs.txt");
   
-  ifstream ifs1(original_fasta); if(ifs1.fail()) return -1; // Fasta file (original)
-  ofstream ofs1(annotation_txt); if(ofs1.fail()) return -1; // Annotation file
-  ofstream ofs2(simple_fasta);   if(ofs2.fail()) return -1; // Fasta file (simple)
+  ifstream ifs1(original_fasta); // Fasta file (original)
+  ofstream ofs1(annotation_txt); // Annotation file
+  ofstream ofs2(simple_fasta);   // Fasta file (simple)
   
+  if(ifs1.fail()){
+    /*PRINT*/ cerr << "\nCannot access " << original_fasta << "!" << endl;
+    return -1;
+  }
+  if(ofs1.fail()){
+    /*PRINT*/ cerr << "\nCannot access " << annotation_txt << "!" << endl;
+    return -1;
+  }
+  if(ofs2.fail()){
+    /*PRINT*/ cerr << "\nCannot access " << simple_fasta << "!" << endl;    
+    return -1;
+  }
+
   /*/ Parsing fasta file /*/
   readFASTA(ifs1, ofs1, ofs2, size); 
     // ifs1: INPUT (original fasta file)

@@ -22,9 +22,9 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 version 1.0 (2018/05/24)
 
 ## Requirements
-- `gs` is available for Linux and Mac (macOS).
+- `gs1` is available for Linux and Mac (macOS).
 
-- You will need the following tools to complie `gs`:
+- You will need the following tools to complie `gs1`:
     1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
     1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
     1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
@@ -40,24 +40,28 @@ version 1.0 (2018/05/24)
     $ make
 
 ## Usage
-    $ ./gs [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
+    $ ./gs1 [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
 
 ## Example
 Phylogenetic tree by Graph Splitting method:
 
-    $ ./gs test/test.fst > test/test.nwk
+    $ ./gs1 test/test.fst > test/test.nwk
 
 Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
 
-    $ ./gs -e 100 test/test.fst > test/test.nwk
+    $ ./gs1 -e 100 test/test.fst > test/test.nwk
 
 Phylogenetic tree WITHOUT EP scores + silent mode:
 
-    $ ./gs -e 0 -s test/test.fst > test/test.nwk
+    $ ./gs1 -e 0 -s test/test.fst > test/test.nwk
 
 Show help messages:
 
-    $ ./gs -h
+    $ ./gs1 -h
+
+Show the version of `gs1`:
+
+    $ ./gs1 -v
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
@@ -70,4 +74,4 @@ Copyright &copy; 2018, Motomu Matsui
 Motomu Matsui and Wataru Iwasaki. ??? (2018)
 
 ## Acknowledgements
-This package uses LAPACKE/CBLAS 3.8.0 provided by Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.. The authors thank LAPACK/BLAS team. You can get the detailed information from http://www.netlib.org/lapack/.
+This package includes the LAPACKE/CBLAS package provided by Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.. The authors thank the LAPACK/BLAS team. You can get the detailed information from http://www.netlib.org/lapack/.

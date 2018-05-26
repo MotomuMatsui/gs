@@ -1,8 +1,7 @@
 LAPACK_VER=3.8.0
 LIB_PATH=../lib
 
-# Download and decompression LAPACK package.
-wget http://www.netlib.org/lapack/lapack-${LAPACK_VER}.tar.gz
+# Decompression LAPACK package.
 tar xvzf lapack-${LAPACK_VER}.tar.gz
 mkdir lib
 cd lapack-${LAPACK_VER}
