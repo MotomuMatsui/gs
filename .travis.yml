@@ -27,7 +27,7 @@ addons:
       
 script:
   - make CXX="${CXX}"
-  - ./gs -h
+  - ./gs1 -h
   
 notifications:
   email: false
