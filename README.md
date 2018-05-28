@@ -82,7 +82,7 @@ MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
 
 Visualization of [test.nwk](test/test.nwk) by [iTOL](https://itol.embl.de/):
 
-<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/test_iTOL.png"></p>  
+<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/test/test_iTOL.png"></p>  
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
