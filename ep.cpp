@@ -32,13 +32,7 @@ extern double simI(double* const&, vector<int> const&, int const);
 extern int whichMIN(vector<double> const&);
 extern double gev(double const&, double const&);
 
-void EP(double* const (&W), unordered_map<string, double>& ep, int const& size){
-
-  // Random number generation (Uniform distribution; Mersenne Twister method)
-  random_device rd;                           // random seed
-  mt19937 mt(rd());                           // mersenne twister
-  uniform_real_distribution<double> urd(0,1); // uniform distributed random number
-  auto R = bind(urd, mt);                     // random number generator
+void EP(double* const (&W), unordered_map<string, double>& ep, function<double()>& R, int const& size){
 
   // Edge perturbation
   int N = size*size;

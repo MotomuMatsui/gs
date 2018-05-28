@@ -17,6 +17,8 @@
 #include <unordered_map>
 #include <regex>
 #include <unistd.h>
+#include <random>   
+#include <functional>
 
 using namespace std;
 
@@ -27,11 +29,11 @@ extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
 
 /// mmseqs.cpp (Wrapper function of MMseqs)
-extern void mmseqs(string const&, string const&);
+extern void mmseqs(string const&, string const&, string const&);
 
 /// gs.cpp (Core functions of GS method)
 extern void GS(double* const&, int*&, int const&);
-extern void EP(double* const&, unordered_map<string, double>&, int const&);
+extern void EP(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
 
 /// messages.cpp
 extern void print_banner();
@@ -42,18 +44,51 @@ int main(int argc, char* argv[]){
   /*/ Getopt /*/
   int silence = 0;
   int ep_num  = 0;
+  int seed    = 0;
+  string threads = "1";
   int opt;
-  regex renum(R"(^\d+$)"); // -e option requires an integer number
+  regex renum(R"(^\d+$)"); // -e/-r/-t option requires an integer number
   opterr = 0;              // default error messages -> OFF
 
-  while ((opt = getopt(argc, argv, "vshe:")) != -1){
-    if(opt == 'e'){ // OK! (./gs -e 100 IN.fst > OUT.nwk)
+  while ((opt = getopt(argc, argv, "shve:r:t:")) != -1){
+    if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
-	ep_num = atoi(optarg);	
+	ep_num = atoi(optarg);
       }
-      else{ // NG! (./gs -e hundred IN.fst > OUT.nwk)
+      else{ // NG! (./gs -e hundred IN.fst)
 	/*PRINT*/ print_banner();
 	/*PRINT*/ cerr << "Option -e requires an integer argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+    }
+    else if(opt == 'r'){ // OK! (./gs -r 12345 IN.fst)
+      if(regex_match(optarg, renum)){
+	seed = atoi(optarg);
+      }
+      else{ // NG! (./gs -r one_two_three IN.fst)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -r requires an integer argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+    }
+    else if(opt == 't'){ // OK! (./gs -t 4 IN.fst)
+      if(regex_match(optarg, renum)){
+	auto th = atoi(optarg);
+	if(th >0){
+	  threads = string(optarg);
+	}
+	else{
+	  /*PRINT*/ print_banner();
+	  /*PRINT*/ cerr << "Option -t requires an integer argument (>=1).\n" << endl;
+	  /*PRINT*/ print_usage(argv[0]);
+	  return -1;
+	}
+      }
+      else{ // NG! (./gs -t four IN.fst)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -t requires an integer argument.\n" << endl;
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
@@ -63,15 +98,15 @@ int main(int argc, char* argv[]){
       /*PRINT*/ print_usage(argv[0]);
       return 0;
     }
-    else if(opt == 'v'){ // Version message (./gs -v)
+    else if(opt == 'v'){ // Version (./gs -v)
       /*PRINT*/ print_banner();
       return 0;
     }
-    else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst > OUT.nwk)
+    else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst)
       silence = 1;
     }
     else if (opt == '?'){
-      if(optopt == 'e'){ // NG! (./gs IN.fst -e > OUT.nwk)
+      if(optopt == 'e'){ // NG! (./gs IN.fst -e)
 	/*PRINT*/ print_banner();
 	/*PRINT*/ cerr << "Option -e requires an integer argument.\n" << endl;
 	/*PRINT*/ print_usage(argv[0]);
@@ -88,7 +123,7 @@ int main(int argc, char* argv[]){
 
   /*/ Input file name /*/
   string input = "";
-  if(optind < argc){ // OK! (./gs -e 100 IN.fst > OUT.nwk)
+  if(optind < argc){ // OK! (./gs -e 100 IN.fst)
     input = argv[optind];
 
     if(!silence){
@@ -97,7 +132,7 @@ int main(int argc, char* argv[]){
       /*PRINT*/ cerr << "Input file:\n  " << input << endl;
     }
   }
-  else{ // NG! (./gs -e 100 > OUT.nwk)
+  else{ // NG! (./gs -e 100)
     /*PRINT*/ cerr << argv[0] << " requires an input file (fasta format).\n" << endl;
     /*PRINT*/ print_banner();
     /*PRINT*/ print_usage(argv[0]);
@@ -148,9 +183,10 @@ int main(int argc, char* argv[]){
   
   /*/ Executing MMSeqs /*/
   /*PRINT*/ if(!silence) cerr << "MMseqs:\n" << "  searching...\r" << flush;
-  mmseqs(simple_fasta, mmseqs_result);
+  mmseqs(simple_fasta, mmseqs_result, threads);
     // simple_fasta: INPUT (multiple fasta file) 
     // mmseqs_result: OUTOUT (result file of MMseqs)
+    // threads: parameter (threads number for MMseqs)
 
   ifstream ifs2(mmseqs_result);  if(ifs2.fail()){return -1;} // MMseqs result file
   /*PRINT*/ if(!silence) cerr << "  completed!   " << endl;
@@ -177,13 +213,28 @@ int main(int argc, char* argv[]){
     unordered_map<string, double> ep;
     string newick_EP; // GS+EP tree
 
+    // Random number generator (Uniform distribution->Mersenne Twister)
+    function<double()> R;
+    uniform_real_distribution<double> urd(0,1);    // uniform distributed random number
+
+    if(seed>0){
+      mt19937 mt(static_cast<unsigned int>(seed)); // mersenne twister
+      R = bind(urd, ref(mt));                      // random number generator    
+    }
+    else{
+      random_device rd;                            // random seed
+      mt19937 mt(rd());                            // mersenne twister
+      R = bind(urd, ref(mt));                      // random number generator        
+    }    
+
     /*PRINT*/ if(!silence) cerr << "EP method:" << endl;
 
     for(int n=1; n<=ep_num; n++){
       /*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num<< "\r"<< flush;
-      EP(W, ep, size);
+      EP(W, ep, R, size);
         // W: INPUT (sequence similarity matrix)
         // ep: OUTPUT (result of Edge Perturbation method)
+        // R: random number generator
     }
     
     /*PRINT*/ if(!silence) cerr << "\n  completed!" << endl;
