@@ -48,18 +48,18 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
     $ ./gs1 [arguments] input > output
 
-:exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) is required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+:exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
 Arguments:
 
-    -e *integer(>=0)* the number of replicates for EP method. Default: 0
-    -r *integer(>=1)* the random seed number for EP method. Default: random number
-    -t *integer(>=1)* the number of threads for MMseqs. Default: 1
-    -s silent mode: do not report progress. Default: Off
-    -h show help messages. Default: Off
-    -v show the version. Default: Off
+    -e [integer(>=0)] The number of replicates for EP method. Default: 0
+    -r [integer(>=1)] The random seed number for EP method. Default: random number
+    -t [integer(>=1)] The number of threads for MMseqs. Default: 1
+    -s Silent mode: do not report progress. Default: Off
+    -h Show help messages. Default: Off
+    -v Show the version. Default: Off
 
-## Example
+## Examples
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
 
     $ ./gs1 test/test.fst
@@ -80,13 +80,9 @@ MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
 
     $ ./gs1 -e 100 -t 4 test/test.fst > test/test.nwk
 
-Show help messages:
+Visualization of [test.nwk](test/test.nwk) by [iTOL](https://itol.embl.de/):
 
-    $ ./gs1 -h
-
-Show the version of `gs1`:
-
-    $ ./gs1 -v
+<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/test_iTOL.png"></p>  
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
