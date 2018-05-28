@@ -1,7 +1,7 @@
 # Decompression LAPACK package.
 git clone https://github.com/soedinglab/MMseqs2.git
 cd MMseqs2
-mkdir build
+if [ ! -d build ]; then mkdir build; fi
 cd build
 
 # CMAKE

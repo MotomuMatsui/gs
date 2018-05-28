@@ -3,7 +3,7 @@ LIB_PATH=../lib
 
 # Decompression LAPACK package.
 tar xvzf lapack-${LAPACK_VER}.tar.gz
-mkdir lib
+if [ ! -d lib ]; then mkdir lib; fi
 cd lapack-${LAPACK_VER}
 
 # Copy Makefile

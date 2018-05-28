@@ -25,11 +25,10 @@ before_install:
 install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-  - mkdir lib
   - sh mmseqs_install.sh
   - sh lapack_install.sh
   - make CXX="${CXX}"
 
 script:
-  - ./gsep -h
+  - ./gsep -e100 -t 1 -r 12345 test/test.fst
   
