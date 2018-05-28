@@ -34,25 +34,25 @@ version 1.0 (2018/05/24)
 
 ## Installation on Linux/Mac from source code
 
-1. Obtain `gs` package:
+Obtain `gs` package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
     $ sh
 
-2. Install MMseqs2:
+Install MMseqs2:
 
     $ source ./mmseqs_install.sh
 
   :exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).
 
-3. Install LAPACK/BLAS package:
+Install LAPACK/BLAS package:
 
     $ source ./lapack_install.sh
 
   :exclamation: If this script made some errors, please check the [LAPACK/BLAS page](http://www.netlib.org/lapack).
 
-4. Install `gsep`:
+Install `gsep`:
 
     $ make
 
@@ -116,4 +116,4 @@ Copyright &copy; 2018, Motomu Matsui
 Motomu Matsui and Wataru Iwasaki. ??? (2018)
 
 ## Acknowledgements
-This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S\"{o}ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
+This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S&ouml;ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
