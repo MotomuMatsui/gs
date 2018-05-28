@@ -1,7 +1,7 @@
 LAPACK_VER=3.8.0
 LIB_PATH=../lib
 
-# Decompression LAPACK package.
+# Decompress LAPACK package
 tar xvzf lapack-${LAPACK_VER}.tar.gz
 if [ ! -d lib ]; then mkdir lib; fi
 cd lapack-${LAPACK_VER}

@@ -32,12 +32,33 @@ version 1.0 (2018/05/24)
 :exclamation: If you want to compile `gsep` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
 :exclamation: LAPACK/BLAS package will be installed in the next section.
 
-## Installation
+## Installation on Linux/Mac from source code
+
+1.Obtain the `gs` package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
-    $ sh ./lapack_install.sh
+    $ sh
+
+1.Install MMseqs2:
+
+    $ source ./mmseqs_install.sh
+
+:exclamation: If this script made some errors, please check the [Original page](https://github.com/soedinglab/mmseqs2).
+
+1.Install LAPACK/BLAS package:
+
+    $ source ./lapack_install.sh
+
+:exclamation: If this script made some errors, please check the [Original page](http://www.netlib.org/lapack).
+
+1.Install `gsep`:
+
     $ make
+
+### Known issues
+
+- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `make.inc` file.
 
 ## Usage
 To get on-line help:

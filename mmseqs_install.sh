@@ -1,11 +1,11 @@
-# Decompression LAPACK package.
-git clone https://github.com/soedinglab/MMseqs2.git
+# Decompress MMseqs package
+tar xzf MMseqs2.tar.gz
 cd MMseqs2
 if [ ! -d build ]; then mkdir build; fi
 cd build
 
 # CMAKE
-cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
+cmake -DHAVE_SSE4_1=1 -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
 
 # Compile MMseqs
 make
