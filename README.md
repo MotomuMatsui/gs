@@ -46,9 +46,18 @@ To get on-line help:
     
 The following command enables you to calculate GS tree (phylogenetic tree reconstructed by Graph Splitting method):
 
-    $ ./gs1 [-e INTEGER(>=0)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-s] [-h] [-v] input > output
+    $ ./gs1 [arguments] input > output
 
-:exclamation: A multiple sequence file (ex. test/test.fst) is required in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+:exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) is required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+
+Arguments:
+
+    -e *integer(>=0)* the number of replicates for EP method. Default: 0
+    -r *integer(>=1)* the random seed number for EP method. Default: random number
+    -t *integer(>=1)* the number of threads for MMseqs. Default: 1
+    -s silent mode: do not report progress. Default: Off
+    -h show help messages. Default: Off
+    -v show the version. Default: Off
 
 ## Example
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
@@ -59,7 +68,7 @@ GS tree with branch reliability (Edge perturbation; EP) scores will be saved in 
 
     $ ./gs1 -e 100 test/test.fst > test/test.nwk
 
-GS tree with EP scores, a seed number is specified for EP method:
+GS tree with EP scores; a seed number is specified for EP method:
 
     $ ./gs1 -e 100 -r 12345 test/test.fst > test/test.nwk
 
