@@ -128,7 +128,14 @@ int main(int argc, char* argv[]){
 
     if(!silence){
       /*PRINT*/ print_banner();
-      /*PRINT*/ cerr << "Number of Edge Perturbating:\n  " << ep_num << endl;
+      /*PRINT*/ cerr << "Number of threads used in MMseqs:\n  " << threads << endl;
+      /*PRINT*/ cerr << "Number of iterations in EP method:\n  " << ep_num << endl;
+      if(seed>0){
+	/*PRINT*/ cerr << "Random seed number for EP method:\n  " << seed << endl;
+      }
+      else{
+	/*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << "a random number (default)" << endl;
+      }
       /*PRINT*/ cerr << "Input file:\n  " << input << endl;
     }
   }
@@ -182,7 +189,7 @@ int main(int argc, char* argv[]){
   /*PRINT*/ if(!silence) cerr << "Number of sequences:\n  " << size << " sequences" << endl;
   
   /*/ Executing MMSeqs /*/
-  /*PRINT*/ if(!silence) cerr << "MMseqs:\n" << "  searching...\r" << flush;
+  /*PRINT*/ if(!silence) cerr << "MMseqs:\n  " << size << "x" << size << " pairwise alignment\n" << "  searching...\r" << flush;
   mmseqs(simple_fasta, mmseqs_result, threads);
     // simple_fasta: INPUT (multiple fasta file) 
     // mmseqs_result: OUTOUT (result file of MMseqs)
@@ -230,7 +237,7 @@ int main(int argc, char* argv[]){
     /*PRINT*/ if(!silence) cerr << "EP method:" << endl;
 
     for(int n=1; n<=ep_num; n++){
-      /*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num<< "\r"<< flush;
+      /*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
       EP(W, ep, R, size);
         // W: INPUT (sequence similarity matrix)
         // ep: OUTPUT (result of Edge Perturbation method)

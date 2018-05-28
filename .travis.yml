@@ -29,5 +29,5 @@ install:
   - make CXX="${CXX}"
       
 script:
-  - ./gs1 -h
+  - ./gsep -h
   

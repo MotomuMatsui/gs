@@ -22,14 +22,14 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 version 1.0 (2018/05/24)
 
 ## Requirements
-- `gs1` is available for Linux and Mac (macOS).
+- `gsep` is available for Linux and Mac (macOS).
 
-- You will need the following tools to complie `gs1`:
+- You will need the following tools to complie `gsep`:
     1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
     1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
     1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
 
-:exclamation: If you want to compile `gs1` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
+:exclamation: If you want to compile `gsep` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
 :exclamation: LAPACK/BLAS package will be installed in the next section.
 
 ## Installation
@@ -42,11 +42,11 @@ version 1.0 (2018/05/24)
 ## Usage
 To get on-line help:
 
-    $ ./gs1 -h
+    $ ./gsep -h
     
 The following command enables you to calculate GS tree (phylogenetic tree reconstructed by Graph Splitting method):
 
-    $ ./gs1 [arguments] input > output
+    $ ./gsep [arguments] input > output
 
 :exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
@@ -62,23 +62,23 @@ Arguments:
 ## Examples
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
 
-    $ ./gs1 test/test.fst
+    $ ./gsep test/test.fst
 
 GS tree with branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
 
-    $ ./gs1 -e 100 test/test.fst > test/test.nwk
+    $ ./gsep -e 100 test/test.fst > test/test.nwk
 
 GS tree with EP scores; a seed number is specified for EP method:
 
-    $ ./gs1 -e 100 -r 12345 test/test.fst > test/test.nwk
+    $ ./gsep -e 100 -r 12345 test/test.fst > test/test.nwk
 
 GS tree WITHOUT EP scores + silent mode:
 
-    $ ./gs1 -e 0 -s test/test.fst > test/test.nwk
+    $ ./gsep -e 0 -s test/test.fst > test/test.nwk
 
 MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
 
-    $ ./gs1 -e 100 -t 4 test/test.fst > test/test.nwk
+    $ ./gsep -e 100 -t 4 test/test.fst > test/test.nwk
 
 Visualization of [test.nwk](test/test.nwk) by [iTOL](https://itol.embl.de/):
 
