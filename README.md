@@ -34,25 +34,25 @@ version 1.0 (2018/05/24)
 
 ## Installation on Linux/Mac from source code
 
-Obtain `gs` package:
+#### 1. Obtain gs package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
     $ sh
 
-Install MMseqs2:
+#### 2. Install MMseqs2:
 
     $ source ./mmseqs_install.sh
 
   :exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).
 
-Install LAPACK/BLAS package:
+#### 3. Install LAPACK/BLAS package:
 
     $ source ./lapack_install.sh
 
   :exclamation: If this script made some errors, please check the [LAPACK/BLAS page](http://www.netlib.org/lapack).
 
-Install `gsep`:
+#### 4. Install gs package:
 
     $ make
 
