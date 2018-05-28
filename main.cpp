@@ -40,6 +40,14 @@ extern void print_banner();
 extern void print_usage(char*&);
 
 int main(int argc, char* argv[]){
+  
+  /*/ Check the mmseqs command /*/
+  auto status = system("which mmseqs &> /dev/null");
+  if(WEXITSTATUS(status) != 0){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "mmseqs not found!\nCheck our web page (https://github.com/MotomuMatsui/gs) for more information" << endl;
+    return -1;
+  }
 
   /*/ Getopt /*/
   int silence = 0;
@@ -125,19 +133,6 @@ int main(int argc, char* argv[]){
   string input = "";
   if(optind < argc){ // OK! (./gs -e 100 IN.fst)
     input = argv[optind];
-
-    if(!silence){
-      /*PRINT*/ print_banner();
-      /*PRINT*/ cerr << "Number of threads used in MMseqs:\n  " << threads << endl;
-      /*PRINT*/ cerr << "Number of iterations in EP method:\n  " << ep_num << endl;
-      if(seed>0){
-	/*PRINT*/ cerr << "Random seed number for EP method:\n  " << seed << endl;
-      }
-      else{
-	/*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << "a random number (default)" << endl;
-      }
-      /*PRINT*/ cerr << "Input file:\n  " << input << endl;
-    }
   }
   else{ // NG! (./gs -e 100)
     /*PRINT*/ cerr << argv[0] << " requires an input file (fasta format).\n" << endl;
@@ -186,7 +181,20 @@ int main(int argc, char* argv[]){
   ofs1.close();
   ofs2.close();
   
-  /*PRINT*/ if(!silence) cerr << "Number of sequences:\n  " << size << " sequences" << endl;
+  /*/ Parameters /*/  
+  if(!silence){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "Number of threads used in MMseqs:\n  " << threads << endl;
+    /*PRINT*/ cerr << "Number of iterations in EP method:\n  " << ep_num << endl;
+    if(seed>0){
+      /*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << seed << endl;
+    }
+    else{
+      /*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << "a random number (default)" << endl;
+    }
+    /*PRINT*/ cerr << "Input file:\n  " << input << endl;
+    /*PRINT*/ cerr << "Number of sequences:\n  " << size << " sequences" << endl;
+  }
   
   /*/ Executing MMSeqs /*/
   /*PRINT*/ if(!silence) cerr << "MMseqs:\n  " << size << "x" << size << " pairwise alignment\n" << "  searching...\r" << flush;

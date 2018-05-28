@@ -25,9 +25,19 @@ before_install:
 install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+  - git clone https://github.com/soedinglab/MMseqs2.git
+  - cd MMseqs2
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
+  - make
+  - make install 
+  - export PATH=$(pwd)/bin/:$PATH
+  - cd ..
+  - cd ..
   - mkdir lib; sh lapack_install.sh
   - make CXX="${CXX}"
-      
+
 script:
   - ./gsep -h
   
