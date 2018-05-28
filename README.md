@@ -29,7 +29,7 @@ version 1.0 (2018/05/24)
     1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
     1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
 
-:exclamation: If you want to compile `gs` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
+:exclamation: If you want to compile `gs1` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
 :exclamation: LAPACK/BLAS package will be installed in the next section.
 
 ## Installation
@@ -40,16 +40,27 @@ version 1.0 (2018/05/24)
     $ make
 
 ## Usage
-    $ ./gs1 [-e INTEGER(>=0)] [-s (silent mode)] [-h (help)] IN(fasta) > OUT(newick)
+To get on-line help:
+    $ ./gs1 -h
+    
+The following command enables you to calculate GS tree (phylogenetic tree reconstructed by Graph Splitting method):
+
+    $ ./gs1 [-e INTEGER(>=0)] [-r INTEGER (>0)] [-s (silent mode)] [-h (help)] [-v (version)] IN(fasta format) > OUT(newick format)
+
+:exclamation: A multiple sequence file (ex. test/test.fst) is required in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
 ## Example
-Phylogenetic tree by Graph Splitting method:
+GS tree will be displayed in `STDOUT`:
 
-    $ ./gs1 test/test.fst > test/test.nwk
+    $ ./gs1 test/test.fst
 
-Phylogenetic tree WITH branch reliability (Edge perturbation; EP) scores:
+GS tree WITH branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
 
     $ ./gs1 -e 100 test/test.fst > test/test.nwk
+
+GS tree WITH EP scores (a seed number is specified for EP method):
+
+    $ ./gs1 -e 100 -r 12345 test/test.fst > test/test.nwk
 
 Phylogenetic tree WITHOUT EP scores + silent mode:
 
