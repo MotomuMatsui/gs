@@ -41,30 +41,35 @@ version 1.0 (2018/05/24)
 
 ## Usage
 To get on-line help:
+
     $ ./gs1 -h
     
 The following command enables you to calculate GS tree (phylogenetic tree reconstructed by Graph Splitting method):
 
-    $ ./gs1 [-e INTEGER(>=0)] [-r INTEGER (>0)] [-s (silent mode)] [-h (help)] [-v (version)] IN(fasta format) > OUT(newick format)
+    $ ./gs1 [-e INTEGER(>=0)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-s] [-h] [-v] input > output
 
 :exclamation: A multiple sequence file (ex. test/test.fst) is required in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
 ## Example
-GS tree will be displayed in `STDOUT`:
+GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
 
     $ ./gs1 test/test.fst
 
-GS tree WITH branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
+GS tree with branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
 
     $ ./gs1 -e 100 test/test.fst > test/test.nwk
 
-GS tree WITH EP scores (a seed number is specified for EP method):
+GS tree with EP scores, a seed number is specified for EP method:
 
     $ ./gs1 -e 100 -r 12345 test/test.fst > test/test.nwk
 
-Phylogenetic tree WITHOUT EP scores + silent mode:
+GS tree WITHOUT EP scores + silent mode:
 
     $ ./gs1 -e 0 -s test/test.fst > test/test.nwk
+
+MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
+
+    $ ./gs1 -e 100 -t 4 test/test.fst > test/test.nwk
 
 Show help messages:
 
