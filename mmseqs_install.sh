@@ -1,5 +1,3 @@
-#!/usr/bin/env sh
-
 # Decompression LAPACK package.
 git clone https://github.com/soedinglab/MMseqs2.git
 cd MMseqs2
