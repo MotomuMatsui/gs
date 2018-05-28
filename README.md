@@ -29,36 +29,36 @@ version 1.0 (2018/05/24)
     1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
     1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
 
-:exclamation: If you want to compile `gsep` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
-:exclamation: LAPACK/BLAS package will be installed in the next section.
+  :exclamation: If you want to compile `gsep` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
+  :exclamation: LAPACK/BLAS package will be installed in the next section.
 
 ## Installation on Linux/Mac from source code
 
-1.Obtain the `gs` package:
+1. Obtain `gs` package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
     $ sh
 
-1.Install MMseqs2:
+2. Install MMseqs2:
 
     $ source ./mmseqs_install.sh
 
-:exclamation: If this script made some errors, please check the [Original page](https://github.com/soedinglab/mmseqs2).
+  :exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).
 
-1.Install LAPACK/BLAS package:
+3. Install LAPACK/BLAS package:
 
     $ source ./lapack_install.sh
 
-:exclamation: If this script made some errors, please check the [Original page](http://www.netlib.org/lapack).
+  :exclamation: If this script made some errors, please check the [LAPACK/BLAS page](http://www.netlib.org/lapack).
 
-1.Install `gsep`:
+4. Install `gsep`:
 
     $ make
 
 ### Known issues
 
-- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `make.inc` file.
+- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.8.0/make.inc`, then execute `source ./lapack_install.sh` and `make`.
 
 ## Usage
 To get on-line help:
@@ -116,4 +116,4 @@ Copyright &copy; 2018, Motomu Matsui
 Motomu Matsui and Wataru Iwasaki. ??? (2018)
 
 ## Acknowledgements
-This package includes the LAPACKE/CBLAS package provided by Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.. The authors thank the LAPACK/BLAS team. You can get the detailed information from http://www.netlib.org/lapack/.
+This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S\"{o}ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
