@@ -22,15 +22,12 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 version 2.0 (2018/05/30)
 
 ## Requirements
-- `gs2` is available for Linux and Mac (macOS).
 
-- You will need the following tools to complie `gs2`:
-    1. [GNU GCC compiler](https://gcc.gnu.org/) (5.0+)
-    1. [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+)
-    1. [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+)
+- `gs2` is available for Linux and Mac (macOS).
+- [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
+- [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) and [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+) packages will be installed in the next section.
 
 :exclamation: If you want to compile `gs2` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
-:exclamation: MMseq2 and LAPACK/BLAS packages can be installed in the next section.
 
 ## Installation on Linux/Mac from source code
 
@@ -44,7 +41,8 @@ version 2.0 (2018/05/30)
     $ ./mmseqs_install.sh
     $ export PATH=$(pwd)/bin/:$PATH
 
-:exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).
+:exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2). 
+
 :exclamation: Opthionally, please move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
 
 #### 3. Install the LAPACK/BLAS package:
@@ -57,7 +55,7 @@ version 2.0 (2018/05/30)
 
     $ make
 
-:exclamation: If necessary, please modify the Makefile in response to your environment (ex. `CXX := g++-8`, `INC := -I/usr/local/include`, `CXXFLAGS += -std=c++1z`, etc.).
+:exclamation: If necessary, please modify the Makefile in response to your environment (ex. `CXX := g++-8`, `INC := -I/usr/local/include`, `CXXFLAGS += -std=c++1z`).
 
 ### Known issues
 
@@ -74,13 +72,14 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
 :exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
-Arguments:
+### Arguments
 
 |Option| Description                                                                                         |
-|:----:|:---------------------------------------------------------------------------------------------------:|
+|:----:|:----------------------------------------------------------------------------------------------------|
 |  -e  |<strong>[integer(>=0)]</strong> <em>The number of replicates for EP method. Default: 0</em>          |
 |  -r  |<strong>[integer(>=1)]</strong> <em>The random seed number for EP method. Default: random number</em>|
 |  -t  |<strong>[integer(>=1)]</strong> <em>The number of threads for MMseqs. Default: 1</em>                |
+|  -m  |<strong>[float(1&ndash;7.5)]</strong> <em>Sensitivity for MMseqs. Default: 7.5</em>                  |
 |  -s  |<em>Silent mode: do not report progress. Default: Off</em>                                           |
 |  -h  |<em>Show help messages. Default: Off</em>                                                            |
 |  -v  |<em>Show the version. Default: Off</em>                                                              |
