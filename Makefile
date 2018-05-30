@@ -2,8 +2,7 @@ CXX := g++
 INC := -Ilib
 LIB := -Llib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm
 CXXFLAGS += -O3
-CXXFLAGS += -std=c++1z
-#CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++11
 CXXFLAGS += -march=native
 CXXFLAGS += -fno-exceptions
 CXXFLAGS += -Wall

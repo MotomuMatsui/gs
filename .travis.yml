@@ -27,7 +27,7 @@ install:
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - sh ./mmseqs_install.sh
   - sh ./lapack_install.sh
-  - export PATH = $PWD/MMseqs2/build/bin:$PATH
+  - export PATH = $(pwd)/MMseqs2/build/bin/:$PATH
   - make CXX="${CXX}"
 
 script:

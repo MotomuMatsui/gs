@@ -38,16 +38,15 @@ version 2.0 (2018/05/30)
 
 #### 2. Install the MMseqs2:
 
-    $ ./mmseqs_install.sh
+    $ sh ./mmseqs_install.sh
     $ export PATH=$(pwd)/bin/:$PATH
 
-:exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2). 
-
-:exclamation: Opthionally, please move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
+:exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).   
+:exclamation: Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
 
 #### 3. Install the LAPACK/BLAS package:
 
-    $ ./lapack_install.sh
+    $ sh ./lapack_install.sh
 
 :exclamation: If this script made some errors, please check the [LAPACK/BLAS page](http://www.netlib.org/lapack).
 
