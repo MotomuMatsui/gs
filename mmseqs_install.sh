@@ -1,3 +1,5 @@
+#!/usr/bin/sh
+
 # Decompress MMseqs package
 tar xzf MMseqs2.tar.gz
 cd MMseqs2
@@ -11,7 +13,5 @@ cmake -DHAVE_SSE4_1=1 -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
 make
 make install 
 
-# Environment variable
-export PATH=$(pwd)/bin/:$PATH
 cd ..
 cd ..

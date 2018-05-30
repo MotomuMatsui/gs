@@ -25,10 +25,11 @@ before_install:
 install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-  - source mmseqs_install.sh
-  - source lapack_install.sh
+  - ./mmseqs_install.sh
+  - ./lapack_install.sh
+  - export PATH = $PWD/MMseqs2/build/bin:$PATH
   - make CXX="${CXX}"
 
 script:
-  - ./gsep -e100 -t 1 -r 12345 test/test.fst
+  - ./gs2 -e100 -t 1 -r 12345 test/test.fst
   
