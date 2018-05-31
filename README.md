@@ -37,7 +37,7 @@ version 2.0 (2018/05/30)
 
 #### 2. Install the MMseqs2:
 
-If [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) has been already installed in you system, you can skip this step.
+If [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) has been already installed in your system, you can skip this step.
 
     $ sh ./mmseqs_install.sh
     $ export PATH=$(pwd)/bin/:$PATH
