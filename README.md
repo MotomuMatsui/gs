@@ -77,7 +77,7 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
     $ ./gs2 [arguments] input > output
 
-:exclamation: A multiple sequence file (ex. [test/test.fst](test/test.fst)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+:exclamation: A multiple sequence file (ex. [data/200.faa](data/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
 ### Arguments
 
@@ -94,25 +94,25 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 ## Examples
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
 
-    $ ./gs2 test/test.fst
+    $ ./gs2 data/200.faa
 
 GS tree with branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
 
-    $ ./gs2 -e 100 test/test.fst > test/test.nwk
+    $ ./gs2 -e 100 data/200.faa > data/200.nwk
 
 GS tree with EP scores; a seed number is specified for EP method:
 
-    $ ./gs2 -e 100 -r 12345 test/test.fst > test/test.nwk
+    $ ./gs2 -e 100 -r 12345 data/200.faa > data/200.nwk
 
 GS tree WITHOUT EP scores + silent mode:
 
-    $ ./gs2 -e 0 -s test/test.fst > test/test.nwk
+    $ ./gs2 -e 0 -s data/200.faa > data/200.nwk
 
 MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
 
-    $ ./gs2 -e 100 -t 4 test/test.fst > test/test.nwk
+    $ ./gs2 -e 100 -t 4 data/200.faa > data/200.nwk
 
-Visualization of [test.nwk](test/test.nwk) by [iTOL](https://itol.embl.de/):
+Visualization of [200.nwk](data/200.nwk) by [iTOL](https://itol.embl.de/):
 
 <p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/test/test_iTOL.png"></p>  
 
