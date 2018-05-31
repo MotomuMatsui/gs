@@ -42,6 +42,9 @@ void readFASTA(ifstream& ifs, ofstream& ofs1, ofstream& ofs2, int& row){
 
   // # of sequence (= row size of sequence similarity matrix)
   row = id - 1;
+
+  ofs1.close();
+  ofs2.close();
 }
 
 // Parsing mmseqs result file

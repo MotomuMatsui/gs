@@ -20,7 +20,7 @@
 
 using namespace std;
 
-void mmseqs(string const& fst, string const& output, string const& threads){
+void mmseqs(string const& fst, string const& output, string const& threads, string const& sensitivity){
   //mmseqs command
   const string mmseqs = "mmseqs";
 
@@ -32,7 +32,7 @@ void mmseqs(string const& fst, string const& output, string const& threads){
 
   //Commands
   auto cmd1 = mmseqs+" createdb "    +fst+" "+DB+" > /dev/null";
-  auto cmd2 = mmseqs+" search "      +DB+" "+DB+" "+result+" "+tmp+" --threads "+threads+" -e 10 -s 7.5 > /dev/null";
+  auto cmd2 = mmseqs+" search "      +DB+" "+DB+" "+result+" "+tmp+" --threads "+threads+" -e 10 -s "+sensitivity+" > /dev/null";
   auto cmd3 = mmseqs+" convertalis " +DB+" "+DB+" "+result+" "+output+" --format-mode 0 > /dev/null";
 
   mkdir(tmp.c_str(), S_IRWXU | S_IRGRP | S_IROTH); //mkdir tmp

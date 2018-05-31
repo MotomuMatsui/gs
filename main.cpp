@@ -29,7 +29,7 @@ extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
 
 /// mmseqs.cpp (Wrapper function of MMseqs)
-extern void mmseqs(string const&, string const&, string const&);
+extern void mmseqs(string const&, string const&, string const&, string const&);
 
 /// gs.cpp (Core functions of GS method)
 extern void GS(double* const&, int*&, int const&);
@@ -54,11 +54,12 @@ int main(int argc, char* argv[]){
   int ep_num  = 0;
   int seed    = 0;
   string threads = "1";
+  string sensitivity = "7.5";
   int opt;
-  regex renum(R"(^\d+$)"); // -e/-r/-t option requires an integer number
+  regex renum(R"(^[\d\.]+$)"); // -e/-r/-t option requires an integer number
   opterr = 0;              // default error messages -> OFF
 
-  while ((opt = getopt(argc, argv, "shve:r:t:")) != -1){
+  while ((opt = getopt(argc, argv, "shve:r:t:m:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
 	ep_num = atoi(optarg);
@@ -87,7 +88,7 @@ int main(int argc, char* argv[]){
 	if(th >0){
 	  threads = string(optarg);
 	}
-	else{
+	else{ // NG! (./gs -t four IN.fst)
 	  /*PRINT*/ print_banner();
 	  /*PRINT*/ cerr << "Option -t requires an integer argument (>=1).\n" << endl;
 	  /*PRINT*/ print_usage(argv[0]);
@@ -97,6 +98,26 @@ int main(int argc, char* argv[]){
       else{ // NG! (./gs -t four IN.fst)
 	/*PRINT*/ print_banner();
 	/*PRINT*/ cerr << "Option -t requires an integer argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+    }
+    else if(opt == 'm'){ // OK! (./gs -m 7.5 IN.fst)
+      if(regex_match(optarg, renum)){
+	auto sen = atof(optarg);
+	if(1<=sen && sen<=7.5){
+	  sensitivity = string(optarg);
+	}
+	else{ // NG! (./gs -m 10 IN.fst)
+	  /*PRINT*/ print_banner();
+	  /*PRINT*/ cerr << "Option -m requires a double number argument [1, 7.5].\n" << endl;
+	  /*PRINT*/ print_usage(argv[0]);
+	  return -1;
+	}
+      }
+      else{ // NG! (./gs -m seven IN.fst)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -m requires a double number argument [1, 7.5].\n" << endl;
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
@@ -163,11 +184,11 @@ int main(int argc, char* argv[]){
     return -1;
   }
   if(ofs1.fail()){
-    /*PRINT*/ cerr << "\nCannot access " << annotation_txt << "!" << endl;
+    /*PRINT*/ cerr << "\nCannot create " << annotation_txt << "!" << endl;
     return -1;
   }
   if(ofs2.fail()){
-    /*PRINT*/ cerr << "\nCannot access " << simple_fasta << "!" << endl;    
+    /*PRINT*/ cerr << "\nCannot create " << simple_fasta << "!" << endl;    
     return -1;
   }
 
@@ -177,53 +198,67 @@ int main(int argc, char* argv[]){
     // ofs1: OUTPUT (annotation file)
     // ofs2: OUTPUT (simplified fasta file)
     // size: # of sequence = row size of sequence similarity matrix
-
-  ofs1.close();
-  ofs2.close();
   
   /*/ Parameters /*/  
   if(!silence){
     /*PRINT*/ print_banner();
-    /*PRINT*/ cerr << "Number of threads used in MMseqs:\n  " << threads << endl;
-    /*PRINT*/ cerr << "Number of iterations in EP method:\n  " << ep_num << endl;
+    /*PRINT*/ cerr << "Settings:" << endl;
+    /*PRINT*/ cerr << "-Input" << endl;
+    /*PRINT*/ cerr << "  file = " << input << endl;
+    /*PRINT*/ cerr << "  # of sequences = " << size << endl << endl;
+
+    /*PRINT*/ cerr << "-MMseqs" << endl;
+    /*PRINT*/ cerr << "  Sentitivity = " << sensitivity << endl;
+    /*PRINT*/ cerr << "  # of threads = " << threads << endl << endl;
+
+    /*PRINT*/ cerr << "-EP method" << endl;
     if(seed>0){
-      /*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << seed << endl;
+      /*PRINT*/ cerr << "  Random seed = " << seed << endl;
     }
     else{
-      /*PRINT*/ cerr << "Seed for the random number generator in EP method:\n  " << "a random number (default)" << endl;
+      /*PRINT*/ cerr << "  Random seed = " << "a random number (default)" << endl;
     }
-    /*PRINT*/ cerr << "Input file:\n  " << input << endl;
-    /*PRINT*/ cerr << "Number of sequences:\n  " << size << " sequences" << endl;
+    /*PRINT*/ cerr << "  # of iterations = " << ep_num << endl << endl;
+
+    /*PRINT*/ cerr << "Progress:" << endl;
   }
   
   /*/ Executing MMSeqs /*/
-  /*PRINT*/ if(!silence) cerr << "MMseqs:\n  " << size << "x" << size << " pairwise alignment\n" << "  searching...\r" << flush;
-  mmseqs(simple_fasta, mmseqs_result, threads);
+  /*PRINT*/ if(!silence) cerr << "-MMseqs\n  " << size << "x" << size << " pairwise alignment\n" << "  searching...\r" << flush;
+  mmseqs(simple_fasta, mmseqs_result, threads, sensitivity);
     // simple_fasta: INPUT (multiple fasta file) 
     // mmseqs_result: OUTOUT (result file of MMseqs)
     // threads: parameter (threads number for MMseqs)
+    // sensitivity: parameter (sensitivity for MMseqs)
 
-  ifstream ifs2(mmseqs_result);  if(ifs2.fail()){return -1;} // MMseqs result file
-  /*PRINT*/ if(!silence) cerr << "  completed!   " << endl;
-  
+  ifstream ifs2(mmseqs_result); // MMseqs result file
+  if(ifs2.fail()){
+    /*PRINT*/ cerr << "  Cannot access " << mmseqs_result << "!" << endl;
+    return -1;
+  }
+  else{
+    /*PRINT*/ if(!silence) cerr << "  done.        " << endl << endl;
+  }
+
   /*/ Reading Data /*/
   bl2mat(ifs2, W, size);
     // ifs2: INPUT (result file of MMseqs)
     // W: OUTPUT (sequence similarity matrix)
 
   /*/ GS method (stepwise spectral clustering) /*/
-  /*PRINT*/ if(!silence) cerr << "GS method:\n" << "  searching...\r" << flush;
+  /*PRINT*/ if(!silence) cerr << "-GS method\n" << "  executing...\r" << flush;
   GS(W, gs, size);
     // W: INPUT (sequence similarity matrix)
     // gs: OUTPUT (result of stepwise spectral clustering)
 
-  /*PRINT*/ if(!silence) cerr << "  completed!   " << endl;
+  /*PRINT*/ if(!silence) cerr << "  done.         " << endl << endl;
 
-  /*/ Generating Newick file (GS tree WITHOUT EP values) /*/
+  /*/ Generating GS tree Newick based on the spectral clustering /*/
   sc2nwk(gs, newick, size);
     // gs: INPUT (result of stepwise spectral clustering)
     // newick: OUTPUT (GS tree [newick format])
 
+  /*/ EP method /*/
   if(ep_num>0){
     unordered_map<string, double> ep;
     string newick_EP; // GS+EP tree
@@ -252,7 +287,7 @@ int main(int argc, char* argv[]){
         // R: random number generator
     }
     
-    /*PRINT*/ if(!silence) cerr << "\n  completed!" << endl;
+    /*PRINT*/ if(!silence) cerr << "\n  done." << endl;
     /*PRINT*/ if(!silence) cerr << "\n--------------------------------------------------\n" << endl;
 
     addEP(newick, newick_EP, ep, ep_num, size);
@@ -262,15 +297,14 @@ int main(int argc, char* argv[]){
       // ep_num: INPUT (# of Edge Perturbation method)
 
     /*/ GS tree (WITH EP values) ->stdout /*/
-    cout << newick_EP << flush;
+    cout << newick_EP << endl;
   }
-  else{
+  else{ // skip the EP method
     /*PRINT*/ if(!silence) cerr << "\n--------------------------------------------------\n" << endl;
     
     /*/ GS tree (WITHOUT EP values) ->stdout /*/
-    cout << newick << flush;
+    cout << newick << endl;
   }
-  /*PRINT*/ cerr << endl;
 
   delete[] W;
   delete[] gs;
