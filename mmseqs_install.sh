@@ -7,7 +7,7 @@ if [ ! -d build ]; then mkdir build; fi
 cd build
 
 # CMAKE
-cmake -DHAVE_SSE4_1=1 -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
+cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
 
 # Compile MMseqs
 make

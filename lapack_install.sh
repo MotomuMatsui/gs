@@ -23,10 +23,10 @@ make lapacklib
 # Compile LAPACKE
 make lapackelib
 
-# copy Library Files
+# Copy Library Files
 cp *.a ${LIB_PATH}
 
-# copy Header Files
+# Copy Header Files
 cp CBLAS/include/*.h ${LIB_PATH}
 cp LAPACKE/include/*.h ${LIB_PATH}
 

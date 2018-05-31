@@ -25,7 +25,6 @@ version 2.0 (2018/05/30)
 
 - `gs2` is available for Linux and Mac (macOS).
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
-- [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) and [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+) packages will be installed in the next section.
 
 :exclamation: If you want to compile `gs2` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
 
@@ -38,13 +37,17 @@ version 2.0 (2018/05/30)
 
 #### 2. Install the MMseqs2:
 
+If [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) has been already installed in you system, you can skip this step.
+
     $ sh ./mmseqs_install.sh
     $ export PATH=$(pwd)/bin/:$PATH
 
-:exclamation: If this script made some errors, please check the [MMseqs page](https://github.com/soedinglab/mmseqs2).   
+:exclamation: If this script made some errors, please install `mmseqs` with reference to [MMseqs page](https://github.com/soedinglab/mmseqs2).   
 :exclamation: Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
 
 #### 3. Install the LAPACK/BLAS package:
+
+If [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+) package has been already installed in your system, you can skip this step.
 
     $ sh ./lapack_install.sh
 
@@ -58,7 +61,7 @@ version 2.0 (2018/05/30)
 
 ### Known issues
 
-- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.8.0/make.inc`, then execute `source ./lapack_install.sh` and `make`.
+- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.8.0/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.
 
 ## Usage
 To get on-line help:

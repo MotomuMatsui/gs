@@ -1,5 +1,5 @@
 /******************************************\
-| Graph Splitting Method v1.0 (2018/06/11) |
+| Graph Splitting Method v2.0 (2018/06/01) |
 |                                          |
 | Copyright (c) 2015-2018 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
@@ -277,7 +277,7 @@ int main(int argc, char* argv[]){
       R = bind(urd, ref(mt));                      // random number generator        
     }    
 
-    /*PRINT*/ if(!silence) cerr << "EP method:" << endl;
+    /*PRINT*/ if(!silence) cerr << "-EP method" << endl;
 
     for(int n=1; n<=ep_num; n++){
       /*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
@@ -288,7 +288,7 @@ int main(int argc, char* argv[]){
     }
     
     /*PRINT*/ if(!silence) cerr << "\n  done." << endl;
-    /*PRINT*/ if(!silence) cerr << "\n--------------------------------------------------\n" << endl;
+    /*PRINT*/ if(!silence) cerr << "\n------------------------------------------\n" << endl;
 
     addEP(newick, newick_EP, ep, ep_num, size);
       // newick: INPUT (GS tree [newick format])
@@ -296,13 +296,13 @@ int main(int argc, char* argv[]){
       // ep: INPUT (result of Edge Perturbation method)
       // ep_num: INPUT (# of Edge Perturbation method)
 
-    /*/ GS tree (WITH EP values) ->stdout /*/
+    /*/ GS tree WITH EP values ->STDOUT /*/
     cout << newick_EP << endl;
   }
   else{ // skip the EP method
-    /*PRINT*/ if(!silence) cerr << "\n--------------------------------------------------\n" << endl;
-    
-    /*/ GS tree (WITHOUT EP values) ->stdout /*/
+    /*PRINT*/ if(!silence) cerr << "\n------------------------------------------\n" << endl;
+
+    /*/ GS tree WITHOUT EP values ->STDOUT /*/
     cout << newick << endl;
   }
 

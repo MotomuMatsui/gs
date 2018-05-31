@@ -1,5 +1,5 @@
 /******************************************\
-| Graph Splitting Method v1.0 (2018/06/11) |
+| Graph Splitting Method v2.0 (2018/06/01) |
 |                                          |
 | Copyright (c) 2015-2018 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
@@ -37,8 +37,8 @@ int eigen_lapack(double* (&A), double* (&z), int N){
 			N,                // Order of A
 			A,                // Real symmetric matrix
 			N,                // Leading dimension of A
-			vl,vu,            // (Not referenced, but this function requires dummy numbers)
-			il,iu,            // Index of the smallest (il) and largest (iu) eigenvalue to be returned
+			vl,vu,            // (These arguments are NOT referenced, but required as dummies)
+			il,iu,            // Index of the smallest (il) and largest (iu) eigenvalues to be returned
 			abstol,           // Absolute error tolerance
 			m,                // Total number of eigenvalues
 			w,                // Eivenvalues
