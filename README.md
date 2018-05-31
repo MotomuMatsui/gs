@@ -40,7 +40,7 @@ version 2.0 (2018/05/30)
 If [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) has been already installed in your system, you can skip this step.
 
     $ sh ./mmseqs_install.sh
-    $ export PATH=$(pwd)/bin/:$PATH
+    $ export PATH=$(pwd)/MMseqs2/build/bin/:$PATH
 
 :exclamation: If this script made some errors, please install `mmseqs` with reference to [MMseqs page](https://github.com/soedinglab/mmseqs2).   
 :exclamation: Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
