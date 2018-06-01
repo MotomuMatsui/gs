@@ -24,10 +24,10 @@ OBJECTS  += main.o
 all: gs2 clean
 
 gs2: eigen.o $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^ $(LIB)	
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
 
 eigen.o: eigen.cpp
-	$(CXX) $(CXXFLAGS) $(INC) -c $< $(LIB)
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
 
 $(OBJECTS): %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $<
