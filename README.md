@@ -11,11 +11,12 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 
 [![Build Status](https://travis-ci.org/MotomuMatsui/gs.svg?branch=master)](https://travis-ci.org/MotomuMatsui/gs)
 [![Language](https://img.shields.io/badge/C%2B%2B-5.0%2B-green.svg)](https://gcc.gnu.org/)
-[![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-3.8%2B-green.svg)](http://www.netlib.org/lapack/)
+[![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-3.7%2B-green.svg)](http://www.netlib.org/lapack/)
 [![MMseqs](https://img.shields.io/badge/MMSeqs-2.0%2B-green.svg)](https://github.com/soedinglab/MMseqs2)
 [![Ubuntu](https://img.shields.io/badge/Linux-Ubuntu-green.svg)](https://www.ubuntu.com/)
 [![CentOS](https://img.shields.io/badge/Linux-CentOS-green.svg)](https://www.centos.org/)
 [![Mac](https://img.shields.io/badge/Mac-macOS-green.svg)](https://www.apple.com/macos/)
+[![Windows](https://img.shields.io/badge/Windows-Cygwin-green.svg)](https://www.cygwin.com/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 ## Demo
@@ -27,45 +28,39 @@ version 2.0 (2018/05/30)
 
 ## Requirements
 
-- `gs2` is available for Linux and Mac (macOS).
+- `gs2` is available for Linux, Mac (macOS) and Windows (Cygwin).
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
-:exclamation: If you want to compile `gs2` on Mac, please install `gcc` from [Homebrew](https://brew.sh/).  
+:exclamation: If you want to compile `gs2` on Mac, please install the most current `gcc` from [Homebrew](https://brew.sh/).  
 
-## Installation on Linux/Mac from source code
+## Installation
 
-#### 1. Obtain the gs package:
+#### 1. Download gs package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
 
-#### 2. Install the MMseqs2:
-
-If [MMseqs2](https://github.com/soedinglab/mmseqs2) (2.0+) has been already installed in your system, you can skip this step.
+#### 2. Install MMseqs2:
 
     $ sh ./mmseqs_install.sh
     $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
 
-:exclamation: If this script made some errors, please install `mmseqs` with reference to [MMseqs page](https://github.com/soedinglab/mmseqs2).   
-:exclamation: Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
+    - Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
 
-#### 3. Install the LAPACK/BLAS package:
-
-If [LAPACK/BLAS package](http://www.netlib.org/lapack/) (3.8+) package has been already installed in your system, you can skip this step.
+#### 3. Install LAPACK/BLAS package:
 
     $ sh ./lapack_install.sh
-
-:exclamation: If this script made some errors, please check the [LAPACK/BLAS page](http://www.netlib.org/lapack).
 
 #### 4. Install the gs package:
 
     $ make
 
-:exclamation: If necessary, please modify the Makefile in response to your environment (ex. `CXX := g++-8`, `INC := -I/usr/local/include`, `CXXFLAGS += -std=c++1z`).
+    - If necessary, please modify the Makefile in response to your environment (ex. `CXX := g++-8`, `INC := -I/usr/local/include`, `CXXFLAGS += -std=c++1z`).
 
 ### Known issues
 
-- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.8.0/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.
+- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.8.0/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.    
+- LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. If you are Windows user, please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default).
 
 ## Usage
 To get on-line help:
