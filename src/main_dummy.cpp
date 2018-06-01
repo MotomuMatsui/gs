@@ -20,6 +20,7 @@
 #include <random>   
 #include <functional>
 
+/*
 /// format.cpp (File/Data-handling)
 extern void readFASTA(ifstream&, ofstream&, ofstream&, int&);
 extern void bl2mat(ifstream&, double*&, int const&);
@@ -32,6 +33,7 @@ extern void mmseqs(string const&, string const&, string const&, string const&);
 /// gs.cpp (Core functions of GS method)
 extern void GS(double* const&, int*&, int const&);
 extern void EP(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
+*/
 
 /// messages.cpp
 extern void print_banner();
@@ -135,6 +137,9 @@ int main(int argc, char* argv[]){
     /*PRINT*/ cerr << "\nCannot create " << simple_fasta << "!" << endl;    
     return -1;
   }
+
+  /*PRINT*/ print_banner();
+  /*PRINT*/ print_usage(argv[0]);
 
   cout << "Hello World!!" << endl;
 
