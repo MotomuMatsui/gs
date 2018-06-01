@@ -13,18 +13,18 @@ addons:
       - llvm-toolchain-precise-3.7
       - llvm-toolchain-precise
     packages:
-      - g++-6
-      - gcc-6
-      - gfortran-6
-      - libgfortran-6-dev
+      - g++-8
+      - gcc-8
+      - gfortran-8
+      - libgfortran-8-dev
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get update
 
 install:
-  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 90
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 90
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-8" CC="gcc-8"; fi
   - sh ./mmseqs_install.sh
   - sh ./lapack_install.sh
   - export PATH=$(pwd)/MMseqs2/build/bin:$PATH
