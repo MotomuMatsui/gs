@@ -144,6 +144,14 @@ int main(int argc, char* argv[]){
   /*PRINT*/ print_banner();
   /*PRINT*/ print_usage(argv[0]);
 
+
+  // Cluster size
+  int N = 20;
+  double* A = new double[N*N]();  
+  double* z = new double[N*N]();     //z: eigenvector
+
+  auto info = eigen_lapack(A, z, N); //LAPACK!
+
   cout << "Hello World!!" << endl;
 
   return 0;
