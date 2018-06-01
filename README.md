@@ -18,7 +18,6 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![Mac](https://img.shields.io/badge/Mac-macOS-green.svg)](https://www.apple.com/macos/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
-
 ## Demo
 
 ![demo](https://raw.github.com/wiki/MotomuMatsui/gs/images/demo.gif)
