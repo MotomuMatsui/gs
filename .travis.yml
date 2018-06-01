@@ -31,5 +31,5 @@ install:
   - make CXX="${CXX}"
 
 script:
-  - ./gs2 -e100 -t 1 -r 12345 data/200.faa
+  - ./gs2 -e100 -t 1 -r 12345 example/200.faa
 

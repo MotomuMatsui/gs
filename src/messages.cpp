@@ -31,7 +31,7 @@ void print_banner(){
 }
 
 void print_usage(char*& program){
-  cerr << "Usage: " << program << " [-e INTEGER(>=0)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-s] [-h] [-v] input > output" << endl;
+  cerr << "Usage: " << program << " [-e INTEGER(>=0)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-m FLOAT(1-7.5)] [-s] [-h] [-v] input > output" << endl;
   cerr << "-e " << "the number of replicates for EP method. Default: 0" << endl;
   cerr << "-r " << "the random seed number for EP method. Default: random number" << endl;
   cerr << "-t " << "the number of threads for MMseqs. Default: 1" << endl;

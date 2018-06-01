@@ -20,7 +20,8 @@ OBJECTS  += ep.o
 OBJECTS  += gs.o
 OBJECTS  += main.o
 
-all: gs2 cleaner
+.PHONY: all
+all: gs2 clean
 
 gs2: eigen.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(INC) -o $@ $^ $(LIB)	
@@ -31,11 +32,6 @@ eigen.o: eigen.cpp
 $(OBJECTS): %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $<
 
-cleaner:
-	$(RM) eigen.o
-	$(RM) $(OBJECTS)
-
+.PHONY: clean
 clean:
-	$(RM) gs2
-	$(RM) eigen.o
-	$(RM) $(OBJECTS)
+	$(RM) eigen.o $(OBJECTS)

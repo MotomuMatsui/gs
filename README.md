@@ -1,9 +1,9 @@
-<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/GSbanner.png"></p>  
+<p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/GSbanner.png"></p>  
 
 # gs2
 Graph Splitting (GS) is a brand-new phylogenetic analysis method, which can effectively resolve early evolution of protein families. Its accuracy and speed was proved by extensive evolutionary simulation, and its application to TIM-barrel superfamily highlighted instant evolution of protein-mediated pyrimidine biosynthesis at a transitional phase between the RNA world and the modern DNA-RNA-protein world.
 
-<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/introduction.png"></p>
+<p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
 Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)  
 Reference: Matsui and Iwasaki, ???, 2018  
@@ -21,7 +21,7 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 
 ## Demo
 
-![demo](https://raw.githubusercontent.com/MotomuMatsui/gs/master/demo.gif)
+![demo](https://raw.github.com/wiki/MotomuMatsui/gs/images/demo.gif)
 
 ## Version
 version 2.0 (2018/05/30)
@@ -77,7 +77,7 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
     $ ./gs2 [arguments] input > output
 
-:exclamation: A multiple sequence file (ex. [data/200.faa](data/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+:exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
 ### Arguments
 
@@ -94,27 +94,27 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 ## Examples
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
 
-    $ ./gs2 data/200.faa
+    $ ./gs2 example/200.faa
 
 GS tree with branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
 
-    $ ./gs2 -e 100 data/200.faa > data/200.nwk
+    $ ./gs2 -e 100 example/200.faa > example/200.nwk
 
 GS tree with EP scores; a seed number is specified for EP method:
 
-    $ ./gs2 -e 100 -r 12345 data/200.faa > data/200.nwk
+    $ ./gs2 -e 100 -r 12345 example/200.faa > example/200.nwk
 
 GS tree WITHOUT EP scores + silent mode:
 
-    $ ./gs2 -e 0 -s data/200.faa > data/200.nwk
+    $ ./gs2 -e 0 -s example/200.faa > example/200.nwk
 
 MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
 
-    $ ./gs2 -e 100 -t 4 data/200.faa > data/200.nwk
+    $ ./gs2 -e 100 -t 4 example/200.faa > example/200.nwk
 
-Visualization of [200.nwk](data/200.nwk) by [iTOL](https://itol.embl.de/):
+Visualization of [200.nwk](example/200.nwk) by [iTOL](https://itol.embl.de/):
 
-<p align="center"><img src="https://raw.githubusercontent.com/MotomuMatsui/gs/master/data/200_iTOL.png"></p>  
+<p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/200_iTOL.png"></p>  
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
