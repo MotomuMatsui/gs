@@ -39,6 +39,9 @@ extern void EP(double* const&, unordered_map<string, double>&, function<double()
 extern void print_banner();
 extern void print_usage(char*&);
 
+//eigen.cpp (Wrapper function of LAPACKE/CBLAS package)
+extern int eigen_lapack(double*&, double*&, int);
+
 using namespace std;
 
 int main(int argc, char* argv[]){
