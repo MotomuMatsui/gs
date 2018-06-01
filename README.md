@@ -10,7 +10,7 @@ Reference: Matsui and Iwasaki, ???, 2018
 Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)  
 
 [![Build Status](https://travis-ci.org/MotomuMatsui/gs.svg?branch=master)](https://travis-ci.org/MotomuMatsui/gs)
-[![Language](https://img.shields.io/badge/C%2B%2B-6.0%2B-green.svg)](https://gcc.gnu.org/)
+[![Language](https://img.shields.io/badge/C%2B%2B-5.0%2B-green.svg)](https://gcc.gnu.org/)
 [![LAPACK](https://img.shields.io/badge/LAPACK%2FBLAS-3.7%2B-green.svg)](http://www.netlib.org/lapack/)
 [![MMseqs](https://img.shields.io/badge/MMSeqs-2.0%2B-green.svg)](https://github.com/soedinglab/MMseqs2)
 [![Ubuntu](https://img.shields.io/badge/Linux-Ubuntu-green.svg)](https://www.ubuntu.com/)
@@ -24,12 +24,12 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 ![demo](https://raw.github.com/wiki/MotomuMatsui/gs/images/demo.gif)
 
 ## Version
-version 2.0 (2018/05/30)
+version 2.0 (2018/06/01)
 
 ## Requirements
 
 - `gs2` is available for Linux, Mac (macOS) and Windows (Cygwin).
-- [GNU GCC compiler](https://gcc.gnu.org/) (6.0+) is required to compile `gs2`
+- [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
 :exclamation: If you want to compile `gs2` on Mac, please install the most current `gcc` from [Homebrew](https://brew.sh/).  
 
