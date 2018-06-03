@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/GSbanner.png"></p>  
 
 # gs2
-`gs2` is a software to conduct a brand-new phylogenetic analysis method&#151;the Graph Splitting (GS). It can effectively resolve early evolution of protein families and its accuracy and speed was proved by extensive evolutionary simulation.    
+`gs2` is a software to conduct a brand-new phylogenetic analysis method--the Graph Splitting (GS). It can effectively resolve early evolution of protein families and its accuracy and speed was proved by extensive evolutionary simulation.    
 `gs2` is open-source software (GPL v3.0) inplemented in C++ for Linux, Mac and Windows.
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
@@ -20,7 +20,7 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![Windows](https://img.shields.io/badge/Windows-Cygwin-green.svg)](https://www.cygwin.com/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
-### Version / History
+## History
 version 2.0 (2018/06/01)   
 version 1.0 (2017/02/07)   
 
@@ -28,11 +28,11 @@ version 1.0 (2017/02/07)
 
 ![demo](https://raw.github.com/wiki/MotomuMatsui/gs/images/demo.gif)
 
-## Installation (Linux/Mac/Windows)
+## Installation
 
 ### 0. Requirements
 
-- `gs2` is available for Linux, Mac (macOS) and Windows (Cygwin).
+- `gs2` is available for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>.
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
 :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
