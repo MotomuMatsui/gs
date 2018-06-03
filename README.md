@@ -1,7 +1,8 @@
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/GSbanner.png"></p>  
 
 # gs2
-Graph Splitting (GS) is a brand-new phylogenetic analysis method, which can effectively resolve early evolution of protein families. Its accuracy and speed was proved by extensive evolutionary simulation, and its application to TIM-barrel superfamily highlighted instant evolution of protein-mediated pyrimidine biosynthesis at a transitional phase between the RNA world and the modern DNA-RNA-protein world.
+`gs2` is a software to conduct a brand-new phylogenetic analysis method&#151;the Graph Splitting (GS). It can effectively resolve early evolution of protein families and its accuracy and speed was proved by extensive evolutionary simulation.    
+`gs2` is open-source software (GPL v3.0) inplemented in C++ for Linux, Mac and Windows.
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
@@ -19,21 +20,22 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![Windows](https://img.shields.io/badge/Windows-Cygwin-green.svg)](https://www.cygwin.com/)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
+### Version / History
+version 2.0 (2018/06/01)   
+version 1.0 (2017/02/07)   
+
 ## Demo
 
 ![demo](https://raw.github.com/wiki/MotomuMatsui/gs/images/demo.gif)
 
-## Version
-version 2.0 (2018/06/01)
+## Installation (Linux/Mac/Windows)
 
-## Requirements
+### 0. Requirements
 
 - `gs2` is available for Linux, Mac (macOS) and Windows (Cygwin).
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
-:exclamation: If you want to compile `gs2` on Mac, please install the most current `gcc` from [Homebrew](https://brew.sh/).  
-
-## Installation (Linux/Mac/Windows)
+:exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
 
 ### 1. Download gs package:
 
@@ -55,12 +57,12 @@ version 2.0 (2018/06/01)
 
     $ make
 
-- If necessary, please modify the Makefile in response to your environment (ex. `CXX := g++-8`, `INC := -I/usr/local/include`, `CXXFLAGS += -std=c++1z`).
+- If necessary, you can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`).
 
-## Known issues
+### Known issues
 
-- If you have some errors when compiling LAPACK/BLAS pakage on MacOS, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.    
-- LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. If you are Windows user, please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default).
+- For Mac users: if you have some errors when compiling LAPACK/BLAS pakage, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.    
+- For Windows users: LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. Please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default) for installation.
 
 ## Usage
 To get on-line help:
@@ -73,7 +75,7 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
 :exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
 
-### Arguments
+Arguments:
 
 |Option| Description                                                                                         |
 |:----:|:----------------------------------------------------------------------------------------------------|
