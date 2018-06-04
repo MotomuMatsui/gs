@@ -153,7 +153,7 @@ int main(int argc, char* argv[]){
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
-      else if(optopt == 'm'){ // NG! (./gs IN.fst -r)
+      else if(optopt == 'm'){ // NG! (./gs IN.fst -m)
 	/*PRINT*/ print_banner();
 	/*PRINT*/ cerr << "Option -m requires an flout argument.\n" << endl;
 	/*PRINT*/ print_usage(argv[0]);
