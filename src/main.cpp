@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
   string threads = "1";       // -t
   string sensitivity = "7.5"; // -m
 
-  opterr = 0;              // default error messages -> OFF
+  opterr = 0; // default error messages -> OFF
   int opt;
   regex renum(R"(^[\d\.]+$)"); // -e/-r/-t/-m option requires an integer/flout number
   while ((opt = getopt(argc, argv, "shve:r:t:m:")) != -1){
@@ -330,8 +330,8 @@ int main(int argc, char* argv[]){
         // R: random number generator
     }
     
-    /*PRINT*/ if(!silence) cerr << "\n  done." << endl;
-    /*PRINT*/ if(!silence) cerr << "\n------------------------------------------\n" << endl;
+    /*PRINT*/ if(!silence) cerr << "\n  done." << endl << endl;
+    /*PRINT*/ if(!silence) cerr << "------------------------------------------\n" << endl;
 
     addEP(newick, newick_EP, ep, ep_num, size);
       // newick: INPUT (GS tree [newick format])
