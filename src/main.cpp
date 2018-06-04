@@ -23,7 +23,7 @@
 using namespace std;
 
 /// format.cpp (File/Data-handling)
-extern void readFASTA(ifstream&, ofstream&, ofstream&, int&);
+extern int  readFASTA(ifstream&, ofstream&, ofstream&, int&);
 extern void bl2mat(ifstream&, double*&, int const&);
 extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
@@ -174,8 +174,8 @@ int main(int argc, char* argv[]){
     input = argv[optind];
   }
   else{ // NG! (./gs -e 100)
-    /*PRINT*/ cerr << argv[0] << " requires an input file (fasta format).\n" << endl;
     /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << argv[0] << " requires an input file (fasta format).\n" << endl;
     /*PRINT*/ print_usage(argv[0]);
     return -1;
   }
@@ -211,17 +211,36 @@ int main(int argc, char* argv[]){
   }
 
   /*/ Parsing fasta file /*/
-  //auto file_condition = readFASTA(ifs1, ofs1, ofs2, size); 
-  readFASTA(ifs1, ofs1, ofs2, size); 
+  auto file_condition = readFASTA(ifs1, ofs1, ofs2, size); 
     // ifs1: INPUT (original fasta file)
     // ofs1: OUTPUT (annotation file)
     // ofs2: OUTPUT (simplified fasta file)
     // size: # of sequence = row size of sequence similarity matrix
-
-  //if(file_condition == 1){
-  //  
-  //}
-
+  
+  if(file_condition == 1){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "Input file had an empty entry.\n" << endl;
+    /*PRINT*/ print_usage(argv[0]);    
+    return -1;
+  }
+  else if(file_condition == 2){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "Input file had an empty entry (1st entry lacked '>').\n" << endl;
+    /*PRINT*/ print_usage(argv[0]);
+    return -1;
+  }
+  else if(file_condition == 3){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "Input file had an empty entry (last entry lacked '>').\n" << endl;
+    /*PRINT*/ print_usage(argv[0]);    
+    return -1;
+  }
+  else if(file_condition == 4){
+    /*PRINT*/ print_banner();
+    /*PRINT*/ cerr << "Input file have to contain more than two sequences.\n" << endl;
+    /*PRINT*/ print_usage(argv[0]);    
+    return -1;
+  }
   
   /*/ Parameters /*/  
   if(!silence){
@@ -324,7 +343,7 @@ int main(int argc, char* argv[]){
     cout << newick_EP << endl;
   }
   else{ // skip the EP method
-    /*PRINT*/ if(!silence) cerr << "\n------------------------------------------\n" << endl;
+    /*PRINT*/ if(!silence) cerr << "------------------------------------------\n" << endl;
 
     /*/ GS tree WITHOUT EP values ->STDOUT /*/
     cout << newick << endl;

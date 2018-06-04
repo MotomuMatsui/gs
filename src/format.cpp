@@ -21,22 +21,41 @@
 using namespace std;
 
 // Parsing multiple fasta file
-void readFASTA(ifstream& ifs, ofstream& ofs1, ofstream& ofs2, int& row){
+int readFASTA(ifstream& ifs, ofstream& ofs1, ofstream& ofs2, int& row){
+
+  int info = 0;
 
   //Input & Output
   int id = 1;
+  int f1 = 0;
+  int f2 = 0;
 
   string line;
   while(getline(ifs, line)){
     if(line[0] == '>'){
-      auto name = line.substr(1);
-      ofs1 << id << "\t" << name << "\n";
-      ofs2 << '>' << id << "\n";
-
-      id ++;
+      if(f1==1){
+	info = 1; //empty entry
+	break;
+      }
+      else{
+	auto name = line.substr(1);
+	ofs1 << id << "\t" << name << "\n";
+	ofs2 << '>' << id << "\n";
+	
+	id ++;
+	f1 = 1;
+	f2 = 1;
+      }
     }
     else{
-      ofs2 << line << "\n";
+      if(f2==0){
+	info = 2; //empty entry (1st entry lacked ">")	
+	break;
+      }
+      else{
+	ofs2 << line << "\n";
+	f1 = 0;
+      }
     }
   }
 
@@ -45,6 +64,15 @@ void readFASTA(ifstream& ifs, ofstream& ofs1, ofstream& ofs2, int& row){
 
   ofs1.close();
   ofs2.close();
+
+  if(f1==1){
+    info = 3; // empty entry (last entry lacked a sequence data)
+  }
+  else if(info==0 && row < 2){
+    info = 4; // more than two sequences are required
+  }
+
+  return info;
 }
 
 // Parsing mmseqs result file
