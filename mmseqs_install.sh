@@ -3,7 +3,7 @@
 # Decompress MMseqs package
 tar xzf MMseqs2.tar.gz
 cd MMseqs2
-if [ ! -d build ]; then mkdir build; fi
+mkdir -p build
 cd build
 
 # CMAKE

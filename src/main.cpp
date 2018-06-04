@@ -50,15 +50,15 @@ int main(int argc, char* argv[]){
   }
 
   /*/ Getopt /*/
-  int silence = 0;
-  int ep_num  = 0;
-  int seed    = 0;
-  string threads = "1";
-  string sensitivity = "7.5";
-  int opt;
-  regex renum(R"(^[\d\.]+$)"); // -e/-r/-t option requires an integer number
-  opterr = 0;              // default error messages -> OFF
+  int silence = 0;            // -s
+  int ep_num  = 0;            // -e
+  int seed    = 0;            // -r
+  string threads = "1";       // -t
+  string sensitivity = "7.5"; // -m
 
+  opterr = 0;              // default error messages -> OFF
+  int opt;
+  regex renum(R"(^[\d\.]+$)"); // -e/-r/-t/-m option requires an integer/flout number
   while ((opt = getopt(argc, argv, "shve:r:t:m:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
@@ -141,6 +141,24 @@ int main(int argc, char* argv[]){
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
+      else if(optopt == 'r'){ // NG! (./gs IN.fst -r)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -r requires an integer argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+      else if(optopt == 't'){ // NG! (./gs IN.fst -t)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -t requires an integer argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+      else if(optopt == 'm'){ // NG! (./gs IN.fst -r)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -m requires an flout argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
       else{ // NG! (./gs -Z)
 	/*PRINT*/ print_banner();
 	/*PRINT*/ cerr << argv[0] << ": invalid option\n" <<  endl;
@@ -193,11 +211,17 @@ int main(int argc, char* argv[]){
   }
 
   /*/ Parsing fasta file /*/
+  //auto file_condition = readFASTA(ifs1, ofs1, ofs2, size); 
   readFASTA(ifs1, ofs1, ofs2, size); 
     // ifs1: INPUT (original fasta file)
     // ofs1: OUTPUT (annotation file)
     // ofs2: OUTPUT (simplified fasta file)
     // size: # of sequence = row size of sequence similarity matrix
+
+  //if(file_condition == 1){
+  //  
+  //}
+
   
   /*/ Parameters /*/  
   if(!silence){

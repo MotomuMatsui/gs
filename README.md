@@ -6,8 +6,8 @@
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
-Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)  
 Reference: Matsui and Iwasaki, ???, 2018  
+Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)  
 Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)  
 
 [![Build Status](https://travis-ci.org/MotomuMatsui/gs.svg?branch=master)](https://travis-ci.org/MotomuMatsui/gs)
