@@ -325,7 +325,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
     }
     else if(p == ')'){
       if(id.size() > 0){
-	ss_ann << L[stoi(id)-1];
+	ss_ann << '"' << L[stoi(id)-1] << '"';
 	id = "";
       }
       ss_ann << p;
@@ -333,7 +333,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
     }
     else if(p == ','){
       if(id.size() > 0){
-	ss_ann << L[stoi(id)-1];
+	ss_ann << '"' << L[stoi(id)-1] << '"';
 	id = "";
       }
       ss_ann << p;
