@@ -52,7 +52,7 @@ version 1.0 (2017/02/07)
     $ sh ./mmseqs_install.sh
     $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
 
-- Optionally, you can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
+- You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
 
 ### 3. Install LAPACK/BLAS package:
 
@@ -62,7 +62,7 @@ version 1.0 (2017/02/07)
 
     $ make
 
-- If necessary, you can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`).
+- You can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`).
 
 ### Known issues
 

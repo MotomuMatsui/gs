@@ -136,7 +136,7 @@ int main(int argc, char* argv[]){
     else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst)
       silence = 1;
     }
-    else if(opt == 'l'){ // ID->Annotation mode (./gs -l -e 100 IN.fst)
+    else if(opt == 'l'){ // LABEL mode (./gs -l -e 100 IN.fst)
       label = 1;
     }
     else if (opt == '?'){

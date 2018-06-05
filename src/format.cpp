@@ -285,7 +285,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
 
   //File I/O
   ifstream ifs(annotation_txt);   // Annotation file
-  string* A = new string[size](); // ID->Annotation
+  string* L = new string[size](); // LABEL: ID->Annotation
 
   string line, chr;
   while(getline(ifs, line)){
@@ -306,7 +306,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
       pos ++;
     }
 
-    A[id] = ann;
+    L[id] = ann;
   }
 
   newick_ann = "";
@@ -325,7 +325,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
     }
     else if(p == ')'){
       if(id.size() > 0){
-	ss_ann << A[stoi(id)-1];
+	ss_ann << L[stoi(id)-1];
 	id = "";
       }
       ss_ann << p;
@@ -333,7 +333,7 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
     }
     else if(p == ','){
       if(id.size() > 0){
-	ss_ann << A[stoi(id)-1];
+	ss_ann << L[stoi(id)-1];
 	id = "";
       }
       ss_ann << p;
