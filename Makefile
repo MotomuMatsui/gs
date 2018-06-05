@@ -35,7 +35,7 @@ mmseqs:
 lapack:
 	tar xvzf lapack-3.7.1.tar.gz 
 	mkdir -p lib
-	cp lapack-3.7.1/make.inc.example lapack-3.7.1/make.inc
+	cp -n lapack-3.7.1/make.inc.example lapack-3.7.1/make.inc
 	make -C lapack-3.7.1 blaslib
 	make -C lapack-3.7.1 cblaslib
 	make -C lapack-3.7.1 lapacklib
