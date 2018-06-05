@@ -27,6 +27,7 @@ extern int  readFASTA(ifstream&, ofstream&, ofstream&, int&);
 extern void bl2mat(ifstream&, double*&, int const&);
 extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
+extern void addLABEL(string const&, string&, string const&, int const&);
 
 /// mmseqs.cpp (Wrapper function of MMseqs)
 extern void mmseqs(string const&, string const&, string const&, string const&);
@@ -53,13 +54,14 @@ int main(int argc, char* argv[]){
   int silence = 0;            // -s
   int ep_num  = 0;            // -e
   int seed    = 0;            // -r
+  int label   = 0;            // -l
   string threads = "1";       // -t
   string sensitivity = "7.5"; // -m
 
   opterr = 0; // default error messages -> OFF
   int opt;
   regex renum(R"(^[\d\.]+$)"); // -e/-r/-t/-m option requires an integer/flout number
-  while ((opt = getopt(argc, argv, "shve:r:t:m:")) != -1){
+  while ((opt = getopt(argc, argv, "shlve:r:t:m:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
 	ep_num = atoi(optarg);
@@ -133,6 +135,9 @@ int main(int argc, char* argv[]){
     }
     else if(opt == 's'){ // SILENT mode (./gs -s -e 100 IN.fst)
       silence = 1;
+    }
+    else if(opt == 'l'){ // ID->Annotation mode (./gs -l -e 100 IN.fst)
+      label = 1;
     }
     else if (opt == '?'){
       if(optopt == 'e'){ // NG! (./gs IN.fst -e)
@@ -340,13 +345,29 @@ int main(int argc, char* argv[]){
       // ep_num: INPUT (# of Edge Perturbation method)
 
     /*/ GS tree WITH EP values ->STDOUT /*/
-    cout << newick_EP << endl;
+    if(label==1){
+      string newick_ann;
+      addLABEL(newick_EP, newick_ann, annotation_txt, size);
+
+      cout << newick_ann << endl;
+    }
+    else{
+      cout << newick_EP << endl;
+    }
   }
   else{ // skip the EP method
     /*PRINT*/ if(!silence) cerr << "------------------------------------------\n" << endl;
 
     /*/ GS tree WITHOUT EP values ->STDOUT /*/
-    cout << newick << endl;
+    if(label==1){
+      string newick_ann;
+      addLABEL(newick, newick_ann, annotation_txt, size);
+
+      cout << newick_ann << endl;
+    }
+    else{
+      cout << newick << endl;
+    }
   }
 
   delete[] W;

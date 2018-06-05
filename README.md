@@ -89,6 +89,7 @@ Arguments:
 |  -t  |<strong>[integer(>=1)]</strong> <em>The number of threads for MMseqs. Default: 1</em>                |
 |  -m  |<strong>[float(1&ndash;7.5)]</strong> <em>Sensitivity for MMseqs. Default: 7.5</em>                  |
 |  -s  |<em>Silent mode: do not report progress. Default: Off</em>                                           |
+|  -l  |<em>use actual names in newick format. Default: Off</em>                                             |
 |  -h  |<em>Show help messages. Default: Off</em>                                                            |
 |  -v  |<em>Show the version. Default: Off</em>                                                              |
 

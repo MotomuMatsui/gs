@@ -280,3 +280,72 @@ void addEP(string const& newick, string& newick_EP, unordered_map<string, double
 
   newick_EP = ss_EP.str();
 }
+
+void addLABEL(string const& newick, string& newick_ann, string const& annotation_txt, int const& size){
+
+  //File I/O
+  ifstream ifs(annotation_txt);   // Annotation file
+  string* A = new string[size](); // ID->Annotation
+
+  string line, chr;
+  while(getline(ifs, line)){
+
+    int pos = 0;
+    int id  = 0;
+    string ann;
+    //Split lines
+    istringstream stream(line);
+    while(getline(stream, chr, '\t')){
+      if(pos == 0){
+        id = stoi(chr)-1;
+      } 
+      else if(pos == 1){
+        ann = string(chr);
+	break;
+      }
+      pos ++;
+    }
+
+    A[id] = ann;
+  }
+
+  newick_ann = "";
+  int N = newick.size();
+  int s = 0;
+  string id = "";
+  stringstream ss_ann;
+
+  for(int n=0; n<N; n++){
+    auto p = newick[n];
+
+    if(p == '('){
+      ss_ann << p;
+
+      s = 1;
+    }
+    else if(p == ')'){
+      if(id.size() > 0){
+	ss_ann << A[stoi(id)-1];
+	id = "";
+      }
+      ss_ann << p;
+      s = 0;
+    }
+    else if(p == ','){
+      if(id.size() > 0){
+	ss_ann << A[stoi(id)-1];
+	id = "";
+      }
+      ss_ann << p;
+      s = 1;
+    }
+    else if(s==1){
+      id += {p};
+    }
+    else{
+      ss_ann << p;
+    }
+  }
+
+  newick_ann = ss_ann.str();
+}

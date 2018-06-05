@@ -37,6 +37,7 @@ void print_usage(char*& program){
   cerr << "-t " << "the number of threads for MMseqs. Default: 1" << endl;
   cerr << "-m " << "sensitivity for MMseqs. Default: 7.5" << endl;
   cerr << "-s " << "silent mode: do not report progress. Default: Off" << endl;
+  cerr << "-l " << "use actual names in newick format. Default: Off" << endl;
   cerr << "-h " << "show help messages. Default: Off" << endl;
   cerr << "-v " << "show the version. Default: Off" << endl;
 }
