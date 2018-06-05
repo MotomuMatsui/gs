@@ -89,7 +89,7 @@ Arguments:
 |  -v  |<em>Show the version. Default: Off</em>                                                              |
 
 ## Examples
-GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT` (correspondence table between IDs and Node names is example/200_annotation.txt):
+GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT` (correspondence table between IDs and Sequence Names &rarr; [example/200_annotation.txt](example/200_annotation.txt)):
 
     $ ./gs2 example/200.faa
 
