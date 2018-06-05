@@ -37,32 +37,32 @@ version 1.0 (2017/02/07)
 
 ### 0. Requirements
 
-- `gs2` is available for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>.
+- `gs2` is available for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
 :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
 
-### 1. Downloading gs package:
+### 1. Download gs package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
 
-### 2. Compiling MMseq2, LAPACK/BLAS and gs2:
+### 2. Compile gs2 (with MMseqs2 & LAPACK/BLAS):
 
     $ make
 
 - You can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`)
 
-### 3. Setting PATH environment variable:
+### 3. Set PATH environment variable:
 
     $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
 
-- You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your PATH environment variable (ex. `export PATH=~/bin:$PATH`).
+- You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your PATH environment variable (ex. `export PATH=~/bin:$PATH`)
 
 ### Known issues
 
-- For Mac users: if you have some errors when compiling LAPACK/BLAS pakage, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `source ./lapack_install.sh` and `make`.    
-- For Windows users: LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. Please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default) for installation.
+- For Mac users: if you have some errors when compiling LAPACK/BLAS pakage, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
+- For Windows users: LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. Please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default) for installation
 
 ## Usage
 To get on-line help:
@@ -73,7 +73,7 @@ The following command enables you to calculate GS tree (phylogenetic tree recons
 
     $ ./gs2 [arguments] input > output
 
-:exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format).
+:exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format)
 
 Arguments:
 
@@ -89,7 +89,7 @@ Arguments:
 |  -v  |<em>Show the version. Default: Off</em>                                                              |
 
 ## Examples
-GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT`:
+GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT` (correspondence table between IDs and Node names is example/200_annotation.txt):
 
     $ ./gs2 example/200.faa
 
@@ -114,7 +114,7 @@ Visualization of [200.nwk](example/200.nwk) by [iTOL](https://itol.embl.de/):
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/200_iTOL.png"></p>  
 
 ## License
-This software is distributed under the GNU GPL, see [LICENSE](LICENSE).  
+This software is distributed under the GNU GPL, see [LICENSE](LICENSE)   
 Copyright &copy; 2018, Motomu Matsui
 
 ## Author

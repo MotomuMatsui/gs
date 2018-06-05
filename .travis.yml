@@ -24,11 +24,9 @@ install:
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 90 --slave /usr/bin/g++ g++ /usr/bin/g++-5
   - sudo update-alternatives --install /usr/bin/gfortran gfortran /usr/bin/gfortran-5 90
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
-  - sh ./mmseqs_install.sh
-  - sh ./lapack_install.sh
+  - make CXX="${CXX}"
   - export PATH=$(pwd)/MMseqs2/build/bin:$PATH
   - ls lib
-  - make CXX="${CXX}"
 
 script:
   - ./gs2 -e100 -t 1 -r 12345 example/200.faa
