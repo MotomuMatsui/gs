@@ -21,7 +21,28 @@ OBJECTS  += gs.o
 OBJECTS  += main.o
 
 .PHONY: all
-all: gs2 clean
+all: mmseqs lapack gs2 clean
+
+.PHONY: mmseqs
+mmseqs:
+	tar xzf MMseqs2.tar.gz
+	mkdir -p MMseqs2/build
+	cd MMseqs2/build; cmake -DHAVE_SSE4_1=1 -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=. ..
+	make -C MMseqs2/build
+	make -C MMseqs2/build install 
+
+.PHONY: lapack
+lapack:
+	tar xvzf lapack-3.7.1.tar.gz 
+	mkdir -p lib
+	cp lapack-3.7.1/make.inc.example lapack-3.7.1/make.inc
+	make -C lapack-3.7.1 blaslib
+	make -C lapack-3.7.1 cblaslib
+	make -C lapack-3.7.1 lapacklib
+	make -C lapack-3.7.1 lapackelib
+	cp lapack-3.7.1/*.a lib
+	cp lapack-3.7.1/CBLAS/include/*.h lib
+	cp lapack-3.7.1/LAPACKE/include/*.h lib
 
 gs2: eigen.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)

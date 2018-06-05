@@ -42,27 +42,22 @@ version 1.0 (2017/02/07)
 
 :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
 
-### 1. Download gs package:
+### 1. Downloading gs package:
 
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
 
-### 2. Install MMseqs2:
-
-    $ sh ./mmseqs_install.sh
-    $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
-
-- You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your path environment variable (ex. `export PATH=~/bin:$PATH`).
-
-### 3. Install LAPACK/BLAS package:
-
-    $ sh ./lapack_install.sh
-
-### 4. Install gs package:
+### 2. Compiling MMseq2, LAPACK/BLAS and gs2:
 
     $ make
 
-- You can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`).
+- You can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`)
+
+### 3. Setting PATH environment variable:
+
+    $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
+
+- You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your PATH environment variable (ex. `export PATH=~/bin:$PATH`).
 
 ### Known issues
 
@@ -87,9 +82,9 @@ Arguments:
 |  -e  |<strong>[integer(>=0)]</strong> <em>The number of replicates for EP method. Default: 0</em>          |
 |  -r  |<strong>[integer(>=1)]</strong> <em>The random seed number for EP method. Default: random number</em>|
 |  -t  |<strong>[integer(>=1)]</strong> <em>The number of threads for MMseqs. Default: 1</em>                |
-|  -m  |<strong>[float(1&ndash;7.5)]</strong> <em>Sensitivity for MMseqs. Default: 7.5</em>                  |
+|  -m  |<strong>[real(1&ndash;7.5)]</strong> <em>Sensitivity for MMseqs. Default: 7.5</em>                   |
 |  -s  |<em>Silent mode: do not report progress. Default: Off</em>                                           |
-|  -l  |<em>use actual names in newick format. Default: Off</em>                                             |
+|  -l  |<em>Newick format with actual names. Default: Off</em>                                               |
 |  -h  |<em>Show help messages. Default: Off</em>                                                            |
 |  -v  |<em>Show the version. Default: Off</em>                                                              |
 
