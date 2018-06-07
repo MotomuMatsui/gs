@@ -40,7 +40,7 @@ version 1.0 (2017/02/07)
 - `gs2` is available for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
 
-:exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
+  :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
 
 ### 1. Download gs package:
 
@@ -61,8 +61,10 @@ version 1.0 (2017/02/07)
 
 ### Known issues
 
-- For Mac users: if you have some errors when compiling LAPACK/BLAS pakage, please rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
-- For Windows users: LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows. Please choose LAPACK/BLAS <strong>version 3.7.1</strong> (default) for installation
+- [![Mac](https://img.shields.io/badge/Mac-macOS-orange.svg)](https://www.apple.com/macos/) Compiling LAPACK/BLAS sometimes fail    
+  &rarr; Rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
+- [![Windows](https://img.shields.io/badge/Windows-Cygwin-orange.svg)](https://www.cygwin.com/) LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed into Windows.    
+  &rarr; Choose LAPACK/BLAS <strong>version 3.7.1</strong> for installation (default)
 
 ## Usage
 To get on-line help:
