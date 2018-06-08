@@ -1,3 +1,5 @@
+#CXX   := /usr/local/bin/g++-7
+
 CXX   := g++
 TAR   := tar xzf
 MKDIR := mkdir -p
@@ -25,6 +27,9 @@ OBJECTS  += ep.o
 OBJECTS  += gs.o
 OBJECTS  += main.o
 
+FILE  := lapack-3.7.1/make.inc
+EXIST := $(shell ls | grep ${FILE})
+
 .PHONY: all
 all: mmseqs lapack gs2 clean
 
@@ -40,7 +45,9 @@ mmseqs:
 lapack:
 	$(TAR) lapack-3.7.1.tar.gz 
 	$(MKDIR) lib
-	$(CP) -n lapack-3.7.1/make.inc.example lapack-3.7.1/make.inc
+    ifneq (${EXIST}, ${FILE})
+	$(CP) lapack-3.7.1/make.inc.example lapack-3.7.1/make.inc
+    endif
 	$(MAKE) -C lapack-3.7.1 blaslib
 	$(MAKE) -C lapack-3.7.1 cblaslib
 	$(MAKE) -C lapack-3.7.1 lapacklib
