@@ -61,19 +61,16 @@ version 1.0 (2017/02/07)
 
 ### Known issues
 
-[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/): Compiling LAPACK/BLAS sometimes fails    
+[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/)...Compiling LAPACK/BLAS sometimes fails    
   &rarr; Rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
 
-[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/): You might get the following error message
-
+[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/)...You might get the following error message
 ```
 ld: library not found for -lgfortran
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [gs2] Error 1
 ```
-
   &rarr; Firstly, please execute `locate gfortran` to get the path to `gfortran`. If you already have `gfortran` (ex. /usr/local/bin/gfortran-8), execute the following commands in response to you environment.
-
 ```
 $ ln -sf /usr/local/bin/gcc-8 /usr/local/bin/gcc
 $ ln -sf /usr/local/bin/g++-8 /usr/local/bin/g++
@@ -82,10 +79,9 @@ $ hash -r
 $ make clean
 $ make
 ```
+  If you have not had `gfortran` yet, please install the most current version of `gcc` using [Homebrew](https://brew.sh/), and execute the above commands.    
 
-  If you have not had `gfortran`, please install the most current version of `gcc` using [Homebrew](https://brew.sh/). 
-
-[![Windows](https://img.shields.io/badge/Windows-Cygwin-yellow.svg)](https://www.cygwin.com/): LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed    
+[![Windows](https://img.shields.io/badge/Windows-Cygwin-yellow.svg)](https://www.cygwin.com/)...LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed    
   &rarr; Choose LAPACK/BLAS <strong>version 3.7.1</strong> for installation (default)
 
 ## Usage
