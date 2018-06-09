@@ -42,58 +42,60 @@ version 1.0 (2017/02/07)
 
   :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
 
-### 1. Download gs package:
+### 1. Compile from source code:
 
+````
     $ git clone https://github.com/MotomuMatsui/gs
     $ cd gs
-
-### 2. Compile gs2 (with MMseqs2 & LAPACK/BLAS):
-
     $ make
+````
 
 - You can optimize the Makefile in response to your environment (ex. `CXX := g++-8`, `CXXFLAGS += -std=c++1z`)
 
-### 3. Set PATH environment variable:
+### 2. Set PATH environment variable:
 
+```
     $ export PATH=$(pwd)/MMseqs2/build/bin:$PATH
+```
 
 - You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your PATH environment variable (ex. `export PATH=~/bin:$PATH`)
 
 ### Known issues
 
-[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/)...Compiling LAPACK/BLAS sometimes fails    
-  &rarr; Rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
+[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/) ...Compiling LAPACK/BLAS sometimes fails    
+  :point_right: Rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
 
-[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/)...You might get the following error message
+[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/) ...You might get the following error message
 ```
-ld: library not found for -lgfortran
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
-make: *** [gs2] Error 1
+    ld: library not found for -lgfortran
+    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+    make: *** [gs2] Error 1
 ```
-  &rarr; Firstly, please execute `locate gfortran` to get the path to `gfortran`. If you already have `gfortran` (ex. /usr/local/bin/gfortran-8), execute the following commands in response to you environment.
+  :point_right: Firstly, please execute `locate gfortran` to get the path to `gfortran`. If you already have `gfortran` (ex. /usr/local/bin/gfortran-8), execute the following commands in response to you environment.
 ```
-$ ln -sf /usr/local/bin/gcc-8 /usr/local/bin/gcc
-$ ln -sf /usr/local/bin/g++-8 /usr/local/bin/g++
-$ ln -sf /usr/local/bin/gfortran-8 /usr/local/bin/gfortran
-$ hash -r
-$ make clean
-$ make
+    $ ln -sf /usr/local/bin/gcc-8 /usr/local/bin/gcc
+    $ ln -sf /usr/local/bin/g++-8 /usr/local/bin/g++
+    $ ln -sf /usr/local/bin/gfortran-8 /usr/local/bin/gfortran
+    $ hash -r
+    $ make clean
+    $ make
 ```
-  If you have not had `gfortran` yet, please install the most current version of `gcc` using [Homebrew](https://brew.sh/), and execute the above commands.    
+- If you have not had `gfortran` yet, please install the most current version of `gcc` using [Homebrew](https://brew.sh/), and execute the above commands.    
 
-[![Windows](https://img.shields.io/badge/Windows-Cygwin-yellow.svg)](https://www.cygwin.com/)...LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed    
-  &rarr; Choose LAPACK/BLAS <strong>version 3.7.1</strong> for installation (default)
+[![Windows](https://img.shields.io/badge/Windows-Cygwin-yellow.svg)](https://www.cygwin.com/) ...LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed    
+  :point_right: Choose LAPACK/BLAS <strong>version 3.7.1</strong> for installation (default)
 
 ## Usage
 To get on-line help:
-
+```
     $ ./gs2 -h
-    
+```
+
 The following command enables you to calculate GS tree (phylogenetic tree reconstructed by Graph Splitting method):
-
+```
     $ ./gs2 [arguments] input > output
-
-:exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format)
+```
+  :exclamation: A multiple sequence file (ex. [example/200.faa](example/200.faa)) should be required as `input` in [fasta format](https://en.wikipedia.org/wiki/FASTA_format)
 
 Arguments:
 
@@ -110,24 +112,29 @@ Arguments:
 
 ## Examples
 GS tree (in [newick format](https://en.wikipedia.org/wiki/Newick_format)) will be displayed in `STDOUT` (correspondence table between IDs and Sequence Names &rarr; [example/200_annotation.txt](example/200_annotation.txt)):
-
+```
     $ ./gs2 example/200.faa
+```
 
 GS tree with branch reliability (Edge perturbation; EP) scores will be saved in `test.nwk`:
-
+```
     $ ./gs2 -e 100 example/200.faa > example/200.nwk
+```
 
 GS tree with EP scores; a seed number is specified for EP method:
-
+```
     $ ./gs2 -e 100 -r 12345 example/200.faa > example/200.nwk
+```
 
 GS tree WITHOUT EP scores + silent mode:
-
+```
     $ ./gs2 -e 0 -s example/200.faa > example/200.nwk
+```
 
 MMseqs2 runs multithreaded jobs (4 CPUs are used in parallel):
-
+```
     $ ./gs2 -e 100 -t 4 example/200.faa > example/200.nwk
+```
 
 Visualization of [200.nwk](example/200.nwk) by [iTOL](https://itol.embl.de/):
 
