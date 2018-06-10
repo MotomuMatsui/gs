@@ -2,7 +2,7 @@
 
 # gs2
 `gs2` is a software to conduct a brand-new phylogenetic analysis method--the Graph Splitting (GS). It can effectively resolve early evolution of protein families and its accuracy and speed was proved by extensive evolutionary simulation.    
-`gs2` is open-source software (GPL v3.0) inplemented in C++ for Linux, Mac and Windows.
+`gs2` is open-source software (GPL v3.0) inplemented in C++ for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>.    
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
@@ -37,10 +37,10 @@ version 1.0 (2017/02/07)
 
 ### 0. Requirements
 
-- `gs2` is available for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>
-- [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`
+- [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`    
+- [cmake](https://cmake.org/) (3.0+) is required to compile `MMSeqs2`    
 
-  :exclamation: For Mac users: please install `gcc` from [Homebrew](https://brew.sh/).  
+  :exclamation: Mac users are recommended to install `gcc` and `cmake` using [Homebrew](https://brew.sh/)  
 
 ### 1. Compile from source code:
 
@@ -71,7 +71,7 @@ version 1.0 (2017/02/07)
     clang: error: linker command failed with exit code 1 (use -v to see invocation)
     make: *** [gs2] Error 1
 ```
-- Firstly, please execute `locate gfortran` to get the path to `gfortran`. If you already have `gfortran` (ex. /usr/local/bin/gfortran-8), execute the following commands in response to you environment.
+- Firstly, please execute `locate gfortran` to get the path to `gfortran`. If you already have `gfortran` (ex. /usr/local/bin/gfortran-8), execute the following commands in response to your environment.
 ```
     $ ln -sf /usr/local/bin/gcc-8 /usr/local/bin/gcc
     $ ln -sf /usr/local/bin/g++-8 /usr/local/bin/g++
