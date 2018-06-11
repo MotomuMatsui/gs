@@ -60,7 +60,7 @@ version 1.0 (2017/02/07)
 
 - You can move `mmseqs` to the other place where you want (ex. `~/bin`) and add this path to your PATH environment variable (ex. `export PATH=~/bin:$PATH`)
 
-## Known issues
+### Known issues
 
 [![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/) ... Compiling LAPACK/BLAS sometimes fails    
 - Rewrite `OPTS = -O2 -frecursive` to `OPTS = -O3 -frecursive -pipe` in `lapack-3.7.1/make.inc`, then re-execute `make`    
