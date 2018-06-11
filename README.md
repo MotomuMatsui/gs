@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/GSbanner.png"></p>  
 
 # gs2
-`gs2` is a software to conduct a brand-new phylogenetic analysis method--the Graph Splitting (GS). It can effectively resolve early evolution of protein families and its accuracy and speed was proved by extensive evolutionary simulation.    
+`gs2` is a software to conduct a brand-new phylogenetic analysis method--the Graph Splitting (GS). It can effectively resolve early evolution of protein families, and its accuracy and speed was proved by extensive evolutionary simulation.    
 `gs2` is open-source software (GPL v3.0) inplemented in C++ for <strong>Linux</strong>, <strong>Mac (macOS)</strong> and <strong>Windows (Cygwin)</strong>.    
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
@@ -38,7 +38,7 @@ version 1.0 (2017/02/07)
 ### 0. Requirements
 
 - [GNU GCC compiler](https://gcc.gnu.org/) (5.0+) is required to compile `gs2`    
-- [cmake](https://cmake.org/) (3.0+) is required to compile `MMSeqs2`    
+- [CMake](https://cmake.org/) (3.0+) is required to compile `mmseqs`    
 
   :exclamation: Mac users are recommended to install `gcc` and `cmake` using [Homebrew](https://brew.sh/)  
 
@@ -92,6 +92,9 @@ version 1.0 (2017/02/07)
     make: *** [lapack] Error 2
 ```
 - Please re-execute `make`    
+
+[![Mac](https://img.shields.io/badge/Mac-macOS-yellow.svg)](https://www.apple.com/macos/) ... If you had previously installed an old version of `gcc`, installing `mmseqs` sometimes fails
+- Please replace the old version of `gcc` with the most current version using [Homebrew](https://brew.sh/). [SonicParanoid project page](http://iwasakilab.bs.s.u-tokyo.ac.jp/sonicparanoid/) should give you a useful hint to solve this issue  
 
 [![Windows](https://img.shields.io/badge/Windows-Cygwin-yellow.svg)](https://www.cygwin.com/) ... LAPACK/BLAS <strong>version 3.8.0</strong> has some problem to be installed    
 - Choose LAPACK/BLAS <strong>version 3.7.1</strong> for installation (default)    
