@@ -1,14 +1,14 @@
-/********************************************\
-| Edge Perturbation Method v1.0 (2018/10/12) |
-|                                            |
-|  Copyright (c) 2015-2018 Motomu Matsui     |
-|      Distributed under the GNU GPL         |
-|                                            |
-|      Matsui M and Iwasaki W (2018)         |
-|      Systematic Biology, xx:xx-xx.         |
-|                                            |
-|      http://gs.bs.s.u-tokyo.ac.jp/         |
-\********************************************/
+/******************************************\
+| Graph Splitting Method v2.1 (2018/10/15) |
+|                                          |
+| Copyright (c) 2015-2018 Motomu Matsui    |
+|     Distributed under the GNU GPL        |
+|                                          |
+|     Matsui M and Iwasaki W (2018)        |
+|     Systematic Biology, xx:xx-xx.        |
+|                                          |
+|     http://gs.bs.s.u-tokyo.ac.jp/        |
+\******************************************/
 
 #include <cblas.h>
 

@@ -21,6 +21,10 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 ## History
+version 2.1 (2018/10/15)   
+  - Add transitivity function    
+  - Modified addEP function    
+
 version 2.0 (2018/06/01)   
   - Re-implemented in C++    
   - MMseq2 is used for all-to-all pairwise sequence alignment    
