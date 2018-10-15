@@ -40,6 +40,9 @@ extern void EP(double* const&, unordered_map<string, double>&, function<double()
 extern void print_banner();
 extern void print_usage(char*&);
 
+/// transitivity.cpp
+extern double transitivity(double* const&, int const&);
+
 int main(int argc, char* argv[]){
   
   /*/ Check the mmseqs command /*/
@@ -292,6 +295,9 @@ int main(int argc, char* argv[]){
   bl2mat(ifs2, W, size);
     // ifs2: INPUT (result file of MMseqs)
     // W: OUTPUT (sequence similarity matrix)
+
+  auto transitivity_score = transitivity(W, size);
+  /*PRINT*/ cerr << "  Transitivity = "<< transitivity_score << endl << endl;
 
   /*/ GS method (stepwise spectral clustering) /*/
   /*PRINT*/ if(!silence) cerr << "-GS method\n" << "  executing...\r" << flush;

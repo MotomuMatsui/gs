@@ -56,10 +56,13 @@ lapack:
 	$(CP) -f lapack-3.7.1/CBLAS/include/*.h lib
 	$(CP) -f lapack-3.7.1/LAPACKE/include/*.h lib
 
-gs2: eigen.o $(OBJECTS)
+gs2: eigen.o transitivity.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
 
 eigen.o: eigen.cpp
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
+
+transitivity.o: transitivity.cpp
 	$(CXX) $(CXXFLAGS) $(INC) -c $<
 
 $(OBJECTS): %.o: %.cpp
@@ -67,4 +70,4 @@ $(OBJECTS): %.o: %.cpp
 
 .PHONY: clean
 clean:
-	$(RM) eigen.o $(OBJECTS)
+	$(RM) eigen.o transitivity.o $(OBJECTS)
