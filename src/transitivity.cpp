@@ -22,7 +22,7 @@ double transitivity(double* const (&oW), int const& size){
   // A: adjacency matrix of oW
   for(int i=0; i<size-1; i++){
     for(int j=i+1; j<size; j++){
-      int adj = (oW[i*size+j]>0)? 1: 0;
+      double adj = (oW[i*size+j]>0)? 1: 0;
       A[i*size+j] = adj;
       A[i+size*j] = adj;
     }
