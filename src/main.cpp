@@ -24,7 +24,7 @@ using namespace std;
 
 /// format.cpp (File/Data-handling)
 extern int  readFASTA(ifstream&, ofstream&, ofstream&, int&);
-extern void bl2mat(ifstream&, double*&, int const&);
+extern int  bl2mat(ifstream&, double*&, int const&);
 extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
 extern void addLABEL(string const&, string&, string const&, int const&);
@@ -292,12 +292,14 @@ int main(int argc, char* argv[]){
   }
 
   /*/ Reading Data /*/
-  bl2mat(ifs2, W, size);
+  auto same_sequence = bl2mat(ifs2, W, size);
     // ifs2: INPUT (result file of MMseqs)
     // W: OUTPUT (sequence similarity matrix)
+  
+  /*PRINT*/ if(!silence) if(same_sequence>0) cerr << "  <WARNING> This dataset has " << same_sequence << " duplicated sequence pair(s)" << endl << endl;
 
   auto transitivity_score = transitivity(W, size);
-  /*PRINT*/ cerr << "  Transitivity = "<< transitivity_score << endl << endl;
+  /*PRINT*/ if(!silence) cerr << "  Transitivity = "<< transitivity_score << endl << endl;
 
   /*/ GS method (stepwise spectral clustering) /*/
   /*PRINT*/ if(!silence) cerr << "-GS method\n" << "  executing...\r" << flush;
