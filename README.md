@@ -21,6 +21,9 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 ## History
+version 2.2 (2018/11/07)   
+  - Update to display warinings in case redundant sequences are input    
+
 version 2.1 (2018/10/15)   
   - Add transitivity function    
   - Modified addEP function    
