@@ -1,5 +1,5 @@
 /******************************************\
-| Graph Splitting Method v2.1 (2018/10/15) |
+| Graph Splitting Method v2.2 (2018/11/07) |
 |                                          |
 | Copyright (c) 2015-2018 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
