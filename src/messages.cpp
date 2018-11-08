@@ -19,7 +19,7 @@ void print_banner(){
 
   string banner = 
     "------------------------------------------\n"
-    " Graph Splitting Method v2.1 (2018/10/15) \n"
+    " Graph Splitting Method v2.2 (2018/11/07) \n"
     "                                          \n"
     "   Copyright (c) 2018 Motomu Matsui       \n"
     "   Systematic Biology, xx:xx-xxx, 2018    \n"
