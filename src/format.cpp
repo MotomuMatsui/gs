@@ -358,3 +358,65 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
 
   newick_ann = ss_ann.str();
 }
+
+void sc2list(int* const& nj, int* (&list), int const& size){
+
+  list = new int[2*(size-3)*size]();    // Result (e.g. n=3)
+
+  int l = 0;
+
+  for(int i=1; i<size; i++){
+    int m = i+1;
+    int flag = -1;
+
+    vector<int> a;
+    vector<int> b;
+    
+    for(int j=0; j<size; j++){
+      if(nj[i+j*size] == m){
+        flag = nj[i+j*size-1];
+        break;
+      }
+    }
+
+    for(int j=0; j<size; j++){
+      if(nj[i+j*size] == m){
+        a.push_back(j);
+      }
+      else if(nj[i+j*size] == flag){
+        b.push_back(j);
+      }
+    }
+
+    int a_size = a.size();
+    int b_size = b.size();
+
+    if(a_size == size-1) continue;
+
+    if(a_size>1){
+      for(int n=0; n<size; n++){
+        list[(l+1)*size+n]=1;
+      }
+
+      for(int n : a){
+        list[l*size+n]=1;
+        list[(l+1)*size+n]=0;
+      }
+      l +=2;
+    }
+
+    if(i==1) continue;
+
+    if(b_size>1){
+      for(int n=0; n<size; n++){
+        list[(l+1)*size+n]=1;
+      }
+
+      for(int n : b){
+        list[l*size+n]=1;
+        list[(l+1)*size+n]=0;
+      }
+      l +=2;
+    }
+  }
+}

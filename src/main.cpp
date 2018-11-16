@@ -28,6 +28,7 @@ extern int  bl2mat(ifstream&, double*&, int const&);
 extern void sc2nwk(int* const&, string&, int const&);
 extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
 extern void addLABEL(string const&, string&, string const&, int const&);
+extern void sc2list(int* const&, int*&, int const&);
 
 /// mmseqs.cpp (Wrapper function of MMseqs)
 extern void mmseqs(string const&, string const&, string const&, string const&);
@@ -35,6 +36,7 @@ extern void mmseqs(string const&, string const&, string const&, string const&);
 /// gs.cpp (Core functions of GS method)
 extern void GS(double* const&, int*&, int const&);
 extern void EP(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
+extern void EP2(double* const&, int* const&, unordered_map<string, double>&, function<double()>&, int const&);
 
 /// messages.cpp
 extern void print_banner();
@@ -60,11 +62,12 @@ int main(int argc, char* argv[]){
   int label   = 0;            // -l
   string threads = "1";       // -t
   string sensitivity = "7.5"; // -m
+  string bs_method = "";      // -b [fbp (Felsenstein's bootstrap proportion) or tbe (transfer bootstrap expectation)]
 
   opterr = 0; // default error messages -> OFF
   int opt;
   regex renum(R"(^[\d\.]+$)"); // -e/-r/-t/-m option requires an integer/flout number
-  while ((opt = getopt(argc, argv, "shlve:r:t:m:")) != -1){
+  while ((opt = getopt(argc, argv, "shlve:r:t:m:b:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
 	ep_num = atoi(optarg);
@@ -142,6 +145,15 @@ int main(int argc, char* argv[]){
     else if(opt == 'l'){ // LABEL mode (./gs -l -e 100 IN.fst)
       label = 1;
     }
+    else if(opt == 'b'){ // Statistical method to assess the robustness of inffered branches (./gs -e 100 -b tbe IN.fst)
+      bs_method = optarg;
+      if(bs_method != "fbs" && bs_method != "tbe"){
+        /*PRINT*/ print_banner();
+        /*PRINT*/ cerr << "Option -b requires a string that equals 'fbs' or 'tbe'.\n" << endl;
+        /*PRINT*/ print_usage(argv[0]);
+        return -1;
+      }
+    }
     else if (opt == '?'){
       if(optopt == 'e'){ // NG! (./gs IN.fst -e)
 	/*PRINT*/ print_banner();
@@ -163,7 +175,13 @@ int main(int argc, char* argv[]){
       }
       else if(optopt == 'm'){ // NG! (./gs IN.fst -m)
 	/*PRINT*/ print_banner();
-	/*PRINT*/ cerr << "Option -m requires an flout argument.\n" << endl;
+	/*PRINT*/ cerr << "Option -m requires a flout argument.\n" << endl;
+	/*PRINT*/ print_usage(argv[0]);
+	return -1;
+      }
+      else if(optopt == 'b'){ // NG! (./gs IN.fst -b)
+	/*PRINT*/ print_banner();
+	/*PRINT*/ cerr << "Option -b requires a string argument.\n" << endl;
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
@@ -316,33 +334,76 @@ int main(int argc, char* argv[]){
 
   /*/ EP method /*/
   if(ep_num>0){
-    unordered_map<string, double> ep;
-    string newick_EP; // GS+EP tree
-
-    // Random number generator (Uniform distribution->Mersenne Twister)
-    function<double()> R;
-    uniform_real_distribution<double> urd(0,1);    // uniform distributed random number
-
-    if(seed>0){
-      mt19937 mt(static_cast<unsigned int>(seed)); // mersenne twister
-      R = bind(urd, ref(mt));                      // random number generator    
-    }
-    else{
-      random_device rd;                            // random seed
-      mt19937 mt(rd());                            // mersenne twister
-      R = bind(urd, ref(mt));                      // random number generator        
-    }    
 
     /*PRINT*/ if(!silence) cerr << "-EP method" << endl;
 
-    for(int n=1; n<=ep_num; n++){
-      /*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
-      EP(W, ep, R, size);
+    unordered_map<string, double> ep;
+    string newick_EP; // GS+EP tree
+
+    if(bs_method == "fbs"){
+
+      /*PRINT*/ if(!silence) cerr << "  method = Felsenstein's bootstrap proportion" << endl;
+      
+      // Random number generator (Uniform distribution->Mersenne Twister)
+      function<double()> R;
+      uniform_real_distribution<double> urd(0,1);    // uniform distributed random number
+      
+      if(seed>0){
+	mt19937 mt(static_cast<unsigned int>(seed)); // mersenne twister
+	R = bind(urd, ref(mt));                      // random number generator    
+      }
+      else{
+	random_device rd;                            // random seed
+	mt19937 mt(rd());                            // mersenne twister
+	R = bind(urd, ref(mt));                      // random number generator        
+      }    
+
+      for(int n=1; n<=ep_num; n++){
+
+	/*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
+
+	EP(W, ep, R, size);
         // W: INPUT (sequence similarity matrix)
         // ep: OUTPUT (result of Edge Perturbation method)
         // R: random number generator
+      }
     }
-    
+    else{
+
+      /*PRINT*/ if(!silence) cerr << "  method = Transfer bootstrap expectation" << endl;
+
+      int* list; 
+      sc2list(gs, list, size);
+      // gs: INPUT (result of stepwise spectral clustering)
+      // list: OUTPUT (NJ tree [leaves])      
+
+      // Random number generator (Uniform distribution->Mersenne Twister)
+      function<double()> R;
+      uniform_real_distribution<double> urd(0,1);    // uniform distributed random number
+      
+      if(seed>0){
+	mt19937 mt(static_cast<unsigned int>(seed)); // mersenne twister
+	R = bind(urd, ref(mt));                      // random number generator    
+      }
+      else{
+	random_device rd;                            // random seed
+	mt19937 mt(rd());                            // mersenne twister
+	R = bind(urd, ref(mt));                      // random number generator        
+      }    
+
+      for(int n=1; n<=ep_num; n++){
+
+	/*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
+
+	EP2(W, list, ep, R, size);
+        // W: INPUT (sequence similarity matrix)
+        // ep: OUTPUT (result of Edge Perturbation method)
+        // R: random number generator
+      }
+
+      delete[] list;
+    }
+
     /*PRINT*/ if(!silence) cerr << "\n  done." << endl << endl;
     /*PRINT*/ if(!silence) cerr << "------------------------------------------\n" << endl;
 
