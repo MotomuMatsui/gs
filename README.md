@@ -21,6 +21,9 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 ## History
+version 2.3 (2018/11/16)
+  - Add Transfer Bootstrap Expectation algorithm (F. Lemoine, et al., Nature, 2018)    
+
 version 2.2 (2018/11/07)   
   - Update to display warnings in case redundant sequences are input    
 
@@ -127,6 +130,7 @@ Arguments:
 |  -r  |<strong>[integer(>=1)]</strong> <em>The random seed number for EP method. Default: random number</em>|
 |  -t  |<strong>[integer(>=1)]</strong> <em>The number of threads for MMseqs. Default: 1</em>                |
 |  -m  |<strong>[real(1&ndash;7.5)]</strong> <em>Sensitivity for MMseqs. Default: 7.5</em>                   |
+|  -b  |<strong>[string(tbe/fbs)]</strong> <em>The bootstrap method. Default: tbe</em>                       |
 |  -s  |<em>Silent mode: do not report progress. Default: Off</em>                                           |
 |  -l  |<em>Newick format with actual names. Default: Off</em>                                               |
 |  -h  |<em>Show help messages. Default: Off</em>                                                            |
@@ -170,7 +174,9 @@ Copyright &copy; 2018, Motomu Matsui
 [Motomu Matsui](https://sites.google.com/site/motomumatsui/)
 
 ## Reference
-Motomu Matsui and Wataru Iwasaki. ??? (2018)
+Motomu Matsui and Wataru Iwasaki. ??? (2018)    
+F Lemoine, JB Domelevo Entfellner, E Wilkinson, D Correia, M Davila Felipe, T De Oliveira, and O Gascuel, Renewing Felsensteins phyloge
+netic bootstrap in the era of big data, Nature, 2018   
 
 ## Acknowledgements
 This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S&ouml;ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.

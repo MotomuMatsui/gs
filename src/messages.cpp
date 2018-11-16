@@ -1,5 +1,5 @@
 /******************************************\
-| Graph Splitting Method v2.2 (2018/11/07) |
+| Graph Splitting Method v2.3 (2018/11/16) |
 |                                          |
 | Copyright (c) 2015-2018 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
@@ -19,7 +19,7 @@ void print_banner(){
 
   string banner = 
     "------------------------------------------\n"
-    " Graph Splitting Method v2.2 (2018/11/07) \n"
+    " Graph Splitting Method v2.3 (2018/11/16) \n"
     "                                          \n"
     "   Copyright (c) 2018 Motomu Matsui       \n"
     "   Systematic Biology, xx:xx-xxx, 2018    \n"
@@ -31,8 +31,9 @@ void print_banner(){
 }
 
 void print_usage(char*& program){
-  cerr << "Usage: " << program << " [-e INTEGER(>=0)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-m FLOAT(1-7.5)] [-s] [-l] [-h] [-v] input > output" << endl;
+  cerr << "Usage: " << program << " [-e INTEGER(>=0)] [-b STRING(tbe/fbs)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-m FLOAT(1-7.5)] [-s] [-l] [-h] [-v] input > output" << endl;
   cerr << "-e " << "the number of replicates for EP method. Default: 0" << endl;
+  cerr << "-b " << "the bootstrap method, tbe or fbs. Default: tbe" << endl;
   cerr << "-r " << "the random seed number for EP method. Default: random number" << endl;
   cerr << "-t " << "the number of threads for MMseqs. Default: 1" << endl;
   cerr << "-m " << "sensitivity for MMseqs. Default: 7.5" << endl;
