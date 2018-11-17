@@ -277,15 +277,15 @@ int main(int argc, char* argv[]){
     /*PRINT*/ cerr << "  # of sequences = " << size << endl << endl;
 
     /*PRINT*/ cerr << "-MMseqs" << endl;
-    /*PRINT*/ cerr << "  Sentitivity = " << sensitivity << endl;
+    /*PRINT*/ cerr << "  sentitivity = " << sensitivity << endl;
     /*PRINT*/ cerr << "  # of threads = " << threads << endl << endl;
 
     /*PRINT*/ cerr << "-EP method" << endl;
     if(seed>0){
-      /*PRINT*/ cerr << "  Random seed = " << seed << endl;
+      /*PRINT*/ cerr << "  random seed = " << seed << endl;
     }
     else{
-      /*PRINT*/ cerr << "  Random seed = " << "a random number (default)" << endl;
+      /*PRINT*/ cerr << "  random seed = " << "a random number (default)" << endl;
     }
     /*PRINT*/ cerr << "  # of iterations = " << ep_num << endl << endl;
 
@@ -317,7 +317,7 @@ int main(int argc, char* argv[]){
   /*PRINT*/ if(!silence) if(same_sequence>0) cerr << "  <WARNING> This dataset has " << same_sequence << " duplicated sequence pair(s)" << endl << endl;
 
   auto transitivity_score = transitivity(W, size);
-  /*PRINT*/ if(!silence) cerr << "  Transitivity = "<< transitivity_score << endl << endl;
+  /*PRINT*/ if(!silence) cerr << "  transitivity = "<< transitivity_score << endl << endl;
 
   /*/ GS method (stepwise spectral clustering) /*/
   /*PRINT*/ if(!silence) cerr << "-GS method\n" << "  executing...\r" << flush;
@@ -370,7 +370,7 @@ int main(int argc, char* argv[]){
     }
     else{
 
-      /*PRINT*/ if(!silence) cerr << "  method = Transfer bootstrap expectation" << endl;
+      /*PRINT*/ if(!silence) cerr << "  method = Transfer bootstrap expectation (F. Lemoine, et al., Nature, 2018)" << endl;
 
       int* list; 
       sc2list(gs, list, size);

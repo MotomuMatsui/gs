@@ -150,32 +150,57 @@ void EP2(double* const (&W), int* const (&list), unordered_map<string, double>& 
   int* list_ep;
   sc2list(step, list_ep, size);
 
-  for(int x=0; x<2*(size-3); x++){
+  for(int x=0; x<size-3; x++){
     double min_share = size;
-    for(int y=0; y<2*(size-3); y++){
-      double share = 0;
-      int num_a = 0;
-      int num_b = 0;
-      for(int z=0; z<size; z++){
-        share += list[x*size+z]^list_ep[y*size+z];
-	num_a += list[x*size+z];
-	num_b += list_ep[y*size+z];
-      }
-      if(num_a == num_b){
-	min_share = (share < min_share)? share: min_share;
-      }
-    }
-    
-    stringstream ss;
-    int num = 0;
+
+    // calculate subset sizes
+    double num_a1 = 0;
+    double num_a2 = 0;
     for(int z=0; z<size; z++){
-      if(list[x*size+z]>0){
-        ss << z+1 << "|";       
-        num ++;
+      num_a1 += list[2*x*size+z];
+      num_a2 += list[(2*x+1)*size+z];      
+    }
+
+    auto num_a = (num_a1 <= num_a2)? num_a1: num_a2;
+
+    for(int y=0; y<2*(size-3); y++){
+
+      double num_b = 0;
+      for(int z=0; z<size; z++){
+        num_b += list_ep[y*size+z];
+      }
+
+      if(num_a1 == num_b){
+        double share = 0;
+        for(int z=0; z<size; z++){
+          share += list[2*x*size+z]^list_ep[y*size+z];
+        }
+        min_share = (share < min_share)? share: min_share;
+      }
+      if(num_a2 == num_b){
+        double share = 0;
+        for(int z=0; z<size; z++){
+          share += list[(2*x+1)*size+z]^list_ep[y*size+z];
+        }
+        min_share = (share < min_share)? share: min_share;
       }
     }
-    if(num > 1 && min_share<num-1){
-      ep[ss.str()] += 1 - min_share / (num - 1);
+
+    min_share /= 2;
+
+    stringstream ss1;
+    stringstream ss2;
+    for(int z=0; z<size; z++){
+      if(list[2*x*size+z]>0){
+        ss1 << z+1 << "|";      
+      }
+      else{
+        ss2 << z+1 << "|";      
+      }
+    }
+    if(min_share < num_a - 1){
+      ep[ss1.str()] += 1 - min_share / (num_a - 1);
+      ep[ss2.str()] += 1 - min_share / (num_a - 1);
     }
   }
 

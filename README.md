@@ -174,9 +174,8 @@ Copyright &copy; 2018, Motomu Matsui
 [Motomu Matsui](https://sites.google.com/site/motomumatsui/)
 
 ## Reference
-Motomu Matsui and Wataru Iwasaki. ??? (2018)    
-F Lemoine, JB Domelevo Entfellner, E Wilkinson, D Correia, M Davila Felipe, T De Oliveira, and O Gascuel, Renewing Felsensteins phyloge
-netic bootstrap in the era of big data, Nature, 2018   
+Frederic Lemoine, Jean-Baka Domelevo Entfellner, Eduan Wilkinson, Damien Correia, Miraine Davila Felipe, Tulio De Oliveira, and Olivier Gascuel, Renewing Felsensteins phylogenetic bootstrap in the era of big data, Nature, 2018    
+Motomu Matsui and Wataru Iwasaki, ???, 2018    
 
 ## Acknowledgements
 This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S&ouml;ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
