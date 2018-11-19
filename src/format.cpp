@@ -361,12 +361,11 @@ void addLABEL(string const& newick, string& newick_ann, string const& annotation
 
 void sc2list(int* const& gs, int* (&list), int const& size){
 
-  list = new int[2*(size-3)*size]();    // Result (e.g. n=3)
+  list = new int[(size-3)*size]();
 
   int l = 0;
-
   for(int i=1; i<size; i++){
-    int m = i+1;
+    auto m   = i+1;
     int flag = -1;
 
     vector<int> a;
@@ -394,29 +393,19 @@ void sc2list(int* const& gs, int* (&list), int const& size){
     if(a_size == size-1) continue;
 
     if(a_size>1){
-      for(int n=0; n<size; n++){
-        list[(l+1)*size+n]=1;
-      }
-
       for(int n : a){
         list[l*size+n]=1;
-        list[(l+1)*size+n]=0;
       }
-      l +=2;
+      l ++;
     }
 
     if(i==1) continue;
 
     if(b_size>1){
-      for(int n=0; n<size; n++){
-        list[(l+1)*size+n]=1;
-      }
-
       for(int n : b){
         list[l*size+n]=1;
-        list[(l+1)*size+n]=0;
       }
-      l +=2;
+      l ++;
     }
   }
 }

@@ -35,8 +35,8 @@ extern void mmseqs(string const&, string const&, string const&, string const&);
 
 /// gs.cpp (Core functions of GS method)
 extern void GS(double* const&, int*&, int const&);
-extern void EP(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
-extern void EP2(double* const&, int* const&, unordered_map<string, double>&, function<double()>&, int const&);
+extern void EP_fbs(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
+extern void EP_tbe(double* const&, int* const&, unordered_map<string, double>&, function<double()>&, int const&);
 
 /// messages.cpp
 extern void print_banner();
@@ -281,6 +281,15 @@ int main(int argc, char* argv[]){
     /*PRINT*/ cerr << "  # of threads = " << threads << endl << endl;
 
     /*PRINT*/ cerr << "-EP method" << endl;
+    if(ep_num>0){
+      if(bs_method == "fbs"){
+	/*PRINT*/ if(!silence) cerr << "  method = Felsenstein's bootstrap proportion" << endl;
+      }
+      else{
+	/*PRINT*/ if(!silence) cerr << "  method = Transfer bootstrap expectation (F. Lemoine, et al., Nature, 2018)" << endl;
+      }
+    }
+
     if(seed>0){
       /*PRINT*/ cerr << "  random seed = " << seed << endl;
     }
@@ -288,7 +297,6 @@ int main(int argc, char* argv[]){
       /*PRINT*/ cerr << "  random seed = " << "a random number (default)" << endl;
     }
     /*PRINT*/ cerr << "  # of iterations = " << ep_num << endl << endl;
-
     /*PRINT*/ cerr << "Progress:" << endl;
   }
   
@@ -334,16 +342,12 @@ int main(int argc, char* argv[]){
 
   /*/ EP method /*/
   if(ep_num>0){
-
     /*PRINT*/ if(!silence) cerr << "-EP method" << endl;
 
     unordered_map<string, double> ep;
     string newick_EP; // GS+EP tree
 
     if(bs_method == "fbs"){
-
-      /*PRINT*/ if(!silence) cerr << "  method = Felsenstein's bootstrap proportion" << endl;
-      
       // Random number generator (Uniform distribution->Mersenne Twister)
       function<double()> R;
       uniform_real_distribution<double> urd(0,1);    // uniform distributed random number
@@ -359,23 +363,19 @@ int main(int argc, char* argv[]){
       }    
 
       for(int n=1; n<=ep_num; n++){
-
 	/*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
 
-	EP(W, ep, R, size);
-        // W: INPUT (sequence similarity matrix)
-        // ep: OUTPUT (result of Edge Perturbation method)
-        // R: random number generator
+	EP_fbs(W, ep, R, size);
+          // W: INPUT (sequence similarity matrix)
+          // ep: OUTPUT (result of Edge Perturbation method)
+          // R: random number generator
       }
     }
     else{
-
-      /*PRINT*/ if(!silence) cerr << "  method = Transfer bootstrap expectation (F. Lemoine, et al., Nature, 2018)" << endl;
-
-      int* list; 
-      sc2list(gs, list, size);
-      // gs: INPUT (result of stepwise spectral clustering)
-      // list: OUTPUT (NJ tree [leaves])      
+      int* list_ori; 
+      sc2list(gs, list_ori, size);
+        // gs: INPUT (result of stepwise spectral clustering)
+        // list: OUTPUT (NJ tree [leaves])      
 
       // Random number generator (Uniform distribution->Mersenne Twister)
       function<double()> R;
@@ -392,16 +392,15 @@ int main(int argc, char* argv[]){
       }    
 
       for(int n=1; n<=ep_num; n++){
-
 	/*PRINT*/ if(!silence) cerr << "  " << n << "/" << ep_num << " iterations" << "\r"<< flush;
 
-	EP2(W, list, ep, R, size);
-        // W: INPUT (sequence similarity matrix)
-        // ep: OUTPUT (result of Edge Perturbation method)
-        // R: random number generator
+	EP_tbe(W, list_ori, ep, R, size);
+          // W: INPUT (sequence similarity matrix)
+          // ep: OUTPUT (result of Edge Perturbation method)
+          // R: random number generator
       }
 
-      delete[] list;
+      delete[] list_ori;
     }
 
     /*PRINT*/ if(!silence) cerr << "\n  done." << endl << endl;
