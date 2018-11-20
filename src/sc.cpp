@@ -11,18 +11,14 @@
 \******************************************/
 
 #include <algorithm>
-#include <vector>
 #include <tuple>
+#include <vector>
+
+#include "eigen.h"
+#include "sc.h"
+#include "sc_functions.h"
 
 using namespace std;
-
-//eigen.cpp (Wrapper function of LAPACKE/CBLAS package)
-extern int eigen_lapack(double*&, double*&, int);
-
-//sc_functions.cpp (Split one cluster into two subclusters)
-extern void subMATRIX(double* const&, double*&, double*&, vector<int> const&, int const);
-extern void whichCUT(double* const&, int const, double* const&, int*&, int&, int const);
-extern void splitVECTOR(vector<int> const&, int const, int* const&, int const, vector<int>&, vector<int>&, int const);
 
 tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int> const& res, int const& num){
 

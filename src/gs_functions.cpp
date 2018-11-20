@@ -14,6 +14,8 @@
 #include <cmath> 
 #include <vector>
 
+#include "gs_functions.h"
+
 using namespace std;
 
 void sedMATRIX(int* (&step), vector<int>& vec, vector<int> const& pos, int const num, int const N){
@@ -25,11 +27,17 @@ void sedMATRIX(int* (&step), vector<int>& vec, vector<int> const& pos, int const
   }
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 void sedVECTOR(vector<int>& vec, vector<int> const& pos, int const num){
   for(auto p: pos){
     vec[p] = num;
   }
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 //simI function
 double simI(double* const (&W), vector<int> const& res, int const num){
@@ -57,6 +65,9 @@ double simI(double* const (&W), vector<int> const& res, int const num){
   return D;
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 //Minimum factor
 int whichMIN(vector<double> const& vec){
   int N = vec.size();
@@ -70,6 +81,9 @@ int whichMIN(vector<double> const& vec){
   return(p+1);
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 //Generalized Extreme Value function (inverse function)                                                                        
 double gev(double const& x, double const& mu){
   double theta = mu*(1-mu)/3;
@@ -82,3 +96,6 @@ double gev(double const& x, double const& mu){
     return mu +( pow(-log(x),-gamma)-1 )*theta/gamma;
   }
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////

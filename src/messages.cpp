@@ -13,6 +13,8 @@
 #include <iostream>
 #include <string>
 
+#include "messages.h"
+
 using namespace std;
 
 void print_banner(){
@@ -30,6 +32,9 @@ void print_banner(){
   cerr << banner << endl;
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 void print_usage(char*& program){
   cerr << "Usage: " << program << " [-e INTEGER(>=0)] [-b STRING(tbe/fbs)] [-r INTEGER(>0)] [-t INTEGAR(>0)] [-m FLOAT(1-7.5)] [-s] [-l] [-h] [-v] input > output" << endl;
   cerr << "-e " << "the number of replicates for EP method. Default: 0" << endl;
@@ -42,3 +47,6 @@ void print_usage(char*& program){
   cerr << "-h " << "show help messages. Default: Off" << endl;
   cerr << "-v " << "show the version. Default: Off" << endl;
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////

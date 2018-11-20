@@ -13,15 +13,11 @@
 #include <vector>
 #include <tuple>
 
+#include "gs.h"
+#include "gs_functions.h"
+#include "sc.h"
+
 using namespace std;
-
-//sc.cpp (spectral clustering)
-extern tuple<vector<int>,vector<int>> spectral_clustering(double* const&, vector<int> const&, int const&);
-
-//gs_functions.cpp
-extern void sedMATRIX(int*&, vector<int>&, vector<int> const&, int const, int const);
-extern double simI(double* const&, vector<int> const&, int const);
-extern int whichMIN(vector<double> const&);
 
 void GS(double* const (&W), int* (&step), int const& size){
 

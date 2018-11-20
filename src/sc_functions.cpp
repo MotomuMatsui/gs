@@ -10,13 +10,15 @@
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
 \******************************************/
 
-#include <vector>
 #include <algorithm>
 #include <cmath> 
 #include <functional>
-#include <utility>
-#include <map>
 #include <iterator>
+#include <map>
+#include <utility>
+#include <vector>
+
+#include "sc_functions.h"
 
 using namespace std;
 
@@ -54,11 +56,17 @@ void subMATRIX(double* const (&Wo), double* (&W), double* (&D), vector<int> cons
   }
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 //Best cut position
 typedef pair<double, int> P;
 bool comp(const P &a, const P &b){
   return a.first > b.first;
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 void whichCUT(double* const (&z), int const col, double* const (&D), int*& qi, int& cut, int const N){
   vector<P> pairs(N);
@@ -89,6 +97,9 @@ void whichCUT(double* const (&z), int const col, double* const (&D), int*& qi, i
   delete[] qs;
 }
 
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
+
 void splitVECTOR(vector<int> const& res, int const num, int* const (&qi), int const cut, vector<int>& a, vector<int>& b, int const N){
 
   vector<int> index;
@@ -107,3 +118,6 @@ void splitVECTOR(vector<int> const& res, int const num, int* const (&qi), int co
     b.push_back(index[qi[p]]);
   }
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////

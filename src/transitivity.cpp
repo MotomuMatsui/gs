@@ -11,6 +11,7 @@
 \******************************************/
 
 #include <cblas.h>
+#include "transitivity.h"
 
 using namespace std;
 

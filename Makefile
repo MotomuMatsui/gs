@@ -18,6 +18,8 @@ CXXFLAGS += -fno-exceptions
 CXXFLAGS += -Wall
 
 OBJECTS  := messages.o
+OBJECTS  += eigen.o
+OBJECTS  += transitivity.o
 OBJECTS  += format.o
 OBJECTS  += mmseqs.o
 OBJECTS  += gs_functions.o
@@ -56,17 +58,11 @@ lapack:
 	$(CP) -f lapack-3.7.1/CBLAS/include/*.h lib
 	$(CP) -f lapack-3.7.1/LAPACKE/include/*.h lib
 
-gs2: eigen.o transitivity.o $(OBJECTS)
+gs2: $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
 
-eigen.o: eigen.cpp
-	$(CXX) $(CXXFLAGS) $(INC) -c $<
-
-transitivity.o: transitivity.cpp
-	$(CXX) $(CXXFLAGS) $(INC) -c $<
-
 $(OBJECTS): %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $<
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
 
 .PHONY: clean
 clean:

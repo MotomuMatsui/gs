@@ -10,30 +10,22 @@
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
 \******************************************/
 
-#include <random>   
+#include <algorithm>
 #include <cmath> 
 #include <functional>
-#include <algorithm>
-#include <vector>
-#include <tuple>
+#include <iostream>
+#include <random>
 #include <sstream>
 #include <string>
+#include <tuple>
+#include <vector>
 #include <unordered_map>
-#include <iostream>
+
+#include "sc.h"
+#include "gs_functions.h"
+#include "format.h"
 
 using namespace std;
-
-//sc.cpp (spectral clustering)
-extern tuple<vector<int>,vector<int>> spectral_clustering(double* const&, vector<int> const&, int const&);
-
-//gs_functions.cpp
-extern void sedMATRIX(int*&, vector<int>&, vector<int> const&, int const, int const);
-extern double simI(double* const&, vector<int> const&, int const);
-extern int whichMIN(vector<double> const&);
-extern double gev(double const&, double const&);
-
-//format.cpp
-extern void sc2list(int* const&, int*&, int const&);
 
 void EP_fbs(double* const (&W), unordered_map<string, double>& ep, function<double()>& R, int const& size){
 
@@ -106,6 +98,9 @@ void EP_fbs(double* const (&W), unordered_map<string, double>& ep, function<doub
   delete[] list_ep;
   delete[] E;
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////
 
 void EP_tbe(double* const (&W), int* const (&list_ori), unordered_map<string, double>& ep, function<double()>& R, int const& size){
 
@@ -196,3 +191,6 @@ void EP_tbe(double* const (&W), int* const (&list_ori), unordered_map<string, do
   delete[] list_ep;
   delete[] E;
 }
+
+//////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////

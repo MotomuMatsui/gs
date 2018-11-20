@@ -10,13 +10,15 @@
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
 \******************************************/
 
-#include <stdio.h>
 #include <fstream>
-#include <sstream>
-#include <string>
 #include <regex>
-#include <unordered_map>
+#include <sstream>
+#include <stdio.h>
+#include <string>
 #include <sys/stat.h>
+#include <unordered_map>
+
+#include "mmseqs.h"
 
 using namespace std;
 

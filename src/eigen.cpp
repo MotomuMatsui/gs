@@ -11,21 +11,22 @@
 \******************************************/
 
 #include <lapacke.h>
+#include "eigen.h"
 
 using namespace std;
 
 int eigen_lapack(double* (&A), double* (&z), int N){
 
   //Variables for LAPACKE_dsyevr function
-  double  vl     = 1;
-  double  vu     = N;
-  int     il     = 2; // Graph Splitting method (Spectral clustering)
-  int     iu     = 2; // requires only the 2nd smallest eigenvalue
-  double  abstol = 0;
+  double  vl  = 1;
+  double  vu  = N;
+  int     il  = 2; // Graph Splitting method (Spectral clustering)
+  int     iu  = 2; // requires only the 2nd smallest eigenvalue
+  double  abs = 0;
 
-  int* m      = new int[iu-il+1];
-  double* w   = new double[N];
-  int* isuppz = new int[(iu-il+1)*N];
+  auto m      = new int[iu-il+1];
+  auto w      = new double[N];
+  auto isuppz = new int[(iu-il+1)*N];
   
   //Eigenvalue analysis using LAPACK/BLAS (real symmetric matrix)
   auto info = LAPACKE_dsyevr(
@@ -38,7 +39,7 @@ int eigen_lapack(double* (&A), double* (&z), int N){
 			     N,                // Leading dimension of A
 			     vl,vu,            // (These arguments are NOT referenced, but required as dummies)
 			     il,iu,            // Index of the smallest (il) and largest (iu) eigenvalues to be returned
-			     abstol,           // Absolute error tolerance
+			     abs,              // Absolute error tolerance
 			     m,                // Total number of eigenvalues
 			     w,                // Eivenvalues
 			     z,                // Eigenvectors

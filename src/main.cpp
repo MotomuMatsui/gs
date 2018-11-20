@@ -10,40 +10,16 @@
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
 \******************************************/
 
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <regex>
 #include <unistd.h>
-#include <random>   
-#include <functional>
+
+#include "ep.h"
+#include "gs.h"
+#include "format.h"
+#include "messages.h"
+#include "mmseqs.h"
+#include "transitivity.h"
 
 using namespace std;
-
-/// format.cpp (File/Data-handling)
-extern int  readFASTA(ifstream&, ofstream&, ofstream&, int&);
-extern int  bl2mat(ifstream&, double*&, int const&);
-extern void sc2nwk(int* const&, string&, int const&);
-extern void addEP(string const&, string&, unordered_map<string, double>&, int const&, int const&);
-extern void addLABEL(string const&, string&, string const&, int const&);
-extern void sc2list(int* const&, int*&, int const&);
-
-/// mmseqs.cpp (Wrapper function of MMseqs)
-extern void mmseqs(string const&, string const&, string const&, string const&);
-
-/// gs.cpp (Core functions of GS method)
-extern void GS(double* const&, int*&, int const&);
-extern void EP_fbs(double* const&, unordered_map<string, double>&, function<double()>&, int const&);
-extern void EP_tbe(double* const&, int* const&, unordered_map<string, double>&, function<double()>&, int const&);
-
-/// messages.cpp
-extern void print_banner();
-extern void print_usage(char*&);
-
-/// transitivity.cpp
-extern double transitivity(double* const&, int const&);
 
 int main(int argc, char* argv[]){
   
@@ -443,3 +419,4 @@ int main(int argc, char* argv[]){
 
   return 0;
 }
+
