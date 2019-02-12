@@ -1,10 +1,10 @@
 /******************************************\
-| Graph Splitting Method v2.3 (2018/11/16) |
+| Graph Splitting Method v2.4 (2019/02/12) |
 |                                          |
-| Copyright (c) 2015-2018 Motomu Matsui    |
+| Copyright (c) 2015-2019 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
 |                                          |
-|     Matsui M and Iwasaki W (2018)        |
+|     Matsui M and Iwasaki W (2019)        |
 |     Systematic Biology, xx:xx-xx.        |
 |                                          |
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
@@ -21,10 +21,10 @@ void print_banner(){
 
   string banner = 
     "------------------------------------------\n"
-    " Graph Splitting Method v2.3 (2018/11/16) \n"
+    " Graph Splitting Method v2.4 (2019/02/12) \n"
     "                                          \n"
-    "   Copyright (c) 2018 Motomu Matsui       \n"
-    "   Systematic Biology, xx:xx-xxx, 2018    \n"
+    "   Copyright (c) 2019 Motomu Matsui       \n"
+    "   Systematic Biology, xx:xx-xxx, 2019    \n"
     "                                          \n"
     "   http://gs.bs.s.u-tokyo.ac.jp/          \n"
     "------------------------------------------\n";

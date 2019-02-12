@@ -1,10 +1,10 @@
 /******************************************\
-| Graph Splitting Method v2.3 (2018/11/16) |
+| Graph Splitting Method v2.4 (2019/02/12) |
 |                                          |
-| Copyright (c) 2015-2018 Motomu Matsui    |
+| Copyright (c) 2015-2019 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
 |                                          |
-|     Matsui M and Iwasaki W (2018)        |
+|     Matsui M and Iwasaki W (2019)        |
 |     Systematic Biology, xx:xx-xx.        |
 |                                          |
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
@@ -125,8 +125,8 @@ int bl2mat(ifstream& ifs, double* (&W), int const& size){
       auto xx = S[x*size+x];
       auto yy = S[y*size+y];
       
-      auto comp = xy>yx?  xy:yx;
-      auto self = xx>yy?  xx:yy;
+      auto comp = xy+yx;
+      auto self = xx+yy;
       auto sss  = self>0? comp/self:0;
 
       W[x*size+y] = sss;

@@ -21,6 +21,10 @@
 
 using namespace std;
 
+/// simulation.cpp 
+extern void original(ifstream&, unordered_map<string, int>&, int const&);
+extern void branch(string const&, unordered_map<string, int>&, unordered_map<string, double>&, string&, int const&, int const&);
+
 int main(int argc, char* argv[]){
   
   /*/ Check the mmseqs command /*/
@@ -39,11 +43,13 @@ int main(int argc, char* argv[]){
   string threads = "1";       // -t
   string sensitivity = "7.5"; // -m
   string bs_method = "";      // -b [fbp (Felsenstein's bootstrap proportion) or tbe (transfer bootstrap expectation)]
+  string distance_function = "max";
+  string original_nwk = "";   // -o
 
   opterr = 0; // default error messages -> OFF
   int opt;
   regex renum(R"(^[\d\.]+$)"); // -e/-r/-t/-m option requires an integer/flout number
-  while ((opt = getopt(argc, argv, "shlve:r:t:m:b:")) != -1){
+  while ((opt = getopt(argc, argv, "shlve:r:t:m:b:d:o:")) != -1){
     if(opt == 'e'){ // OK! (./gs -e 100 IN.fst)
       if(regex_match(optarg, renum)){
 	ep_num = atoi(optarg);
@@ -65,6 +71,9 @@ int main(int argc, char* argv[]){
 	/*PRINT*/ print_usage(argv[0]);
 	return -1;
       }
+    }
+    else if(opt == 'o'){ // OK! (./gs -r original.fst IN.fst)
+      original_nwk = string(optarg);
     }
     else if(opt == 't'){ // OK! (./gs -t 4 IN.fst)
       if(regex_match(optarg, renum)){
@@ -129,6 +138,9 @@ int main(int argc, char* argv[]){
         /*PRINT*/ print_usage(argv[0]);
         return -1;
       }
+    }
+    else if(opt == 'd'){ // Statistical method to assess the robustness of inffered branches (./gs -e 100 -b tbe IN.fst)
+      distance_function = optarg;
     }
     else if (opt == '?'){
       if(optopt == 'e'){ // NG! (./gs IN.fst -e)
@@ -212,6 +224,16 @@ int main(int argc, char* argv[]){
     return -1;
   }
 
+  /*/ Simulation /*/
+  auto cl_file        = regex_replace(original_fasta, re, "_cl.txt");
+  auto mat_file       = regex_replace(original_fasta, re, "_mat.txt");
+  auto bra_file       = regex_replace(original_fasta, re, "_branch.txt");
+  
+  ofstream ofs3(cl_file);        // _cl file
+  ofstream ofs4(mat_file);       // _mat file
+  ofstream ofs5(bra_file);       // _branch file
+  ifstream ifs_o(original_nwk);  // Newick file (original)
+  
   /*/ Parsing fasta file /*/
   auto file_condition = readFASTA(ifs1, ofs1, ofs2, size); 
     // ifs1: INPUT (original fasta file)
@@ -298,7 +320,15 @@ int main(int argc, char* argv[]){
 
   /*/ Reading Data /*/
   int same_sequence = 0;
-  same_sequence = bl2mat(ifs2, W, size);
+  if(distance_function == "max"){
+    same_sequence = bl2mat(ifs2, W, size);
+  }
+  else if(distance_function == "min"){
+    same_sequence = bl2mat3(ifs2, W, size);
+  }
+  else{
+    same_sequence = bl2mat2(ifs2, W, size);
+  }
     // ifs2: INPUT (result file of MMseqs)
     // W: OUTPUT (sequence similarity matrix)
   
@@ -314,6 +344,18 @@ int main(int argc, char* argv[]){
     // gs: OUTPUT (result of stepwise spectral clustering)
 
   /*PRINT*/ if(!silence) cerr << "  done.         " << endl << endl;
+
+  for(int x=0; x<size; x++){
+    for(int y=0; y<size-1; y++){
+      ofs3 << gs[x*size+y] << " ";
+      ofs4 << W[x*size+y]  << " ";
+    }
+    ofs3 << gs[(x+1)*size-1] << endl;
+    ofs4 << W[(x+1)*size-1]  << endl;
+  }
+
+  ofs3.close();  
+  ofs4.close();  
 
   /*/ Generating GS tree Newick based on the spectral clustering /*/
   sc2nwk(gs, newick, size);
@@ -391,6 +433,14 @@ int main(int argc, char* argv[]){
       // newick_EP: OUTPUT (GS+EP tree [newick format])
       // ep: INPUT (result of Edge Perturbation method)
       // ep_num: INPUT (# of Edge Perturbation method)
+
+    unordered_map<string, int> ORI;
+    string BRA;
+    original(ifs_o, ORI, size);
+    branch(newick, ORI, ep, BRA, ep_num, size);
+    
+    ofs5 << BRA << endl;
+    ofs5.close();
 
     /*/ GS tree WITH EP values ->STDOUT /*/
     if(label==1){

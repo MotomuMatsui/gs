@@ -1,10 +1,10 @@
 /******************************************\
-| Graph Splitting Method v2.2 (2018/11/16) |
+| Graph Splitting Method v2.4 (2019/02/12) |
 |                                          |
-| Copyright (c) 2015-2018 Motomu Matsui    |
+| Copyright (c) 2015-2019 Motomu Matsui    |
 |     Distributed under the GNU GPL        |
 |                                          |
-|     Matsui M and Iwasaki W (2018)        |
+|     Matsui M and Iwasaki W (2019)        |
 |     Systematic Biology, xx:xx-xx.        |
 |                                          |
 |     http://gs.bs.s.u-tokyo.ac.jp/        |
