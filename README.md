@@ -21,14 +21,17 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 [![GPL License](https://img.shields.io/badge/license-GPL-blue.svg)](LICENSE)
 
 ## History
+version 2.4 (2019/02/12)
+  - Modified distace function    
+
 version 2.3 (2018/11/16)
-  - Add Transfer Bootstrap Expectation algorithm (F. Lemoine, et al., Nature, 2018)    
+  - Added Transfer Bootstrap Expectation algorithm (F. Lemoine, et al., Nature, 2018)    
 
 version 2.2 (2018/11/07)   
-  - Update to display warnings in case redundant sequences are input    
+  - Updated to display warnings in case redundant sequences are input    
 
 version 2.1 (2018/10/15)   
-  - Add transitivity function    
+  - Added transitivity function    
   - Modified addEP function    
 
 version 2.0 (2018/06/01)   
