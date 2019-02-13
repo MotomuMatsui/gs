@@ -6,7 +6,7 @@
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
-Reference: Matsui and Iwasaki, ???, 2018  
+Reference: Matsui and Iwasaki, ???, 2019  
 Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)  
 Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)  
 
@@ -22,7 +22,7 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 
 ## History
 version 2.4 (2019/02/12)
-  - Modified distace function    
+  - Modified distance function    
 
 version 2.3 (2018/11/16)
   - Added Transfer Bootstrap Expectation algorithm (F. Lemoine, et al., Nature, 2018)    
@@ -171,14 +171,14 @@ Visualization of [200.nwk](example/200.nwk) by [iTOL](https://itol.embl.de/):
 
 ## License
 This software is distributed under the GNU GPL, see [LICENSE](LICENSE)   
-Copyright &copy; 2018, Motomu Matsui
+Copyright &copy; 2019, Motomu Matsui
 
 ## Author
 [Motomu Matsui](https://sites.google.com/site/motomumatsui/)
 
 ## Reference
 Frederic Lemoine, Jean-Baka Domelevo Entfellner, Eduan Wilkinson, Damien Correia, Miraine Davila Felipe, Tulio De Oliveira, and Olivier Gascuel, Renewing Felsensteins phylogenetic bootstrap in the era of big data, Nature, 2018    
-Motomu Matsui and Wataru Iwasaki, ???, 2018    
+Motomu Matsui and Wataru Iwasaki, ???, 2019    
 
 ## Acknowledgements
 This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S&ouml;ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
