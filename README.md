@@ -6,7 +6,7 @@
 
 <p align="center"><img src="https://raw.github.com/wiki/MotomuMatsui/gs/images/introduction.png"></p>
 
-Reference: Matsui and Iwasaki, ???, 2019  
+Reference: Motomu Matsui and Wataru Iwasaki, Systematic Biology, 2019  
 Online tool: [GS analysis server](http://gs.bs.s.u-tokyo.ac.jp/)  
 Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)  
 
@@ -178,7 +178,7 @@ Copyright &copy; 2019, Motomu Matsui
 
 ## Reference
 Frederic Lemoine, Jean-Baka Domelevo Entfellner, Eduan Wilkinson, Damien Correia, Miraine Davila Felipe, Tulio De Oliveira, and Olivier Gascuel, Renewing Felsensteins phylogenetic bootstrap in the era of big data, Nature, 2018    
-Motomu Matsui and Wataru Iwasaki, ???, 2019    
+Motomu Matsui and Wataru Iwasaki, Graph Splitting: A Graph-Based Approach for Superfamily-Scale Phylogenetic Tree Reconstruction, Systematic Biology, 2019    
 
 ## Acknowledgements
 This package includes the LAPACKE/CBLAS (Univ. of Tennessee; Univ. of California, Berkeley; Univ. of Colorado Denver; and NAG Ltd.) and MMseqs (S&ouml;ding Laboratory) packages. The authors give special thanks to both teams. You can get the detailed information from http://www.netlib.org/lapack/ and https://github.com/soedinglab/MMseqs2.
