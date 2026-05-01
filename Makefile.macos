@@ -1,0 +1,135 @@
+# ===========================================================================
+# Makefile.macos  —  Graph Splitting Method v2.5
+# Tested on: macOS 12+ (Monterey/Ventura/Sonoma), Apple Silicon & Intel
+#
+# Prerequisites (install via Homebrew):
+#   brew install gcc libomp cmake
+#
+# Usage:
+#   make -f Makefile.macos          # CPU-only  → gs2
+#   make -f Makefile.macos clean_all
+#
+# NOTE: NVIDIA CUDA is not supported on macOS 10.14 (Mojave) and later.
+#       GPU acceleration (gs2_gpu) is therefore not available on macOS.
+#       Use Makefile.linux on a Linux machine with an NVIDIA GPU.
+#
+# Compiler notes:
+#   Apple clang does NOT support -fopenmp natively.
+#   Homebrew GCC (g++-14 etc.) does, but its -fopenmp links to libgomp,
+#   which conflicts with Clang's OpenMP runtime (libomp).
+#   This Makefile uses Apple clang++ + Homebrew libomp via
+#   -Xpreprocessor -fopenmp, which is the officially supported path.
+#   If you prefer Homebrew GCC set CXX := g++-14 (or whatever version
+#   brew installed) and replace the OpenMP block with -fopenmp -lgomp.
+# ===========================================================================
+
+CXX   := clang++       # Apple clang (Xcode Command Line Tools)
+# CXX := g++-14       # Alternative: Homebrew GCC (brew install gcc)
+TAR   := tar xzf
+MKDIR := mkdir -p
+CD    := cd
+CP    := cp
+CMAKE := cmake
+
+VPATH := src
+INC   := -Ilib
+
+# ── Homebrew libomp path (auto-detected by architecture) ───────────────────────────────────────
+ARCH := $(shell uname -m)
+ifeq ($(ARCH),arm64) 
+  # Apple Silicon (M1/M2/M3/M4)
+  HOMEBREW_PREFIX := /opt/homebrew
+else                 
+  # Intel Mac
+  HOMEBREW_PREFIX := /usr/local
+endif
+LIBOMP_PREFIX := $(HOMEBREW_PREFIX)/opt/libomp
+
+# ── CPU libraries ──────────────────────────────────────────────────────────
+LIB := -Llib
+LIB += -L$(HOMEBREW_PREFIX)/lib
+LIB += -L$(LIBOMP_PREFIX)/lib
+LIB += -llapacke -llapack -lcblas -lrefblas -lgfortran -lm
+LIB += -lomp
+
+# ── Compiler flags ─────────────────────────────────────────────────────────
+CXXFLAGS  := -O3
+CXXFLAGS  += -std=c++14
+CXXFLAGS  += -march=native
+CXXFLAGS  += -fno-exceptions
+CXXFLAGS  += -funroll-loops
+# Note: -flto was tried but conflicts with the prebuilt static LAPACK/BLAS
+# (Fortran-compiled, non-LTO objects) — the linker cannot resolve OpenMP
+# symbols cleanly when LTO is mixed with non-LTO archives on macOS arm64.
+# If a future build switches to a fully-LTO toolchain (e.g. accelerate/MKL),
+# add `-flto` to both CXXFLAGS and LDFLAGS to enable cross-TU inlining of
+# simI/subMATRIX/whichMIN into the GS hot loop.
+CXXFLAGS  += -Wall
+# Note: -ffast-math is intentionally omitted.  The EP/TBE bootstrap
+# accumulation depends on consistent floating-point ordering for
+# reproducibility, and gev() / exp() / log() in gs_functions.cpp need IEEE
+# semantics around extreme inputs.
+# OpenMP via Homebrew libomp (required when CXX = clang++)
+CXXFLAGS  += -Xpreprocessor -fopenmp
+CXXFLAGS  += -I$(LIBOMP_PREFIX)/include
+
+# If using Homebrew GCC instead of clang++, replace the two lines above with:
+#   CXXFLAGS += -fopenmp
+#   LIB      := ... -lgomp  (remove -lomp from LIB above)
+
+# ── Object list ────────────────────────────────────────────────────────────
+CPU_OBJECTS := messages.o eigen.o transitivity.o format.o mmseqs.o blastn.o \
+               gs_functions.o sc_functions.o sc.o ep.o gs.o main.o
+
+FILE  := lapack-3.12.1/make.inc
+EXIST := $(shell ls | grep $(FILE))
+
+# ── Default target: CPU-only ───────────────────────────────────────────────
+.PHONY: all
+#all: mmseqs lapack gs2 clean
+all: lapack gs2 clean
+
+# ── Dependency targets ─────────────────────────────────────────────────────
+.PHONY: mmseqs
+mmseqs:
+	$(TAR) MMseqs2.tar.gz
+	$(MKDIR) MMseqs2/build
+	$(CD) MMseqs2/build; $(CMAKE) \
+	    -DCMAKE_BUILD_TYPE=RELEASE \
+	    -DCMAKE_INSTALL_PREFIX=. ..
+	$(MAKE) -C MMseqs2/build
+	$(MAKE) -C MMseqs2/build install
+
+# NOTE: -DHAVE_SSE4_1=1 is omitted for macOS arm64 (SSE4.1 is x86-only).
+#       MMseqs2 detects SIMD support automatically on Apple Silicon.
+
+.PHONY: lapack
+lapack:
+	$(TAR) lapack-3.12.1.tar.gz
+	$(MKDIR) lib
+ifneq ($(EXIST),$(FILE))
+	$(CP) lapack-3.12.1/make.inc.example lapack-3.12.1/make.inc
+endif
+	$(MAKE) -C lapack-3.12.1 blaslib
+	$(MAKE) -C lapack-3.12.1 cblaslib
+	$(MAKE) -C lapack-3.12.1 lapacklib
+	$(MAKE) -C lapack-3.12.1 lapackelib
+	$(CP) -f lapack-3.12.1/*.a                 lib/
+	$(CP) -f lapack-3.12.1/CBLAS/include/*.h   lib/
+	$(CP) -f lapack-3.12.1/LAPACKE/include/*.h lib/
+
+# ── CPU executable ─────────────────────────────────────────────────────────
+gs2: $(CPU_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
+
+$(CPU_OBJECTS): %.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
+
+# ── Clean ──────────────────────────────────────────────────────────────────
+.PHONY: clean
+clean:
+	$(RM) $(CPU_OBJECTS)
+
+.PHONY: clean_all
+clean_all: clean
+	$(RM) gs2

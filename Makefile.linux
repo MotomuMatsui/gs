@@ -1,0 +1,133 @@
+# ===========================================================================
+# Makefile.linux  —  Graph Splitting Method v2.5
+# Tested on: Ubuntu 20.04/22.04, CentOS 7/8 (GCC 9+, CUDA 11+)
+#
+# Usage:
+#   make -f Makefile.linux          # CPU-only  → gs2
+#   make -f Makefile.linux gpu      # GPU build → gs2_gpu  (requires CUDA)
+#   make -f Makefile.linux clean_all
+#
+# CUDA path override (default: /usr/local/cuda):
+#   make -f Makefile.linux gpu CUDA_HOME=/usr/local/cuda-12.3
+# ===========================================================================
+
+CXX    := g++
+NVCC   := nvcc
+TAR    := tar xzf
+MKDIR  := mkdir -p
+CD     := cd
+CP     := cp
+CMAKE  := cmake
+
+VPATH  := src
+INC    := -Ilib
+
+# ── CPU libraries ──────────────────────────────────────────────────────────
+LIB := -Llib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm -lgomp
+
+# ── Compiler flags ─────────────────────────────────────────────────────────
+CXXFLAGS  := -O3
+CXXFLAGS  += -std=c++14
+CXXFLAGS  += -march=native
+CXXFLAGS  += -fno-exceptions
+CXXFLAGS  += -funroll-loops
+CXXFLAGS  += -fopenmp
+CXXFLAGS  += -Wall
+# Note: -ffast-math intentionally omitted (would break TBE/FBS reproducibility
+# and gev() / exp() / log() IEEE semantics).  -flto can be enabled here when
+# the surrounding LAPACK/BLAS archives are also built with LTO; see Makefile.macos
+# comment for details.
+
+# ── NVCC flags ─────────────────────────────────────────────────────────────
+# --compiler-options forwards host-compiler flags to the underlying g++.
+# Remove -fopenmp from NVCC host options to avoid linker warnings inside nvcc.
+NVCC_HOST  := -O3 -std=c++14 -march=native -fno-exceptions -funroll-loops -Wall
+NVCCFLAGS  := -O3 -std=c++14 --compiler-options "$(NVCC_HOST)"
+
+# ── CUDA paths & libraries ─────────────────────────────────────────────────
+CUDA_HOME ?= /usr/local/cuda
+CUDA_INC   := -I$(CUDA_HOME)/include
+CUDA_LIB   := -L$(CUDA_HOME)/lib64 -lcusolver -lcublas -lcudart
+
+# ── Object lists ───────────────────────────────────────────────────────────
+CPU_OBJECTS := messages.o eigen.o transitivity.o format.o mmseqs.o blastn.o \
+               gs_functions.o sc_functions.o sc.o ep.o gs.o main.o
+
+GPU_CPP_OBJECTS := messages_g.o eigen_g.o transitivity_g.o format_g.o \
+                   mmseqs_g.o blastn_g.o gs_functions_g.o sc_functions_g.o \
+                   sc_g.o ep_g.o gs_g.o main_g.o
+GPU_CUDA_OBJECTS := eigen_gpu.o transitivity_gpu.o
+GPU_OBJECTS := $(GPU_CPP_OBJECTS) $(GPU_CUDA_OBJECTS)
+
+FILE  := lapack-3.7.1/make.inc
+EXIST := $(shell ls | grep $(FILE))
+
+# ── Default target: CPU-only ───────────────────────────────────────────────
+.PHONY: all
+all: mmseqs lapack gs2 clean
+
+# ── GPU target ─────────────────────────────────────────────────────────────
+.PHONY: gpu
+gpu: mmseqs lapack gs2_gpu clean_gpu
+
+gs2_gpu: $(GPU_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB) $(CUDA_LIB)
+
+# CUDA source files
+eigen_gpu.o: eigen_gpu.cu
+	$(NVCC) $(NVCCFLAGS) $(INC) $(CUDA_INC) -c $< -o $@
+
+transitivity_gpu.o: transitivity_gpu.cu
+	$(NVCC) $(NVCCFLAGS) $(INC) $(CUDA_INC) -c $< -o $@
+
+# .cpp files recompiled with -DHAVE_CUDA for GPU build (suffix _g)
+%_g.o: %.cpp
+	$(CXX) $(CXXFLAGS) -DHAVE_CUDA $(INC) $(CUDA_INC) -c $< -o $@
+
+# ── Dependency targets ─────────────────────────────────────────────────────
+.PHONY: mmseqs
+mmseqs:
+	$(TAR) MMseqs2.tar.gz
+	$(MKDIR) MMseqs2/build
+	$(CD) MMseqs2/build; $(CMAKE) \
+	    -DHAVE_SSE4_1=1 \
+	    -DCMAKE_BUILD_TYPE=RELEASE \
+	    -DCMAKE_INSTALL_PREFIX=. ..
+	$(MAKE) -C MMseqs2/build
+	$(MAKE) -C MMseqs2/build install
+
+.PHONY: lapack
+lapack:
+	$(TAR) lapack-3.12.1.tar.gz
+	$(MKDIR) lib
+ifneq ($(EXIST),$(FILE))
+	$(CP) lapack-3.12.1/make.inc.example lapack-3.12.1/make.inc
+endif
+	$(MAKE) -C lapack-3.12.1 blaslib
+	$(MAKE) -C lapack-3.12.1 cblaslib
+	$(MAKE) -C lapack-3.12.1 lapacklib
+	$(MAKE) -C lapack-3.12.1 lapackelib
+	$(CP) -f   lapack-3.12.1/*.a                 lib/
+	$(CP) -f   lapack-3.12.1/CBLAS/include/*.h   lib/
+	$(CP) -f   lapack-3.12.1/LAPACKE/include/*.h lib/
+
+# ── CPU executable ─────────────────────────────────────────────────────────
+gs2: $(CPU_OBJECTS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB)
+
+$(CPU_OBJECTS): %.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INC) -c $<
+
+# ── Clean ──────────────────────────────────────────────────────────────────
+.PHONY: clean
+clean:
+	$(RM) $(CPU_OBJECTS)
+
+.PHONY: clean_gpu
+clean_gpu:
+	$(RM) $(GPU_OBJECTS)
+
+.PHONY: clean_all
+clean_all: clean clean_gpu
+	$(RM) gs2 gs2_gpu
+BBB
