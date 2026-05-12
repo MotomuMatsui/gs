@@ -58,10 +58,11 @@ tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int
   }
 
   //Eigenvalue analysis: choose CPU or GPU path.
-  // Only column 0 (Fiedler vector) is consumed by whichCUT. Both eigen_lapack
-  // (with il=iu=2) and eigen_gpu write that column explicitly, so the rest
-  // can stay uninitialised — saves an N*N memset on every cluster split.
-  auto z_buf = unique_ptr<double[]>(new double[N*N]); // z: eigenvectors (col 0 = Fiedler)
+  // Only the Fiedler vector is consumed by whichCUT, and both backends
+  // (eigen_lapack with il=iu=2, eigen_gpu reading column 1 of cuSOLVER output)
+  // write exactly one length-N column.  We allocate just that column — N
+  // doubles instead of N*N — saving size² alloc churn per cluster split.
+  auto z_buf = unique_ptr<double[]>(new double[N]); // Fiedler vector buffer
   double* z  = z_buf.get();
   int info   = 0;
 
@@ -69,8 +70,9 @@ tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int
   if (N > GPU_EIGEN_THRESHOLD) {
     info = eigen_gpu(A, z, N);
     if (info != 0) {
-      // GPU failed — fall back to CPU LAPACK
-      fill(z, z + N*N, 0.0);
+      // GPU failed — fall back to CPU LAPACK.  Zero-fill is defensive; both
+      // backends overwrite the entire buffer on success.
+      fill(z, z + N, 0.0);
       info = eigen_lapack(A, z, N);
     }
   } else {
@@ -94,7 +96,7 @@ tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int
   int* qi = qi_buf.get();
   int  cut = 0;
   vector<int> a, b;
-  whichCUT(z, 0, D, qi, cut, N);
+  whichCUT(z, D, qi, cut, N);
   splitVECTOR(res, num, qi, cut, a, b, N);
 
   return make_tuple(std::move(a), std::move(b));

@@ -74,13 +74,14 @@ static bool comp(const P &a, const P &b){
 //////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////
 
-void whichCUT(double* const (&z), int const col, double* const (&D), int*& qi, int& cut, int const N){
+void whichCUT(double* const (&z), double* const (&D), int*& qi, int& cut, int const N){
   vector<P> pairs(N);
   auto qs = unique_ptr<double[]>(new double[N]());
 
   //Inner product: <eigenvector,D>
+  // z is the Fiedler vector stored contiguously (length N) — see sc.cpp.
   for(int p = 0; p < N; p++){
-    pairs[p] = make_pair(z[col+p*N]*D[p], p);
+    pairs[p] = make_pair(z[p]*D[p], p);
   }
 
   //Sorting values

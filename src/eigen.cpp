@@ -31,6 +31,9 @@ int eigen_lapack(double* (&A), double* (&z), int N){
   auto isuppz = unique_ptr<int[]>   (new int   [(iu-il+1)*N]());
 
   //Eigenvalue analysis using LAPACK/BLAS (real symmetric matrix)
+  // ldz=1: only one eigenvector (M=iu-il+1=1) is requested, and we store it
+  // contiguously in row-major as z[0..N-1].  Passing ldz=N would force LAPACKE
+  // to expect an N×N output buffer; we only have N doubles allocated.
   auto info = LAPACKE_dsyevr(
       LAPACK_ROW_MAJOR, // Matrix layout (Row major layout)
       'V',              // Jobs (V: eigenvalues and eigenvectors)
@@ -44,8 +47,8 @@ int eigen_lapack(double* (&A), double* (&z), int N){
       abstol,           // Absolute error tolerance
       m.get(),          // Total number of eigenvalues found
       w.get(),          // Eigenvalues
-      z,                // Eigenvectors
-      N,                // Leading dimension of z
+      z,                // Eigenvectors (length N, one column)
+      1,                // Leading dimension of z (row stride in row-major; M=1)
       isuppz.get()      // Support value of z
   );
 

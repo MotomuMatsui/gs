@@ -149,9 +149,8 @@ int eigen_gpu(double* A, double* z, int N) {
     if (h_info == 0) {
         // Fiedler vector = 2nd smallest eigenvector = column 1 (0-indexed)
         // in column-major d_A → contiguous at d_A + N, length N.
-        // whichCUT expects z[p*N] for p=0..N-1 (col=0, stride=N).
-        vector<double> tmp(N);
-        cerr_code = cudaMemcpy(tmp.data(), d_A + N, sizeof(double) * N,
+        // z is a contiguous length-N buffer (see sc.cpp); copy directly.
+        cerr_code = cudaMemcpy(z, d_A + N, sizeof(double) * N,
                                cudaMemcpyDeviceToHost);
         if (cerr_code != cudaSuccess) {
             cerr << "[eigen_gpu] cudaMemcpy(fiedler D2H) failed: "
@@ -159,7 +158,6 @@ int eigen_gpu(double* A, double* z, int N) {
             free_all(d_A, d_W, d_work, d_info);
             return -1;
         }
-        for (int p = 0; p < N; p++) z[p * N] = tmp[p];
     } else {
         cerr << "[eigen_gpu] cusolverDnDsyevd failed: info=" << h_info
              << " (N=" << N << ")" << endl;

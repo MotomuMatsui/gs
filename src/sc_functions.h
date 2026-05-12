@@ -26,7 +26,7 @@ typedef std::pair<double, int> P;
 // linkage (static) to avoid ODR clashes; intentionally not declared here.
 
 void subMATRIX(double* const (&Wo), double* (&W), double* (&D), std::vector<int> const& res, int const num);
-void whichCUT(double* const (&z), int const col, double* const (&D), int*& qi, int& cut, int const N);
+void whichCUT(double* const (&z), double* const (&D), int*& qi, int& cut, int const N);
 void splitVECTOR(std::vector<int> const& res, int const num, int* const (&qi), int const cut, std::vector<int>& a, std::vector<int>& b, int const N);
 
 #endif /*SC_FUNCTIONS_H*/
