@@ -1,0 +1,6 @@
+# Profile artefacts produced by bench/profile.sh — never committed.
+profile-*.txt
+profile-*.data
+profile-*.data.old
+profile-*.svg
+*.folded
