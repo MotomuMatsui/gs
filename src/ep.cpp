@@ -64,8 +64,34 @@ static unique_ptr<int[]> run_gs_list(double* E, int const size){
 }
 
 //////////////////////////////////////////////////////////////////
+// Precompute the μ-dependent terms of gev() once per EP run.
+// gev(x, μ) = μ + (pow(-log(x), -γ) − 1) · θ / γ  where
+//   θ(μ) = μ(1−μ)/3.5
+//   γ(μ) = exp(−3μ) − 1
+// θ and γ depend only on W[i], not on the random draw, so hoisting
+// them out of the inner loop avoids one `exp` and four arithmetic ops
+// per W entry per EP iteration (~N² × ep_num saved exps).
+// theta_tab[i] and gamma_tab[i] are unused when W[i] == 0; perturb()
+// short-circuits that case.  Caller must size both tables to N.
+static void precompute_gev_tables(double* const W, int const N,
+                                  double* theta_tab, double* gamma_tab){
+  for(int i = 0; i < N; i++){
+    double mu = W[i];
+    if(mu == 0){
+      theta_tab[i] = 0;
+      gamma_tab[i] = 0;
+    } else {
+      theta_tab[i] = mu * (1 - mu) / 3.5;
+      gamma_tab[i] = std::exp(-3 * mu) - 1;
+    }
+  }
+}
+
+//////////////////////////////////////////////////////////////////
 // Perturb similarity scores for one EP iteration.
 static unique_ptr<double[]> perturb(double* const W, int const N,
+                                    double const* theta_tab,
+                                    double const* gamma_tab,
                                     uniform_real_distribution<double>& urd,
                                     mt19937_64& mt){
   // Every E[i] is assigned in the loop below, so no need to zero-init.
@@ -77,7 +103,14 @@ static unique_ptr<double[]> perturb(double* const W, int const N,
       E[i] = 0; // Graph topology is not changed
     }
     else{
-      double b = gev(urd(mt), a);
+      // Inlined gev() with precomputed θ, γ.  μ > 0 ⇒ γ < 0 always, so the
+      // gamma==0 branch from gev() never fires here.  Multiplication/division
+      // order matches the original `mu + (pow(...)-1) * theta / gamma`
+      // exactly — strict regression remains bit-deterministic.
+      double const theta = theta_tab[i];
+      double const gamma = gamma_tab[i];
+      double const x     = urd(mt);
+      double b = a + (std::pow(-std::log(x), -gamma) - 1) * theta / gamma;
       E[i] = (b>1)? 1: (b<0)? 0: b;
     }
   }
@@ -95,7 +128,14 @@ void EP_fbs(double* const (&W), unordered_map<std::uint64_t,double>& ep,
 
   int N = size*size;
 
-  #pragma omp parallel default(none) shared(W, ep, seed, ep_num, size, N)
+  // Compute θ(μ) and γ(μ) tables once — shared (read-only) across all
+  // ep_num × threads × N² perturb calls below.
+  std::vector<double> theta_tab(N);
+  std::vector<double> gamma_tab(N);
+  precompute_gev_tables(W, N, theta_tab.data(), gamma_tab.data());
+
+  #pragma omp parallel default(none) \
+          shared(W, ep, seed, ep_num, size, N, theta_tab, gamma_tab)
   {
     unordered_map<std::uint64_t,double> local_ep;
 
@@ -118,7 +158,7 @@ void EP_fbs(double* const (&W), unordered_map<std::uint64_t,double>& ep,
     // amortising the OpenMP runtime cost.
     #pragma omp for schedule(dynamic, 4)
     for(int n = 0; n < ep_num; n++){
-      auto E_buf   = perturb(W, N, urd, mt);
+      auto E_buf   = perturb(W, N, theta_tab.data(), gamma_tab.data(), urd, mt);
       auto list_ep = run_gs_list(E_buf.get(), size);
 
       for(int x = 0; x < size-3; x++){
@@ -189,8 +229,14 @@ void EP_tbe(double* const (&W), int* const (&list_ori),
     pack_bits(list_ori, rows, size, words, ori_bits.data(), ori_pop.data());
   }
 
+  // θ(μ) and γ(μ) tables — see precompute_gev_tables comment above EP_fbs.
+  std::vector<double> theta_tab(N);
+  std::vector<double> gamma_tab(N);
+  precompute_gev_tables(W, N, theta_tab.data(), gamma_tab.data());
+
   #pragma omp parallel default(none) \
-          shared(W, list_ori, ep, seed, ep_num, size, N, rows, words, ori_bits, ori_pop)
+          shared(W, list_ori, ep, seed, ep_num, size, N, rows, words, \
+                 ori_bits, ori_pop, theta_tab, gamma_tab)
   {
     unordered_map<std::uint64_t,double> local_ep;
 
@@ -218,7 +264,7 @@ void EP_tbe(double* const (&W), int* const (&list_ori),
     // amortising the OpenMP runtime cost.
     #pragma omp for schedule(dynamic, 4)
     for(int n = 0; n < ep_num; n++){
-      auto E_buf   = perturb(W, N, urd, mt);
+      auto E_buf   = perturb(W, N, theta_tab.data(), gamma_tab.data(), urd, mt);
       auto list_ep = run_gs_list(E_buf.get(), size);
 
       // Pack this iteration's list_ep into ep_bits (reused buffer).
