@@ -55,7 +55,10 @@ OUT="$TMP/run.nwk"
 echo "[regression] mode=$MODE  gs2=$GS2  input=$INPUT  baseline=$BASELINE"
 
 if [[ "$MODE" == "strict" ]]; then
-  OMP_NUM_THREADS=1 "$GS2" -s -e 100 -r 12345 "$INPUT" > "$OUT"
+  # OPENBLAS_NUM_THREADS=1 keeps strict mode deterministic when gs2 is linked
+  # against multi-threaded OpenBLAS (OpenBLAS's parallel reductions are not
+  # FP-associative).  Harmless when linked against single-threaded BLAS.
+  OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 "$GS2" -s -e 100 -r 12345 "$INPUT" > "$OUT"
   if diff -q "$BASELINE" "$OUT" > /dev/null; then
     echo "OK: byte-identical to baseline (strict, OMP=1)"
     exit 0

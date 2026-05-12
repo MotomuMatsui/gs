@@ -23,7 +23,14 @@ VPATH  := src
 INC    := -Ilib
 
 # ── CPU libraries ──────────────────────────────────────────────────────────
-LIB := -Llib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm -lgomp
+# Link the bundled LAPACKE wrapper (lib/liblapacke.a) against system OpenBLAS,
+# which provides both BLAS (cblas_*, *_) and the Fortran LAPACK kernels that
+# LAPACKE_dsyevr/dsyrk call into.  This bypasses the reference-BLAS bundle
+# entirely — OpenBLAS dsyevr/dsyrk are typically 10–50× faster on modern CPUs.
+# Requires `apt install libopenblas-dev` (or equivalent).  If unavailable,
+# fall back to the bundled stack by uncommenting the OLD line.
+# OLD: LIB := -Llib -llapacke -llapack -lcblas -lrefblas -lgfortran -lm -lgomp
+LIB := -Llib -llapacke -lopenblas -lgfortran -lm -lgomp
 
 # ── Compiler flags ─────────────────────────────────────────────────────────
 CXXFLAGS  := -O3
@@ -63,12 +70,20 @@ FILE  := lapack-3.7.1/make.inc
 EXIST := $(shell ls | grep $(FILE))
 
 # ── Default target: CPU-only ───────────────────────────────────────────────
+# NOTE: the bundled MMseqs2.tar.gz is not always shipped with the source tree.
+# `mmseqs` is expected to be installed separately and discoverable on PATH
+# (see README "Requirements"). The `mmseqs` target below is kept for users
+# who want to build it from the vendored tarball, but it is intentionally
+# left out of `all` / `gpu` so the default build does not fail when the
+# tarball is absent. This mirrors Makefile.macos.
 .PHONY: all
-all: mmseqs lapack gs2 clean
+#all: mmseqs lapack gs2 clean
+all: lapack gs2 clean
 
 # ── GPU target ─────────────────────────────────────────────────────────────
 .PHONY: gpu
-gpu: mmseqs lapack gs2_gpu clean_gpu
+#gpu: mmseqs lapack gs2_gpu clean_gpu
+gpu: lapack gs2_gpu clean_gpu
 
 gs2_gpu: $(GPU_OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LIB) $(CUDA_LIB)
@@ -130,4 +145,3 @@ clean_gpu:
 .PHONY: clean_all
 clean_all: clean clean_gpu
 	$(RM) gs2 gs2_gpu
-BBB

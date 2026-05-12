@@ -4,9 +4,12 @@ This directory holds scripts for measuring `gs2` wall-time and for guarding
 against algorithmic regressions during refactors. It is not built by the
 top-level Makefile; the scripts assume `./gs2` has been built (`make`).
 
-The committed baseline corresponds to the `7b317fe` ("v2.5") build with the
-bundled reference BLAS. Re-generate it (`bench/baseline/200_e100_seed12345.nwk`)
-whenever a PR intentionally changes the algorithm or the BLAS implementation.
+Re-generate the baseline (`bench/baseline/200_e100_seed12345.nwk`) whenever a
+PR intentionally changes the algorithm or the BLAS implementation.
+
+Strict regression also sets `OPENBLAS_NUM_THREADS=1` so the result is
+bit-deterministic when gs2 is linked against multi-threaded OpenBLAS.
+Harmless when linked against single-threaded BLAS.
 
 ## ⚠️ What the bench measures
 

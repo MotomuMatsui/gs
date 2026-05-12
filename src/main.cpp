@@ -11,6 +11,7 @@
 \******************************************/
 
 #include <cstdio>
+#include <cstdlib>
 #include <memory>
 #include <random>
 #include <unistd.h>
@@ -26,6 +27,13 @@
 using namespace std;
 
 int main(int argc, char* argv[]){
+
+  // Pin BLAS to one thread per process before any BLAS call.  gs2's
+  // parallelism lives at the EP / OMP level; allowing multi-threaded
+  // OpenBLAS underneath an OMP-parallel call site oversubscribes the
+  // CPU (N_omp × N_blas threads) and tanks throughput on 64-core hosts.
+  // setenv with overwrite=0 respects an explicit user override.
+  setenv("OPENBLAS_NUM_THREADS", "1", 0);
 
   int silence   = 0;
   int ep_num    = 0;
