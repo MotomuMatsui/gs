@@ -11,6 +11,7 @@
 \******************************************/
 
 #include <algorithm>
+#include <cstring>
 #include <iostream>
 #include <memory>
 #include <tuple>
@@ -29,20 +30,51 @@ static constexpr int GPU_EIGEN_THRESHOLD = 64;
 
 using namespace std;
 
+namespace {
+// Per-thread scratch reused across cluster splits.  Each thread (the main
+// thread for plain GS, every OMP worker for EP) grows its buffers up to the
+// largest cluster size it has ever seen, then reuses them — eliminating the
+// `new double[N*N]` × 5 churn that bottlenecked EP at high OMP thread counts
+// (each split paying glibc-arena and page-fault costs).
+struct SCScratch {
+  vector<double> W;   // N*N
+  vector<double> A;   // N*N
+  vector<double> D;   // N (accumulator — must be zeroed before subMATRIX)
+  vector<double> z;   // N (Fiedler vector)
+  vector<int>    qi;  // N (permutation written by whichCUT)
+  int capacity = 0;
+
+  void reserve(int N) {
+    if (N <= capacity) return;
+    // Grow exponentially-ish to amortise the resize cost across splits within
+    // one EP iter (cluster sizes shrink monotonically anyway, so we usually
+    // grow only on the very first call).
+    size_t sq = static_cast<size_t>(N) * N;
+    W.resize(sq);
+    A.resize(sq);
+    D.resize(N);
+    z.resize(N);
+    qi.resize(N);
+    capacity = N;
+  }
+};
+thread_local SCScratch sc_scratch;
+} // namespace
+
 tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int> const& res, int const& num){
 
   // Cluster size
   int N = (int)count(res.begin(), res.end(), num);
 
-  // Owned buffers; raw aliases allow passing to legacy double*(&) interfaces.
-  // W and A are fully written below before being read, so skip zero-init.
-  // D is an accumulator (D[k] += w) so must start at zero.
-  auto W_buf = unique_ptr<double[]>(new double[N*N]);
-  auto D_buf = unique_ptr<double[]>(new double[N]());
-  auto A_buf = unique_ptr<double[]>(new double[N*N]);
-  double* W = W_buf.get();
-  double* D = D_buf.get();
-  double* A = A_buf.get();
+  sc_scratch.reserve(N);
+  double* W = sc_scratch.W.data();
+  double* A = sc_scratch.A.data();
+  double* D = sc_scratch.D.data();
+  double* z = sc_scratch.z.data();
+  int*    qi = sc_scratch.qi.data();
+  // D is an accumulator (subMATRIX does D[k] += w); zero the first N entries
+  // each call.  W and A are fully overwritten below before being read.
+  std::memset(D, 0, sizeof(double) * static_cast<size_t>(N));
 
   //Rayleigh quotient of the submatrix
   subMATRIX(oW, W, D, res, num);
@@ -60,10 +92,8 @@ tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int
   //Eigenvalue analysis: choose CPU or GPU path.
   // Only the Fiedler vector is consumed by whichCUT, and both backends
   // (eigen_lapack with il=iu=2, eigen_gpu reading column 1 of cuSOLVER output)
-  // write exactly one length-N column.  We allocate just that column — N
-  // doubles instead of N*N — saving size² alloc churn per cluster split.
-  auto z_buf = unique_ptr<double[]>(new double[N]); // Fiedler vector buffer
-  double* z  = z_buf.get();
+  // write exactly one length-N column.  `z` is the thread-local Fiedler
+  // buffer (N doubles) drawn from sc_scratch above.
   int info   = 0;
 
 #ifdef HAVE_CUDA
@@ -91,9 +121,8 @@ tuple<vector<int>,vector<int>> spectral_clustering(double* const& oW, vector<int
     return make_tuple(std::move(a), std::move(b));
   }
 
-  //Split submatrix into two parts; whichCUT writes all N entries of qi.
-  auto qi_buf = unique_ptr<int[]>(new int[N]);
-  int* qi = qi_buf.get();
+  //Split submatrix into two parts; whichCUT writes all N entries of qi
+  //into the thread-local scratch buffer above.
   int  cut = 0;
   vector<int> a, b;
   whichCUT(z, D, qi, cut, N);

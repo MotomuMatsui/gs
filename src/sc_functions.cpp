@@ -75,8 +75,13 @@ static bool comp(const P &a, const P &b){
 //////////////////////////////////////////////////////////////////
 
 void whichCUT(double* const (&z), double* const (&D), int*& qi, int& cut, int const N){
-  vector<P> pairs(N);
-  auto qs = unique_ptr<double[]>(new double[N]());
+  // Reused per-thread scratch — avoids `vector<P>(N)` + `new double[N]()` per
+  // call (×(N-1) per GS, ×ep_num for EP).  Each thread grows monotonically to
+  // its largest seen N; qs and pairs are fully overwritten below before read.
+  thread_local vector<P>      pairs;
+  thread_local vector<double> qs;
+  if (static_cast<int>(pairs.size()) < N) pairs.resize(N);
+  if (static_cast<int>(qs.size())    < N) qs.resize(N);
 
   //Inner product: <eigenvector,D>
   // z is the Fiedler vector stored contiguously (length N) — see sc.cpp.
@@ -84,8 +89,9 @@ void whichCUT(double* const (&z), double* const (&D), int*& qi, int& cut, int co
     pairs[p] = make_pair(z[p]*D[p], p);
   }
 
-  //Sorting values
-  sort(pairs.begin(), pairs.end(), comp);
+  //Sorting values — sort only the live prefix [0,N); thread_local pairs may
+  //hold stale trailing entries from a previous, larger N.
+  sort(pairs.begin(), pairs.begin() + N, comp);
   for(int p = 0; p < N; p++){
     qs[p]  = pairs[p].first;
     qi[p]  = pairs[p].second;
