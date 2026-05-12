@@ -294,7 +294,9 @@ int main(int argc, char* argv[]){
     // nucleotide input, mmseqs2 for protein input. Verify the selected
     // tool is on PATH before proceeding.
     auto required_tool = is_nucleotide ? string("blastn") : string("mmseqs");
-    auto which_cmd     = "which " + required_tool + " &> /dev/null";
+    // `&>` is a bash extension; under POSIX /bin/sh (dash on Debian/Ubuntu)
+    // it parses as `&` then `>`, leaking the `which` stdout into our output.
+    auto which_cmd     = "which " + required_tool + " > /dev/null 2>&1";
     auto status        = system(which_cmd.c_str());
     if(WEXITSTATUS(status) != 0){
       print_banner();
