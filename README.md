@@ -21,7 +21,7 @@ Our Laboratory: [Iwasaki Lab](http://iwasakilab.bs.s.u-tokyo.ac.jp/eindex.html)
 
 ## History
 version 2.5 (2026/05/02)
-  - Acceralated by GPU and OpenMPI
+  - Acceralated by GPU and OpenMP
   - Added similarity matrix mode
   - Added distance matrix mode
   - Added nucleotied mode 
